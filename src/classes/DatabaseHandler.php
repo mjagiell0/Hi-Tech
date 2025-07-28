@@ -3,20 +3,20 @@
 class DatabaseHandler {
     private $connection;
 
-    function __construct($url, $username, $password, $database, $port = 3306) {
+    public function __construct($url, $username, $password, $database, $port = 3306) {
         $this->connection = new mysqli($url, $username, $password, $database, $port);
         if ($this->connection->connect_error) {
             die("Connection failed: " . $this->connection->connect_error);
         }
     }
 
-    function __destruct() {
+    public function __destruct() {
         if ($this->connection) {
             $this->connection->close();
         }
     }
 
-    function query(Querable $querable, ...$criteria) {
+    public function query(Querable $querable, ...$criteria) {
         $query = $querable->getQuery(...$criteria);
 
         $stmt = $this->connection->prepare($query);

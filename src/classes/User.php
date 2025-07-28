@@ -7,9 +7,9 @@ class User implements Querable{
 
     public function __construct() {
         $this->id = null;
-        $this->firstname = "";
-        $this->lastname = "";
-        $this->email = "";
+        $this->firstname = ConstUtils::BLANK_STRING;
+        $this->lastname = ConstUtils::BLANK_STRING;
+        $this->email = ConstUtils::BLANK_STRING;
     }
 
     public function withId($id) {
@@ -58,10 +58,10 @@ class User implements Querable{
     public function fromResult($result) {
         if ($row = $result->fetch_assoc()) {
         return $this
-            ->withId($row['id'])
-            ->withFirstname($row['firstname'])
-            ->withLastname($row['lastname'])
-            ->withEmail($row['email']);
+            ->withId($row[ConstUtils::FIELD_LABEL_ID])
+            ->withFirstname($row[ConstUtils::FIELD_LABEL_FIRSTNAME])
+            ->withLastname($row[ConstUtils::FIELD_LABEL_LASTNAME])
+            ->withEmail($row[ConstUtils::FIELD_LABEL_EMAIL]);
         }
         return null;
     }
