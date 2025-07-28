@@ -1,5 +1,4 @@
 <?php
-
 class ConstUtils {
     public const FIELD_LABEL_ID = 'id';
     public const FIELD_LABEL_FIRSTNAME = 'firstname';
@@ -7,4 +6,7 @@ class ConstUtils {
     public const FIELD_LABEL_EMAIL = 'email';
     public const FIELD_LABEL_PASSWORD = 'password';
     public const BLANK_STRING = '';
+
+    public const POST_METHOD = 'POST';
+    public const REQUEST_METHOD = 'REQUEST_METHOD';
 }

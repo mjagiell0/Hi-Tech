@@ -17,7 +17,7 @@
             <h1>Zaloguj się</h1>
         </div>
         <div>
-            <form class="login-form" method="post">
+            <form class="login-form" action="../../classes/actions/LoginPostAction.php" method="post">
                 <div class="input-container">
                     <input class="email-input" type="email" name="email" placeholder="Email" required>
                 </div>

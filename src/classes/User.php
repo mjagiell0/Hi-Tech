@@ -4,12 +4,14 @@ class User implements Querable{
     private $firstname;
     private $lastname;
     private $email;
+    private $password;
 
     public function __construct() {
         $this->id = null;
         $this->firstname = ConstUtils::BLANK_STRING;
         $this->lastname = ConstUtils::BLANK_STRING;
         $this->email = ConstUtils::BLANK_STRING;
+        $this->password = ConstUtils::BLANK_STRING;
     }
 
     public function withId($id) {
@@ -32,6 +34,11 @@ class User implements Querable{
         return $this;
     }
 
+    public function withPassword($password) {
+        $this->password = $password;
+        return $this;
+    }
+
     public function getId() {
         return $this->id;
     }
@@ -48,11 +55,15 @@ class User implements Querable{
         return $this->email;
     }
 
+    public function getPassword() {
+        return $this->password;
+    }
+
     public function getQuery(...$criteria) {
         if (!filter_var($criteria[0], FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException("Invalid email format.");
         }
-        return "SELECT id, firstname, lastname, email FROM user WHERE email = ?";
+        return "SELECT id, firstname, lastname, email, password FROM user WHERE email = ?";
     }
 
     public function fromResult($result) {
@@ -61,7 +72,8 @@ class User implements Querable{
             ->withId($row[ConstUtils::FIELD_LABEL_ID])
             ->withFirstname($row[ConstUtils::FIELD_LABEL_FIRSTNAME])
             ->withLastname($row[ConstUtils::FIELD_LABEL_LASTNAME])
-            ->withEmail($row[ConstUtils::FIELD_LABEL_EMAIL]);
+            ->withEmail($row[ConstUtils::FIELD_LABEL_EMAIL])
+            ->withPassword($row[ConstUtils::FIELD_LABEL_PASSWORD]);
         }
         return null;
     }
