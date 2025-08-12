@@ -19,11 +19,5 @@ if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
     $email = $_POST[ConstUtils::FIELD_LABEL_EMAIL];
     $password = $_POST[ConstUtils::FIELD_LABEL_PASSWORD];
 
-    try {
-        $user = $loginService->login($email, $password);
-    } catch (NoSuchUserException $e) {
-        echo "No user found with that email.";
-    } catch (PasswordMismatchException $e) {
-        echo "Incorrect password.";
-    }
+    $user = $loginService->login($email, $password);
 }
