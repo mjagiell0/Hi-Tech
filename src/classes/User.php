@@ -1,5 +1,6 @@
 <?php
-class User implements Querable{
+
+class User extends Entity{
     private $id;
     private $firstname;
     private $lastname;
@@ -59,11 +60,23 @@ class User implements Querable{
         return $this->password;
     }
 
-    public function getQuery(...$criteria) {
+    protected function getReadQuery(...$criteria) {
         if (!filter_var($criteria[0], FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException("Invalid email format.");
         }
         return "SELECT id, firstname, lastname, email, password FROM user WHERE email = ?";
+    }
+
+    protected function getCreateQuery(...$criteria) {
+        return null;
+    }
+
+    protected function getUpdateQuery(...$criteria) {
+        return null;
+    }
+
+    protected function getDeleteQuery(...$criteria) {
+        return null;
     }
 
     public function fromResult($result) {

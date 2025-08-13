@@ -16,8 +16,8 @@ class DatabaseHandler {
         }
     }
 
-    public function query(Querable $querable, ...$criteria) {
-        $query = $querable->getQuery(...$criteria);
+    public function query(Entity $querable, CrudEnum $crudType, ...$criteria) {
+        $query = $querable->getQuery($crudType, ...$criteria);
 
         $stmt = $this->connection->prepare($query);
 

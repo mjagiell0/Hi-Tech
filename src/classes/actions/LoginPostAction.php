@@ -1,7 +1,8 @@
 <?php
 
-include_once '../../interfaces/Querable.php';
+include_once '../abstracts/Entity.php';
 include_once '../../classes/exceptions/NoSuchUserException.php';
+include_once '../enums/CrudEnum.php';
 include_once '../../classes/exceptions/PasswordMismatchException.php';
 include_once '../../classes/utils/ConstUtils.php';
 include_once '../../classes/User.php';
