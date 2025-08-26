@@ -23,12 +23,10 @@ if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
 
     try {
         $loginService->recoverPassword($email);
-        echo "Instrukcje dotyczące resetowania hasła zostały wysłane na podany adres e-mail.";
+        header("Location: ../../pages/forgot_password/forgot_password.php?status=".ConstUtils::FORGOT_PASSWORD_STATUS_SUCCESS);
     } catch (NoSuchUserException $e) {
-        echo "Nie znaleziono użytkownika z podanym adresem e-mail.";
+        header("Location: ../../pages/forgot_password/forgot_password.php?status=".ConstUtils::FORGOT_PASSWORD_STATUS_ERROR_NO_USER);
     } catch (Exception $e) {
-        echo "Wystąpił błąd podczas próby odzyskania hasła. Proszę spróbować ponownie później.\r\n";
-        echo $e->getMessage() . "\r\n";
-        echo $e->getTraceAsString();
+        header("Location: ../../pages/forgot_password/forgot_password.php?status=".ConstUtils::FORGOT_PASSWORD_STATUS_ERROR);
     }
 }

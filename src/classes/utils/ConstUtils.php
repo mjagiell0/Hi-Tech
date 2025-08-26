@@ -14,4 +14,9 @@ class ConstUtils {
     public const USER_ID_LABEL = 'user_id';
     public const USER_EMAIL_LABEL = 'user_email';
     public const SESSION_USER = '__session_user';
+    public const FORGOT_PASSWORD_STATUS = 'status';
+    public const FORGOT_PASSWORD_STATUS_SUCCESS = 'success';
+    public const FORGOT_PASSWORD_STATUS_ERROR_NO_USER = 'error_no_user';
+    public const FORGOT_PASSWORD_STATUS_ERROR = 'error';
+
 }
