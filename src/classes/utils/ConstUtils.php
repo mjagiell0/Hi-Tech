@@ -9,10 +9,9 @@ class ConstUtils {
     public const FIELD_LABEL_EXPIRATION_DATE = 'expires_at';
     public const FIELD_LABEL_CREATED_AT = 'created_at';
     public const BLANK_STRING = '';
-
     public const POST_METHOD = 'POST';
     public const REQUEST_METHOD = 'REQUEST_METHOD';
-
     public const USER_ID_LABEL = 'user_id';
     public const USER_EMAIL_LABEL = 'user_email';
+    public const SESSION_USER = '__session_user';
 }

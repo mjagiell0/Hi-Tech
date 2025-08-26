@@ -14,10 +14,11 @@
         <div class="logo-container">
             <img class="logo" src="../../assets/logo.png" alt="Logo">
         </div>
-        <div class="login-title">
-            <h1>Zaloguj się</h1>
-        </div>
-        <div>
+
+        <div class="login-form-container">
+            <div class="login-title">
+                <h1>Zaloguj się</h1>
+            </div>
             <form class="login-form" id="loginForm" action="../../classes/actions/LoginPostAction.php" method="post" novalidate>
                 <div class="input-container">
                     <input class="email-input" type="email" id="email" name="email" placeholder="Email">
@@ -30,7 +31,7 @@
                         <input type="checkbox" onclick="showPassword()"> Pokaż hasło
                     </div>
                 </div>
-                <a href="forgot_password.php">Zapomniałaś/eś hasła?</a>
+                <a href="../forgot_password/forgot_password.php">Zapomniałaś/eś hasła?</a>
                 <button class="login-button" type="submit">Zaloguj</button>
             </form>
             <div class="login-footer">
@@ -39,4 +40,5 @@
         </div>
     </div>
 </body>
+
 </html>
