@@ -35,7 +35,7 @@
                 <button class="login-button" type="submit">Zaloguj</button>
             </form>
             <div class="login-footer">
-                <p>Nie masz konta? <a href="register.php">Zarejestruj się</a></p>
+                <p>Nie masz konta? <a href="../register/register.php">Zarejestruj się</a></p>
             </div>
         </div>
     </div>

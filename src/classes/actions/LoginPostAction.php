@@ -24,5 +24,6 @@ if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
 
     if ($user) {
         $_SESSION[ConstUtils::SESSION_USER] = $user;
+        header('Location: ../../pages/login/test_success.php');
     }
 }
