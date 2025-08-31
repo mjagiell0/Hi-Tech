@@ -49,23 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
             isValid = false;
         }
 
-        // 🔍 Sprawdzenie, czy email już istnieje
-        if (isValid) {
-            try {
-                const response = await fetch("../../api/check_email.php?email=" + encodeURIComponent(email));
-                const data = await response.json();
-
-                if (data.exists) {
-                    showError("emailError", "Konto z tym adresem już istnieje");
-                    isValid = false;
-                }
-            } catch (error) {
-                console.error("Błąd podczas sprawdzania emaila:", error);
-                showError("emailError", "Nie udało się sprawdzić adresu email");
-                isValid = false;
-            }
-        }
-
         if (isValid) {
             form.submit();
         }

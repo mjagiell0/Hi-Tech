@@ -1,3 +1,7 @@
+<?php
+    include_once "../../classes/utils/ConstUtils.php";
+?>
+
 <!DOCTYPE html>
 <html lang="pl">
 
@@ -21,19 +25,19 @@
         </div>
         <form class="login-form" id="registerForm" action="../../classes/actions/RegisterPostAction.php" method="post" novalidate>
             <div class="input-container">
-                <input class="email-input" type="text" id="first_name" name="first_name" placeholder="Imię">
+                <input class="email-input" type="text" id="first_name" name=<?=ConstUtils::FIELD_LABEL_FIRSTNAME?> placeholder="Imię">
                 <div class="error-message" id="firstNameError"></div>
             </div>
             <div class="input-container">
-                <input class="email-input" type="text" id="last_name" name="last_name" placeholder="Nazwisko">
+                <input class="email-input" type="text" id="last_name" name=<?=ConstUtils::FIELD_LABEL_LASTNAME?> placeholder="Nazwisko">
                 <div class="error-message" id="lastNameError"></div>
             </div>
             <div class="input-container">
-                <input class="email-input" type="email" id="email" name="email" placeholder="Email">
+                <input class="email-input" type="email" id="email" name=<?=ConstUtils::FIELD_LABEL_EMAIL?> placeholder="Email">
                 <div class="error-message" id="emailError"></div>
             </div>
             <div class="input-container">
-                <input class="password-input" type="password" id="password" name="password" placeholder="Hasło">
+                <input class="password-input" type="password" id="password" name=<?=ConstUtils::FIELD_LABEL_PASSWORD?> placeholder="Hasło">
                 <div class="password-tip">Min. 6 znaków, w tym jedna cyfra.</div>
                 <div class="error-message" id="passwordError"></div>
             </div>

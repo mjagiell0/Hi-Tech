@@ -21,6 +21,18 @@ class LoginService
         }
     }
 
+    public static function register($firstName, $lastName, $email, $password)
+    {
+        $dbHandler = DatabaseHandler::getDbHandler();
+
+        try {
+            $dbHandler->query(new User(), CrudEnum::READ, $email);
+            throw new EmailInUseException();
+        } catch (NoSuchUserException) {
+            $dbHandler->query(new User(), CrudEnum::CREATE, $firstName, $lastName, $email, password_hash($password, PASSWORD_DEFAULT));
+        }
+    }
+
     public static function recoverPassword($email): void
     {
         $dbHandler = DatabaseHandler::getDbHandler();
@@ -77,7 +89,8 @@ class LoginService
         }
     }
 
-    public static function resetPassword($userId, $password) {
+    public static function resetPassword($userId, $password)
+    {
         $dbHandler = DatabaseHandler::getDbHandler();
         $user = $dbHandler->query(new User(), CrudEnum::READ, $userId);
 

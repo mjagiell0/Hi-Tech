@@ -76,7 +76,7 @@ class User extends Entity
     {
         if (!filter_var($criteria[0], FILTER_VALIDATE_EMAIL)) {
             if (!filter_var($criteria[0], FILTER_VALIDATE_INT)) {
-                throw new InvalidArgumentException("Invalid argument. Enter value in email or id format");
+                throw new InvalidArgumentException("Invalid argument. Enter value in email or id format. ");
             }
             return "SELECT id, firstname, lastname, email, password FROM user WHERE id = ?";
         }
@@ -85,7 +85,14 @@ class User extends Entity
 
     protected function getCreateQuery(...$criteria)
     {
-        return null;
+        if (count($criteria) < 4 ||
+            !is_string($criteria[0]) ||
+            !is_string($criteria[1]) ||
+            !filter_var($criteria[2], FILTER_VALIDATE_EMAIL) ||
+            !is_string($criteria[3])) {
+            throw new InvalidArgumentException("Insufficient criteria for CREATE operation.");
+        }
+        return "INSERT INTO user (firstname, lastname, email, password) VALUES (?, ?, ?, ?)";
     }
 
     protected function getUpdateQuery(...$criteria)
@@ -116,7 +123,7 @@ class User extends Entity
                 ->withEmail($row[ConstUtils::FIELD_LABEL_EMAIL])
                 ->withPassword($row[ConstUtils::FIELD_LABEL_PASSWORD]);
         }
-        return null;
+        throw new NoSuchUserException();
     }
 
     public function getTableName()
