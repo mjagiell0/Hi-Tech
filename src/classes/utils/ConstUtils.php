@@ -5,9 +5,11 @@ class ConstUtils {
     public const FIELD_LABEL_LASTNAME = 'lastname';
     public const FIELD_LABEL_EMAIL = 'email';
     public const FIELD_LABEL_PASSWORD = 'password';
+    public const FIELD_LABEL_CONFIRM_PASSWORD = 'confirm_password';
     public const FIELD_LABEL_RECOVERY_TOKEN = 'token';
     public const FIELD_LABEL_EXPIRATION_DATE = 'expires_at';
     public const FIELD_LABEL_CREATED_AT = 'created_at';
+    public const FIELD_LABEL_USER_ID = 'user_id';
     public const BLANK_STRING = '';
     public const POST_METHOD = 'POST';
     public const REQUEST_METHOD = 'REQUEST_METHOD';
@@ -18,5 +20,6 @@ class ConstUtils {
     public const FORGOT_PASSWORD_STATUS_SUCCESS = 'success';
     public const FORGOT_PASSWORD_STATUS_ERROR_NO_USER = 'error_no_user';
     public const FORGOT_PASSWORD_STATUS_ERROR = 'error';
-
+    public const GET_PARAMETER_TOKEN = 'token';
+    public const PASSWORD_HASH_ALGO = 'sha256';
 }

@@ -3,6 +3,16 @@
 class DatabaseHandler {
     private $connection;
 
+    public static function getDbHandler()
+    {
+        return new DatabaseHandler(
+            $_ENV['DB_HOST'],
+            $_ENV['DB_USER'],
+            $_ENV['DB_PASS'],
+            $_ENV['DB_NAME']
+        );
+    }
+
     public function __construct($url, $username, $password, $database, $port = 3306) {
         $this->connection = new mysqli($url, $username, $password, $database, $port);
         if ($this->connection->connect_error) {
@@ -31,6 +41,6 @@ class DatabaseHandler {
 
         $stmt->execute();
 
-        return $querable->fromResult($stmt->get_result());
+        return $crudType === CrudEnum::READ ? $querable->fromResult($stmt->get_result()) : null;
     }
 }

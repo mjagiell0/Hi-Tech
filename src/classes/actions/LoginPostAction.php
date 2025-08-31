@@ -21,4 +21,8 @@ if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
     $password = $_POST[ConstUtils::FIELD_LABEL_PASSWORD];
 
     $user = $loginService->login($email, $password);
+
+    if ($user) {
+        $_SESSION[ConstUtils::SESSION_USER] = $user;
+    }
 }

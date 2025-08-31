@@ -19,7 +19,7 @@
         $_ENV['DB_PASS'],
         $_ENV['DB_NAME']
     );
-    $user = $dbHandler->query(new User(), 'admin@admin.pl');
+    $user = $dbHandler->query(new User(), CrudEnum::READ, 'admin@admin.pl');
     if ($user) {
         echo "User found: " . $user;
     } else {

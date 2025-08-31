@@ -2,19 +2,9 @@
 
 class LoginService
 {
-    private static function getDbHandler()
-    {
-        return new DatabaseHandler(
-            $_ENV['DB_HOST'],
-            $_ENV['DB_USER'],
-            $_ENV['DB_PASS'],
-            $_ENV['DB_NAME']
-        );
-    }
-
     public static function login($email, $password)
     {
-        $dbHandler = self::getDbHandler();
+        $dbHandler = DatabaseHandler::getDbHandler();
 
         $user = $dbHandler->query(new User(), CrudEnum::READ, $email);
 
@@ -31,14 +21,20 @@ class LoginService
         }
     }
 
-    public static function recoverPassword($email)
+    public static function recoverPassword($email): void
     {
-        $dbHandler = self::getDbHandler();
+        $dbHandler = DatabaseHandler::getDbHandler();
 
         $user = $dbHandler->query(new User(), CrudEnum::READ, $email);
         if ($user) {
             $recoveryToken = new RecoveryPassword($email, $user->getId());
             $recoveryToken->generateRecoveryToken();
+
+            $dbHandler->query(
+                $recoveryToken,
+                CrudEnum::DELETE,
+                $user->getId()
+            );
 
             $dbHandler->query(
                 $recoveryToken,
@@ -61,6 +57,42 @@ class LoginService
                 $message,
                 $headers
             );
+        } else {
+            throw new NoSuchUserException();
+        }
+    }
+
+    public static function checkRecoveryToken($token)
+    {
+        $dbHandler = DatabaseHandler::getDbHandler();
+        $recoveryToken = $dbHandler->query(new RecoveryPassword(), CrudEnum::READ, $token);
+
+        if ($recoveryToken) {
+            if ($recoveryToken->isExpired()) {
+                throw new ExpiredTokenException();
+            }
+            return $recoveryToken;
+        } else {
+            throw new NoTokenFoundException();
+        }
+    }
+
+    public static function resetPassword($userId, $password) {
+        $dbHandler = DatabaseHandler::getDbHandler();
+        $user = $dbHandler->query(new User(), CrudEnum::READ, $userId);
+
+        if ($user) {
+            $dbHandler->query(
+                $user,
+                CrudEnum::UPDATE,
+                $user->getFirstname(),
+                $user->getLastname(),
+                $user->getEmail(),
+                password_hash($password, PASSWORD_DEFAULT),
+                $userId
+            );
+
+
         } else {
             throw new NoSuchUserException();
         }

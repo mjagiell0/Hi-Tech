@@ -12,7 +12,6 @@ $status = $_GET[ConstUtils::FORGOT_PASSWORD_STATUS] ?? '';
     <title>Odzyskiwanie hasła</title>
     <link rel="stylesheet" href="../../styles/main.css">
     </link>
-    <script src="forgot_password.js" defer></script>
 </head>
 
 <body style="display: flex; height: 100vh; width: 100%; justify-content: center; align-items: center;">
@@ -30,7 +29,7 @@ $status = $_GET[ConstUtils::FORGOT_PASSWORD_STATUS] ?? '';
         </div>
     <?php endif; ?>
     <?php if ($status === ''): ?>
-        <div class="password-reset-container">
+        <div class="password-forgot-container">
             <h2 class="password-reset-title">Odzyskaj hasło</h2>
             <form class="password-reset-form" id="resetForm" action="../../classes/actions/RecoverPasswordAction.php" method="POST" novalidate>
                 <label class="password-reset-label" for="email">Podaj swój adres e-mail:</label>
