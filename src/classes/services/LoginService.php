@@ -1,0 +1,117 @@
+<?php
+
+class LoginService
+{
+    public static function login($email, $password)
+    {
+        $dbHandler = DatabaseHandler::getDbHandler();
+
+        $user = $dbHandler->query(new User(), CrudEnum::READ, $email);
+
+        if ($user) {
+            if (password_verify($password, $user->getPassword())) {
+                $_SESSION[ConstUtils::USER_ID_LABEL] = $user->getId();
+                $_SESSION[ConstUtils::USER_EMAIL_LABEL] = $user->getEmail();
+                return $user;
+            } else {
+                throw new PasswordMismatchException();
+            }
+        } else {
+            throw new NoSuchUserException();
+        }
+    }
+
+    public static function register($firstName, $lastName, $email, $password)
+    {
+        $dbHandler = DatabaseHandler::getDbHandler();
+
+        try {
+            $dbHandler->query(new User(), CrudEnum::READ, $email);
+            throw new EmailInUseException();
+        } catch (NoSuchUserException) {
+            $dbHandler->query(new User(), CrudEnum::CREATE, $firstName, $lastName, $email, password_hash($password, PASSWORD_DEFAULT));
+        }
+    }
+
+    public static function recoverPassword($email): void
+    {
+        $dbHandler = DatabaseHandler::getDbHandler();
+
+        $user = $dbHandler->query(new User(), CrudEnum::READ, $email);
+        if ($user) {
+            $recoveryToken = new RecoveryPassword($email, $user->getId());
+            $recoveryToken->generateRecoveryToken();
+
+            $dbHandler->query(
+                $recoveryToken,
+                CrudEnum::DELETE,
+                $user->getId()
+            );
+
+            $dbHandler->query(
+                $recoveryToken,
+                CrudEnum::CREATE,
+                $user->getId(),
+                $recoveryToken->getRecoveryToken(),
+                $recoveryToken->getExpirationDate(),
+                $recoveryToken->getCreatedAt()
+            );
+
+            $message = "To reset your password, please click the following link: \r\n" .
+                "http://localhost/Hi-Tech/src/pages/reset_password/reset_password.php?token=" . $recoveryToken->getRecoveryToken();
+            $message = wordwrap($message, 70, "\r\n");
+            $headers = "From: no-reply@hi-tech.com\r\n" .
+                "Reply-To: no-reply@hi-tech.com\r\n" .
+                "X-Mailer: PHP/" . phpversion();
+            mail(
+                $email,
+                "Password Recovery",
+                $message,
+                $headers
+            );
+        } else {
+            throw new NoSuchUserException();
+        }
+    }
+
+    public static function checkRecoveryToken($token)
+    {
+        $dbHandler = DatabaseHandler::getDbHandler();
+        $recoveryToken = $dbHandler->query(new RecoveryPassword(), CrudEnum::READ, $token);
+
+        if ($recoveryToken) {
+            if ($recoveryToken->isExpired()) {
+                throw new ExpiredTokenException();
+            }
+            return $recoveryToken;
+        } else {
+            throw new NoTokenFoundException();
+        }
+    }
+
+    public static function resetPassword($userId, $password)
+    {
+        $dbHandler = DatabaseHandler::getDbHandler();
+        $user = $dbHandler->query(new User(), CrudEnum::READ, $userId);
+
+        if ($user) {
+            $dbHandler->query(
+                $user,
+                CrudEnum::UPDATE,
+                $user->getFirstname(),
+                $user->getLastname(),
+                $user->getEmail(),
+                password_hash($password, PASSWORD_DEFAULT),
+                $userId
+            );
+
+            $dbHandler->query(
+                new RecoveryPassword(),
+                CrudEnum::DELETE,
+                $userId
+            );
+        } else {
+            throw new NoSuchUserException();
+        }
+    }
+}

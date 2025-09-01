@@ -1,0 +1,12 @@
+@import url('/Hi-Tech/src/pages/login/login.css');
+@import url('/Hi-Tech/src/pages/forgot_password/forgot_password.css');
+@import url('/Hi-Tech/src/pages/reset_password/reset_password.css');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+
