@@ -3,11 +3,11 @@
 include_once '../abstracts/Entity.php';
 include_once '../../classes/exceptions/NoSuchUserException.php';
 include_once '../enums/CrudEnum.php';
-include_once '../../classes/RecoveryPassword.php';
+include_once '../../classes/entities/RecoveryPassword.php';
 include_once '../../classes/exceptions/PasswordMismatchException.php';
 include_once '../../classes/utils/ConstUtils.php';
-include_once '../../classes/User.php';
-include_once '../../classes/DatabaseHandler.php';
+include_once '../../classes/entities/User.php';
+include_once '../../classes/handlers/DatabaseHandler.php';
 include_once '../../classes/Services/LoginService.php';
 require_once __DIR__ . '/../../../vendor/autoload.php';
 

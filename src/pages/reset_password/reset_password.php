@@ -1,14 +1,14 @@
 <?php
 include_once '../../classes/enums/CrudEnum.php';
 include_once '../../classes/abstracts/Entity.php';
-require_once __DIR__ . '/../../../vendor/autoload.php';
+include_once __DIR__ . '/../../../vendor/autoload.php';
 include_once '../../classes/utils/ConstUtils.php';
 include_once '../../classes/services/LoginService.php';
 include_once '../../classes/exceptions/NoTokenFoundException.php';
 include_once '../../classes/exceptions/ExpiredTokenException.php';
 include_once '../../classes/DatabaseHandler.php';
 include_once '../../classes/utils/ConstUtils.php';
-include_once '../../classes/RecoveryPassword.php';
+include_once '../../classes/entities/RecoveryPassword.php';
 
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../'); // Ścieżka do katalogu z .env
