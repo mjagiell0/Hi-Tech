@@ -3,6 +3,7 @@
 include_once '../abstracts/Entity.php';
 include_once '../../classes/exceptions/NoSuchUserException.php';
 include_once '../enums/CrudEnum.php';
+include_once '../../classes/RecoveryPassword.php';
 include_once '../../classes/exceptions/PasswordMismatchException.php';
 include_once '../../classes/utils/ConstUtils.php';
 include_once '../../classes/User.php';
@@ -22,7 +23,7 @@ $loginService = new LoginService();
 
 try {
     $loginService->resetPassword($userId, $password);
-    header("Location: ../../pages/reset_password/reset_password.php?token=".$token."&status=".ConstUtils::FORGOT_PASSWORD_STATUS_SUCCESS);
+    header("Location: ../../pages/reset_password/reset_password.php?token=".$token."&status=".ConstUtils::STATUS_SUCCESS);
 } catch (Exception $e) {
-    header("Location: ../../pages/reset_password/reset_password.php?token=".$token."&status=".ConstUtils::FORGOT_PASSWORD_STATUS_ERROR);
+    header("Location: ../../pages/reset_password/reset_password.php?token=".$token."&status=".ConstUtils::STATUS_ERROR);
 }

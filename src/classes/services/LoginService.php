@@ -105,7 +105,11 @@ class LoginService
                 $userId
             );
 
-
+            $dbHandler->query(
+                new RecoveryPassword(),
+                CrudEnum::DELETE,
+                $userId
+            );
         } else {
             throw new NoSuchUserException();
         }

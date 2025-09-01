@@ -3,7 +3,7 @@
 
 <?php
 include_once '../../classes/utils/ConstUtils.php';
-$status = $_GET[ConstUtils::FORGOT_PASSWORD_STATUS] ?? '';
+$status = $_GET[ConstUtils::STATUS] ?? '';
 ?>
 
 <head>
@@ -17,11 +17,11 @@ $status = $_GET[ConstUtils::FORGOT_PASSWORD_STATUS] ?? '';
 <body style="display: flex; height: 100vh; width: 100%; justify-content: center; align-items: center;">
     <?php if ($status !== ''): ?>
         <div class="password-reset-notification">
-            <?php if ($status === ConstUtils::FORGOT_PASSWORD_STATUS_SUCCESS): ?>
+            <?php if ($status === ConstUtils::STATUS_SUCCESS): ?>
                 Instrukcje dotyczące resetowania hasła zostały wysłane na podany adres e-mail.
-            <?php elseif ($status === ConstUtils::FORGOT_PASSWORD_STATUS_ERROR_NO_USER): ?>
+            <?php elseif ($status === ConstUtils::STATUS_ERROR_NO_USER): ?>
                 Nie znaleziono użytkownika z podanym adresem e-mail.
-            <?php elseif ($status === ConstUtils::FORGOT_PASSWORD_STATUS_ERROR): ?>
+            <?php elseif ($status === ConstUtils::STATUS_ERROR): ?>
                 Wystąpił błąd podczas próby odzyskania hasła. Proszę spróbować ponownie później.
             <?php endif; ?>
             <a href="../login/login.php" class="password-reset-back-link">

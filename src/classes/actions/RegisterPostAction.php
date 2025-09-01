@@ -24,8 +24,9 @@ $loginService = new LoginService();
 
 try {
     $loginService->register($firstName, $lastName, $email, $password);
-    header('Location: ../../pages/register/register.php?status=success');
-} catch (EmailInUseException $e) {
-    echo $e->getMessage();
-    exit();
+    header('Location: ../../pages/register/register.php?'.ConstUtils::STATUS.'='.ConstUtils::STATUS_SUCCESS);
+} catch (EmailInUseException) {
+    header('Location: ../../pages/register/register.php?'.ConstUtils::STATUS.'='.ConstUtils::STATUS_ERROR_EMAIL_IN_USE);
+} catch (Exception) {
+    header('Location: ../../pages/register/register.php?'.ConstUtils::STATUS.'='.ConstUtils::STATUS_ERROR);
 }

@@ -15,24 +15,19 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../'); // Ścieżka d
 $dotenv->load();
 
 $token = $_GET[ConstUtils::GET_PARAMETER_TOKEN] ?? '';
-if (empty($token)) {
-    echo "Brak tokenu resetowania hasła.";
-    exit;
-}
 
-$status = $_GET[ConstUtils::FORGOT_PASSWORD_STATUS] ?? '';
+$status = $_GET[ConstUtils::STATUS] ?? '';
 
 $loginService = new LoginService();
 try {
     $token = $loginService->checkRecoveryToken($token);
-    // TODO: Do wystylizowania
 } catch (NoTokenFoundException $e) {
-    echo "Nieprawidłowy token resetowania hasła.";
-    echo $e->getMessage();
-    exit;
+    if ($status === '')
+        header("Location: ../login/login.php");
 } catch (ExpiredTokenException $e) {
-    echo "Token resetowania hasła wygasł.";
-    exit;
+    if ($status === '') {
+        $status = ConstUtils::STATUS_ERROR_TOKEN_EXPIRED;
+    }
 }
 
 ?>
@@ -55,13 +50,16 @@ try {
     <img class="logo" src="../../assets/logo.png" alt="Logo">
     <?php if ($status !== ''): ?>
         <div class="password-reset-notification">
-            <?php if ($status === ConstUtils::FORGOT_PASSWORD_STATUS_SUCCESS): ?>
+            <?php if ($status === ConstUtils::STATUS_SUCCESS): ?>
                 Pomyślnie zresetowano hasło.
-            <?php elseif ($status === ConstUtils::FORGOT_PASSWORD_STATUS_ERROR_NO_USER): ?>
+            <?php elseif ($status === ConstUtils::STATUS_ERROR_TOKEN_EXPIRED): ?>
+                Token utracił swoją ważność. Poproś o ponowne zresetowanie hasła.
+            <?php elseif ($status === ConstUtils::STATUS_ERROR_NO_USER): ?>
                 Nie znaleziono użytkownika z podanym adresem e-mail.
-            <?php elseif ($status === ConstUtils::FORGOT_PASSWORD_STATUS_ERROR): ?>
+            <?php elseif ($status === ConstUtils::STATUS_ERROR): ?>
                 Wystąpił błąd podczas próby odzyskania hasła. Proszę spróbować ponownie później.
             <?php endif; ?>
+            <br>
             <a href="../login/login.php" class="password-reset-back-link">
                 < Powrót do logowania</a>
         </div>

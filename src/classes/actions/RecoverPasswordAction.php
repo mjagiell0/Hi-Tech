@@ -23,10 +23,10 @@ if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
 
     try {
         $loginService->recoverPassword($email);
-        header("Location: ../../pages/forgot_password/forgot_password.php?status=".ConstUtils::FORGOT_PASSWORD_STATUS_SUCCESS);
+        header("Location: ../../pages/forgot_password/forgot_password.php?status=".ConstUtils::STATUS_SUCCESS);
     } catch (NoSuchUserException $e) {
-        header("Location: ../../pages/forgot_password/forgot_password.php?status=".ConstUtils::FORGOT_PASSWORD_STATUS_ERROR_NO_USER);
+        header("Location: ../../pages/forgot_password/forgot_password.php?status=".ConstUtils::STATUS_ERROR_NO_USER);
     } catch (Exception $e) {
-        header("Location: ../../pages/forgot_password/forgot_password.php?status=".ConstUtils::FORGOT_PASSWORD_STATUS_ERROR);
+        header("Location: ../../pages/forgot_password/forgot_password.php?status=".ConstUtils::STATUS_ERROR);
     }
 }

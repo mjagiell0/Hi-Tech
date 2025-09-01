@@ -16,10 +16,11 @@ class ConstUtils {
     public const USER_ID_LABEL = 'user_id';
     public const USER_EMAIL_LABEL = 'user_email';
     public const SESSION_USER = '__session_user';
-    public const FORGOT_PASSWORD_STATUS = 'status';
-    public const FORGOT_PASSWORD_STATUS_SUCCESS = 'success';
-    public const FORGOT_PASSWORD_STATUS_ERROR_NO_USER = 'error_no_user';
-    public const FORGOT_PASSWORD_STATUS_ERROR = 'error';
+    public const STATUS = 'status';
+    public const STATUS_SUCCESS = 'success';
+    public const STATUS_ERROR_NO_USER = 'error_no_user';
+    public const STATUS_ERROR = 'error';
+    public const STATUS_ERROR_EMAIL_IN_USE = 'error_email_in_use';
+    public const STATUS_ERROR_TOKEN_EXPIRED = 'error_token_expired';
     public const GET_PARAMETER_TOKEN = 'token';
-    public const PASSWORD_HASH_ALGO = 'sha256';
 }
