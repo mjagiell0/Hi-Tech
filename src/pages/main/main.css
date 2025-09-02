@@ -1,0 +1,146 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f8f8f8;
+    color: #333;
+}
+
+header {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 20px;
+}
+
+/* Pierwszy wiersz nagłówka */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.header--logo img {
+    width: 150px;
+    height: auto;
+}
+
+.search-bar {
+    flex: 1;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    height: max-content;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    font-size: 1.2rem;
+}
+
+.search-bar button {
+    padding: 10px 15px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.user-panel {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-panel a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+}
+
+/* Drugi wiersz nagłówka - kategorie */
+.categories {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.categories a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.categories a:hover {
+    background: #d3d3d3;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+}
+
+/* Kategorie domyślnie widoczne */
+.categories {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
+    transition: max-height 0.2s ease, opacity 0.15s ease;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .logo img {
+        width: 120px;
+    }
+
+    .search-bar {
+        flex: 0 0 100%;     /* Pełna szerokość i przerzucenie na nowy wiersz */
+        max-width: none;    /* Usuń ograniczenie 500px */
+        order: 3;           /* Dalej trzeci element */
+        margin-top: 10px;   /* Odstęp */
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .categories {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        overflow: hidden;       /* Ukrywa nadmiar przy zwinięciu */
+        max-height: 0;          /* Zwinięte */
+        opacity: 0;
+        pointer-events: none;   /* Nieklikalne gdy zwinięte */
+    }
+
+    .categories.active {
+        max-height: 500px;      /* Wystarczająca wysokość dla wszystkich linków */
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-panel {
+        font-size: 12px;
+        gap: 10px;
+    }
+
+    .categories a {
+        font-size: 14px;
+    }
+}
