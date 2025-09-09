@@ -10,8 +10,7 @@ class LoginService
 
         if ($user) {
             if (password_verify($password, $user->getPassword())) {
-                $_SESSION[ConstUtils::USER_ID_LABEL] = $user->getId();
-                $_SESSION[ConstUtils::USER_EMAIL_LABEL] = $user->getEmail();
+                $_SESSION[ConstUtils::SESSION_USER] = $user;
                 return $user;
             } else {
                 throw new PasswordMismatchException();

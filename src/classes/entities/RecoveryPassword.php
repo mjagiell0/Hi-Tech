@@ -67,7 +67,12 @@ class RecoveryPassword extends Entity
 
     protected function getCreateQuery(...$criteria)
     {
-        if (count($criteria) < 4) {
+        if (count($criteria) != 4 ||
+            !is_int($criteria[0]) ||
+            !is_string($criteria[1]) ||
+            !is_string($criteria[2]) ||
+            !is_string($criteria[3])
+        ) {
             throw new InvalidArgumentException("Insufficient criteria for CREATE operation.");
         }
         return "INSERT INTO recovery_password (user_id, token, expires_at, created_at) VALUES (?, ?, ?, ?)";
@@ -75,7 +80,7 @@ class RecoveryPassword extends Entity
 
     protected function getReadQuery(...$criteria)
     {
-        if (count($criteria) != 1) {
+        if (count($criteria) != 1 || !is_string($criteria[0])) {
             throw new InvalidArgumentException("Insufficient criteria for READ operation.");
         }
         return "SELECT user_id, token, expires_at, created_at FROM recovery_password WHERE token = ?";
@@ -85,7 +90,7 @@ class RecoveryPassword extends Entity
 
     protected function getDeleteQuery(...$criteria)
     {
-        if (count($criteria) != 1) {
+        if (count($criteria) != 1 || !is_int($criteria[0])) {
             throw new InvalidArgumentException("Insufficient criteria for DELETE operation.");
         }
         return "DELETE FROM recovery_password WHERE user_id = ?";

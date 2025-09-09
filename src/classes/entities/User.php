@@ -74,8 +74,8 @@ class User extends Entity
 
     protected function getReadQuery(...$criteria)
     {
-        if (!filter_var($criteria[0], FILTER_VALIDATE_EMAIL)) {
-            if (!filter_var($criteria[0], FILTER_VALIDATE_INT)) {
+        if (!filter_var($criteria[0], FILTER_VALIDATE_EMAIL) || count($criteria) != 1) {
+            if (!filter_var($criteria[0], FILTER_VALIDATE_INT) || count($criteria) != 1) {
                 throw new InvalidArgumentException("Invalid argument. Enter value in email or id format. ");
             }
             return "SELECT id, firstname, lastname, email, password FROM user WHERE id = ?";
@@ -85,7 +85,7 @@ class User extends Entity
 
     protected function getCreateQuery(...$criteria)
     {
-        if (count($criteria) < 4 ||
+        if (count($criteria) != 4 ||
             !is_string($criteria[0]) ||
             !is_string($criteria[1]) ||
             !filter_var($criteria[2], FILTER_VALIDATE_EMAIL) ||
@@ -97,7 +97,7 @@ class User extends Entity
 
     protected function getUpdateQuery(...$criteria)
     {
-        if (count($criteria) < 5 ||
+        if (count($criteria) != 5 ||
             !is_string($criteria[0]) ||
             !is_string($criteria[1]) ||
             !filter_var($criteria[2], FILTER_VALIDATE_EMAIL) ||

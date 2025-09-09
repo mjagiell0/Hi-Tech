@@ -20,10 +20,9 @@ if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
     $email = $_POST[ConstUtils::FIELD_LABEL_EMAIL];
     $password = $_POST[ConstUtils::FIELD_LABEL_PASSWORD];
 
-    $user = $loginService->login($email, $password);
+    $loginService->login($email, $password);
 
-    if ($user) {
-        $_SESSION[ConstUtils::SESSION_USER] = $user;
+    if ($_SESSION[ConstUtils::SESSION_USER]) {
         header('Location: ../../pages/login/test_success.php');
     }
 }
