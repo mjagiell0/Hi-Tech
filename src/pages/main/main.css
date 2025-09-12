@@ -194,6 +194,79 @@ header {
     font-size: 3.0rem; color: #007bff
 }
 
+.opinion-slider {
+    position: relative;
+    max-width: 50%;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+.opinion-slider .slider-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.opinion-slider .slide {
+    flex: 0 0 100%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+
+.slider-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.opinion-slide {
+    flex: 0 0 100%;
+    max-width: 33%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.opinion-card {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 100%;
+    height: 100%;
+}
+
+.opinion-card:hover {
+    cursor: pointer;
+}
+
+.stars {
+    color: #ffc107;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.comment {
+    font-style: italic;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* liczba widocznych linii */
+    -webkit-box-orient: vertical;
+}
+
+.author {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.product-info {
+    font-size: 0.9rem;
+    color: #666;
+}
+
 /* Responsywność */
 
 @media (max-width: 1000px) {
@@ -202,16 +275,21 @@ header {
     }
 }
 
+/* max-width: 768px — układ mobilny */
 @media (max-width: 768px) {
     .logo img {
         width: 120px;
     }
 
+    .opinion-slide {
+        max-width: 50%;
+    }
+
     .search-bar {
-        flex: 0 0 100%;     /* Pełna szerokość i przerzucenie na nowy wiersz */
-        max-width: none;    /* Usuń ograniczenie 500px */
-        order: 3;           /* Dalej trzeci element */
-        margin-top: 10px;   /* Odstęp */
+        flex: 0 0 100%;
+        max-width: none;
+        order: 3;
+        margin-top: 10px;
     }
 
     .menu-toggle {
@@ -222,19 +300,34 @@ header {
         flex-direction: column;
         align-items: center;
         gap: 10px;
-        overflow: hidden;       /* Ukrywa nadmiar przy zwinięciu */
-        max-height: 0;          /* Zwinięte */
+        overflow: hidden;
+        max-height: 0;
         opacity: 0;
-        pointer-events: none;   /* Nieklikalne gdy zwinięte */
+        pointer-events: none;
     }
 
     .sections.active {
-        max-height: 500px;      /* Wystarczająca wysokość dla wszystkich linków */
+        max-height: 500px;
         opacity: 1;
         pointer-events: auto;
     }
+
+    /* Opinie — 1 slajd na wiersz */
+    .slider-container .slide {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 }
 
+/* min-width: 768px — opinie w 3 kolumnach */
+@media (min-width: 768px) {
+    .opinion-slider .slide {
+        flex: 0 0 33.3333%;
+    }
+
+}
+
+/* max-width: 480px — drobne korekty */
 @media (max-width: 480px) {
     .user-panel {
         font-size: 12px;

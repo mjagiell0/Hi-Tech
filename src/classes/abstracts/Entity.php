@@ -24,6 +24,8 @@ abstract class Entity {
     
     abstract protected function getDeleteQuery(...$criteria);
 
+    abstract public function prepareToDisplay();
+
     abstract public function fromResult($result);
 
     abstract public function getTableName();

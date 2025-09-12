@@ -81,4 +81,9 @@ class Category extends Entity{
     {
         return "category";
     }
+
+    public function prepareToDisplay()
+    {
+        $this->name = htmlspecialchars($this->getName());
+    }
 }

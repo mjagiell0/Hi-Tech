@@ -48,3 +48,25 @@ dots.forEach((dot, i) => {
 
 // Start slidera
 startAutoSlide();
+
+(function initOpinionSlider() {
+    const track = document.querySelector('.opinion-slider .slider-track');
+
+    function rotateSlides() {
+        const firstSlide = track.querySelector('.opinion-slide');
+        const slideWidth = firstSlide.offsetWidth;
+
+        // Przesunięcie w lewo
+        track.style.transition = 'transform 0.5s ease-in-out';
+        track.style.transform = `translateX(-${slideWidth}px)`;
+
+        // Po zakończeniu animacji — przesuń pierwszy element na koniec
+        setTimeout(() => {
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0)';
+            track.appendChild(firstSlide);
+        }, 500); // czas musi być zgodny z transition
+    }
+
+    setInterval(rotateSlides, 5000);
+})();

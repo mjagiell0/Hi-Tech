@@ -26,8 +26,8 @@ class DatabaseHandler {
         }
     }
 
-    public function query(Entity $querable, CrudEnum $crudType, ...$criteria) {
-        $query = $querable->getQuery($crudType, ...$criteria);
+    public function query(Entity $entity, CrudEnum $crudType, ...$criteria) {
+        $query = $entity->getQuery($crudType, ...$criteria);
 
         $stmt = $this->connection->prepare($query);
 
@@ -41,6 +41,6 @@ class DatabaseHandler {
 
         $stmt->execute();
 
-        return $crudType === CrudEnum::READ ? $querable->fromResult($stmt->get_result()) : null;
+        return $crudType === CrudEnum::READ ? $entity->fromResult($stmt->get_result()) : null;
     }
 }

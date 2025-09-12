@@ -112,4 +112,9 @@ class RecoveryPassword extends Entity
     {
         return 'recovery_password';
     }
+
+    public function prepareToDisplay()
+    {
+        // TODO: Implement prepareToDisplay() method.
+    }
 }

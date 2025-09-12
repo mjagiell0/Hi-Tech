@@ -63,4 +63,9 @@ class Section extends Entity {
     {
         return "section";
     }
+
+    public function prepareToDisplay()
+    {
+        $this->name = htmlspecialchars($this->name, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
 }

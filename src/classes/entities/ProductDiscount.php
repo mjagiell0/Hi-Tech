@@ -1,6 +1,7 @@
 <?php
 
-class ProductDiscount extends Entity {
+class ProductDiscount extends Entity
+{
     private $id;
     private $name;
     private $producent;
@@ -8,7 +9,8 @@ class ProductDiscount extends Entity {
     private $imageName;
     private $discount;
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -22,51 +24,60 @@ class ProductDiscount extends Entity {
         return $this->producent;
     }
 
-    public function getPrice() {
-        return number_format($this->price, 2, ',', '').' zł';
+    public function getPrice()
+    {
+        return number_format($this->price, 2, ',', '') . ' zł';
     }
 
-    public function getImageName(){
+    public function getImageName()
+    {
         return $this->imageName;
     }
 
-    public function getDiscount() {
+    public function getDiscount()
+    {
         return $this->discount;
     }
 
     public function getPriceAfterDiscount()
     {
         $discountedPrice = $this->price - ($this->price * $this->discount);
-        return number_format($discountedPrice, 2, ',', '').' zł';
+        return number_format($discountedPrice, 2, ',', '') . ' zł';
     }
 
 
-    public function withId($id) {
+    public function withId($id)
+    {
         $this->id = $id;
         return $this;
     }
 
-    public function withName($name) {
+    public function withName($name)
+    {
         $this->name = $name;
         return $this;
     }
 
-    public function withProducent($producent) {
+    public function withProducent($producent)
+    {
         $this->producent = $producent;
         return $this;
     }
 
-    public function withPrice($price) {
+    public function withPrice($price)
+    {
         $this->price = $price;
         return $this;
     }
 
-    public function withImageName($imageName) {
+    public function withImageName($imageName)
+    {
         $this->imageName = $imageName;
         return $this;
     }
 
-    public function withDiscount($discount) {
+    public function withDiscount($discount)
+    {
         $this->discount = $discount;
         return $this;
     }
@@ -115,5 +126,12 @@ class ProductDiscount extends Entity {
     public function getTableName()
     {
         return "product";
+    }
+
+    public function prepareToDisplay()
+    {
+        $this->name = htmlspecialchars($this->name, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $this->imageName = htmlspecialchars($this->imageName, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $this->producent = htmlspecialchars($this->producent, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
 }

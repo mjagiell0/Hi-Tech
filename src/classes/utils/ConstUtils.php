@@ -27,4 +27,6 @@ class ConstUtils {
     public const FIELD_LABEL_DISCOUNT = 'discount';
     public const FIELD_LABEL_IMAGE_NAME = 'image_name';
     public const FIELD_LABEL_COMMENT = 'comment';
+    public const FIELD_LABEL_STARS = 'stars';
+    public const FIELD_LABEL_PRODUCT_ID = 'product_id';
 }
