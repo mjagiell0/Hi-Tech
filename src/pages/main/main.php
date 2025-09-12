@@ -31,14 +31,17 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
 <?php include_once "../../components/header.php"?>
 
 <main style="padding: 20px; text-align: center;">
-    <h2 style="font-size: 3.0rem; color: #007bff">Odkryj nasze promocje</h2>
-    <!--TODO: Przerobić na produkty promocyjne -->
+    <h2 class="slider-title">Odkryj nasze promocje</h2>
     <div class="slider">
         <div class="slides">
             <?php foreach ($products as $product): ?>
                 <div class="slide" onclick="location.href='../section/section.php?id=<?= $product->getId() ?>'">
                     <img src="../../assets/images/<?=$product->getImageName()?>" alt="<?= $product->getName() ?>">
-                    <div class="slide-title"><?= $product->getName() ?></div>
+                    <div class="slide-title">
+                        <?= $product->getName() ?>
+                        <p><?= $product->getPrice()?></p>
+                        <h3><?= $product->getPriceAfterDiscount()?></h3>
+                    </div>
                 </div>
             <?php endforeach; ?>
         </div>

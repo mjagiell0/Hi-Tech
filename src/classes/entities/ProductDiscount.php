@@ -23,7 +23,7 @@ class ProductDiscount extends Entity {
     }
 
     public function getPrice() {
-        return $this->price;
+        return number_format($this->price, 2, ',', '').' zł';
     }
 
     public function getImageName(){
@@ -36,8 +36,10 @@ class ProductDiscount extends Entity {
 
     public function getPriceAfterDiscount()
     {
-        return round($this->price - ($this->price * $this->discount),2);
+        $discountedPrice = $this->price - ($this->price * $this->discount);
+        return number_format($discountedPrice, 2, ',', '').' zł';
     }
+
 
     public function withId($id) {
         $this->id = $id;
@@ -79,7 +81,7 @@ class ProductDiscount extends Entity {
         return "SELECT p.id id, p.name name, p.producent producent, p.price price, d.percent discount, pi.path image_name
                 FROM product p 
                 JOIN discount d ON p.id = d.product_id 
-                JOIN product_image pi ON pi.product_id = p.id AND pi.is_default = TRUE
+                LEFT JOIN product_image pi ON pi.product_id = p.id AND pi.is_default = TRUE
                 ORDER BY d.percent DESC";
     }
 
@@ -104,7 +106,7 @@ class ProductDiscount extends Entity {
                 ->withProducent($row[ConstUtils::FIELD_LABEL_PRODUCENT])
                 ->withDiscount($row[ConstUtils::FIELD_LABEL_DISCOUNT])
                 ->withPrice($row[ConstUtils::FIELD_LABEL_PRICE])
-                ->withImageName($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]);
+                ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME]);
         }
 
         return empty($objects) ? null : $objects;

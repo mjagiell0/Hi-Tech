@@ -115,6 +115,7 @@ header {
 }
 .slide {
     min-width: 100%;
+    max-height: 530px;
     cursor: pointer;
     position: relative;
 }
@@ -159,6 +160,12 @@ header {
     box-sizing: border-box;
     z-index: 10;
 }
+
+.slide-title p {
+    color: #cbcaca;
+    text-decoration: line-through;
+}
+
 .slider-button:hover {
     background: rgba(0,0,0,0.8);
 }
@@ -183,14 +190,14 @@ header {
     background-color: #717171;
 }
 
+.slider-title {
+    font-size: 3.0rem; color: #007bff
+}
+
 /* Responsywność */
 
 @media (max-width: 1000px) {
     .slider {
-        max-width: 100%;
-    }
-
-    .slider-title {
         max-width: 100%;
     }
 }
