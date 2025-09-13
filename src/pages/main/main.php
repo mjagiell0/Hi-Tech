@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <?php
+session_start();
 include_once "../../classes/utils/ConstUtils.php";
 include_once "../../classes/enums/CrudEnum.php";
 include_once "../../classes/handlers/DatabaseHandler.php";
@@ -8,6 +9,7 @@ include_once "../../classes/abstracts/Entity.php";
 include_once "../../classes/entities/Section.php";
 include_once "../../classes/entities/ProductDiscount.php";
 include_once "../../classes/entities/Opinion.php";
+include_once "../../classes/entities/ProductRewardable.php";
 include_once "../../classes/services/ProductService.php";
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
@@ -15,7 +17,7 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../'); // Ścieżka do katalogu z .env
 $dotenv->load();
 
-$products = ProductService::getProductsWithDiscounts();
+$discountedProducts = ProductService::getProductsWithDiscounts();
 $sections = ProductService::getSections();
 $opinions = ProductService::getBestOpinions();
 
@@ -37,11 +39,11 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
         <h2 class="slider-title">Odkryj nasze promocje</h2>
         <div class="slider">
             <div class="slides">
-                <?php foreach ($products as $product): ?>
+                <?php foreach ($discountedProducts as $product): ?>
                     <div class="slide" onclick="location.href='../section/section.php?id=<?= $product->getId() ?>'">
                         <img src="../../assets/images/<?= $product->getImageName() ?>" alt="<?= $product->getName() ?>">
                         <div class="slide-title">
-                            <?= $product->getProducent().': '.$product->getName()?>
+                            <?= $product->getProducent() . ': ' . $product->getName() ?>
                             <p><?= $product->getPrice() ?></p>
                             <h3><?= $product->getPriceAfterDiscount() ?></h3>
                         </div>
@@ -50,7 +52,7 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
             </div>
 
             <?php
-            if (count($products) > 1) {
+            if (count($discountedProducts) > 1) {
                 ?>
                 <div class="slider-buttons">
                     <button class="slider-button" id="prev">&#10094;</button>
@@ -61,7 +63,7 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
             ?>
 
             <div class="dots">
-                <?php foreach ($products as $index => $product): ?>
+                <?php foreach ($discountedProducts as $index => $product): ?>
                     <span class="dot <?= $index === 0 ? 'active' : '' ?>"></span>
                 <?php endforeach; ?>
             </div>
@@ -92,7 +94,31 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
             </div>
         </div>
     </div>
-    <!--TODO: Pochwałka opiniami-->
+
+    <?php if (isset($_SESSION[ConstUtils::SESSION_USER])):
+        $rewardableProducts = ProductService::getRewardableProducts();
+        shuffle($rewardableProducts);
+        ?>
+        <div class="case-opening">
+            <h2>Spróbuj szczęścia!</h2>
+            <div class="carousel">
+                <div class="win-line"></div>
+                <div class="carousel-track">
+                    <?php foreach ($rewardableProducts as $product): ?>
+                        <div class="carousel-item">
+                            <img src="../../assets/images/<?= $product->getImageName() ?>"
+                                 alt="<?= $product->getName() ?>">
+                            <p><?= $product->getName() ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <button id="start-case">Start</button>
+            <div id="result" class="result-box"></div>
+        </div>
+    <?php else: ?>
+        <p>Koło fortuny dostępne tylko dla zalogowanych użytkowników.</p>
+    <?php endif; ?>
     <!--TODO: Stopka-->
 
 </main>

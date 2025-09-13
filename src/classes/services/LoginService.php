@@ -38,7 +38,7 @@ class LoginService
 
         $user = $dbHandler->query(new User(), CrudEnum::READ, $email);
         if ($user) {
-            $recoveryToken = new RecoveryPassword($email, $user->getId());
+            $recoveryToken = new RecoveryPassword();
             $recoveryToken->generateRecoveryToken();
 
             $dbHandler->query(

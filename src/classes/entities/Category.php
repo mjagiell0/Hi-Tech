@@ -34,7 +34,7 @@ class Category extends Entity{
         return $this;
     }
 
-    protected function getCreateQuery(...$criteria)
+    protected function getCreateQuery(...$criteria): string
     {
         if (!is_string($criteria[0]) || !is_int($criteria[1]) || count($criteria) != 2) {
             throw new InvalidArgumentException("Insufficient criteria for CREATE operation.");
@@ -42,7 +42,7 @@ class Category extends Entity{
         return "INSERT INTO Category (name, section_id) VALUES (?, ?)";
     }
 
-    protected function getReadQuery(...$criteria)
+    protected function getReadQuery(...$criteria): string
     {
         if (!is_int($criteria[0]) || count($criteria) != 1) {
             if (!is_string($criteria[0])) {

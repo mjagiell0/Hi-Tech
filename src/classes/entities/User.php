@@ -76,7 +76,7 @@ class User extends Entity
     {
         if (!filter_var($criteria[0], FILTER_VALIDATE_EMAIL) || count($criteria) != 1) {
             if (!filter_var($criteria[0], FILTER_VALIDATE_INT) || count($criteria) != 1) {
-                throw new InvalidArgumentException("Invalid argument. Enter value in email or id format. ");
+                throw new InvalidArgumentException("Insufficient criteria for READ operation.");
             }
             return "SELECT id, firstname, lastname, email, password FROM user WHERE id = ?";
         }

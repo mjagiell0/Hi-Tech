@@ -29,4 +29,6 @@ class ConstUtils {
     public const FIELD_LABEL_COMMENT = 'comment';
     public const FIELD_LABEL_STARS = 'stars';
     public const FIELD_LABEL_PRODUCT_ID = 'product_id';
+    public const DATETIME_FORMAT = 'Y-m-d H:i:s';
+    public const FIELD_LABEL_RATE_RATE = 'rare_rate';
 }

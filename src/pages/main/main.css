@@ -267,6 +267,63 @@ header {
     color: #666;
 }
 
+.case-opening {
+    text-align: center;
+    margin: 50px auto;
+    max-width: 600px;
+}
+
+.carousel {
+    overflow: hidden;
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.won-item {
+    border: 3px solid #28a745;
+    box-shadow: 0 0 15px rgba(40, 167, 69, 0.6);
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+.win-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background-color: red;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.2s ease-out;
+}
+
+.carousel-item {
+    flex: 0 0 150px;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.carousel-item img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 5px;
+}
+
+.result-box {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #28a745;
+}
+
 /* Responsywność */
 
 @media (max-width: 1000px) {

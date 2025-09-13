@@ -70,3 +70,88 @@ startAutoSlide();
 
     setInterval(rotateSlides, 5000);
 })();
+
+document.addEventListener("DOMContentLoaded", () => {
+    const track = document.querySelector(".carousel-track");
+    const items = Array.from(document.querySelectorAll(".carousel-item"));
+    const startBtn = document.getElementById("start-case");
+    const resultBox = document.getElementById("result");
+
+    let currentIndex = 0;
+    let speed = 100; // px per frame
+    let slowing = false;
+    let animationFrame;
+    let position = 0;
+
+    function getItemWidth() {
+        return items[0].offsetWidth;
+    }
+
+    function spin() {
+        position += speed;
+        track.style.transform = `translateX(-${position}px)`;
+
+        const itemWidth = getItemWidth();
+        if (position >= itemWidth) {
+            position = 0;
+            currentIndex = (currentIndex + 1) % items.length;
+            // Przesuwamy pierwszy element na koniec
+            track.appendChild(items[currentIndex]);
+        }
+
+        if (slowing) {
+            speed *= 0.97;
+            if (speed < 2) {
+                cancelAnimationFrame(animationFrame);
+                finalizeResult();
+                return;
+            }
+        }
+
+        animationFrame = requestAnimationFrame(spin);
+    }
+
+    function startSpin() {
+        resultBox.textContent = "";
+        speed = 100;
+        slowing = false;
+        position = 0;
+        currentIndex = 0;
+
+        animationFrame = requestAnimationFrame(spin);
+
+        setTimeout(() => {
+            slowing = true;
+        }, 2500);
+    }
+
+    function finalizeResult() {
+        const carousel = document.querySelector(".carousel");
+        const carouselCenter = carousel.getBoundingClientRect().left + carousel.offsetWidth / 2;
+
+        let closestItem = null;
+        let closestDistance = Infinity;
+
+        track.querySelectorAll(".carousel-item").forEach(item => {
+            const rect = item.getBoundingClientRect();
+            const itemCenter = rect.left + rect.width / 2;
+            const distance = Math.abs(itemCenter - carouselCenter);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestItem = item;
+            }
+        });
+
+        // Podświetl wygrany produkt
+        track.querySelectorAll(".carousel-item").forEach(item => item.classList.remove("won-item"));
+        closestItem.classList.add("won-item");
+
+        const productName = closestItem.querySelector("p").textContent;
+        resultBox.textContent = `Wygrałeś: ${productName}! 🎉`;
+
+        // TODO: Wywołaj backend (AJAX) i zapisz wynik dla użytkownika
+    }
+
+    startBtn.addEventListener("click", startSpin);
+});

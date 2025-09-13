@@ -25,5 +25,6 @@ try {
     $loginService->resetPassword($userId, $password);
     header("Location: ../../pages/reset_password/reset_password.php?token=".$token."&status=".ConstUtils::STATUS_SUCCESS);
 } catch (Exception $e) {
-    header("Location: ../../pages/reset_password/reset_password.php?token=".$token."&status=".ConstUtils::STATUS_ERROR);
+
+    header("Location: ../../pages/reset_password/reset_password.php?token=".$token."&status=".ConstUtils::STATUS_ERROR."&error=".$e->getMessage());
 }

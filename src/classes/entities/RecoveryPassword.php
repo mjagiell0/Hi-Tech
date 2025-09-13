@@ -41,8 +41,8 @@ class RecoveryPassword extends Entity
     public function generateRecoveryToken()
     {
         $this->recoveryToken = bin2hex(random_bytes(16));
-        $this->expirationDate = (new DateTime())->modify('+1 hour')->format('Y-m-d H:i:s');
-        $this->createdAt = (new DateTime())->format('Y-m-d H:i:s');
+        $this->expirationDate = (new DateTime())->modify('+1 hour')->format(ConstUtils::DATETIME_FORMAT);
+        $this->createdAt = (new DateTime())->format(ConstUtils::DATETIME_FORMAT);
     }
 
     public function getRecoveryToken()
@@ -90,7 +90,7 @@ class RecoveryPassword extends Entity
 
     protected function getDeleteQuery(...$criteria)
     {
-        if (count($criteria) != 1 || !is_int($criteria[0])) {
+        if (count($criteria) != 1 || intval($criteria[0]) === 0) {
             throw new InvalidArgumentException("Insufficient criteria for DELETE operation.");
         }
         return "DELETE FROM recovery_password WHERE user_id = ?";

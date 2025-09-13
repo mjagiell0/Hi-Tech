@@ -33,4 +33,8 @@ class ProductService
     {
         return self::dataRetriever(new Opinion());
     }
+
+    public static function getRewardableProducts() {
+        return self::dataRetriever(new ProductRewardable());
+    }
 }
