@@ -4,6 +4,7 @@
 session_start();
 include_once "../../classes/utils/ConstUtils.php";
 include_once "../../classes/enums/CrudEnum.php";
+include_once "../../classes/enums/RareRateEnum.php";
 include_once "../../classes/handlers/DatabaseHandler.php";
 include_once "../../classes/abstracts/Entity.php";
 include_once "../../classes/entities/Section.php";
@@ -104,13 +105,28 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
             <div class="carousel">
                 <div class="win-line"></div>
                 <div class="carousel-track">
-                    <?php foreach ($rewardableProducts as $product): ?>
-                        <div class="carousel-item">
-                            <img src="../../assets/images/<?= $product->getImageName() ?>"
-                                 alt="<?= $product->getName() ?>">
-                            <p><?= $product->getName() ?></p>
+                    <?php foreach ($rewardableProducts as $product):
+                        $rarityClass = match ($product->getRareRate()) {
+                            RareRateEnum::COMMON => 'rarity-common',
+                            RareRateEnum::RARE => 'rarity-rare',
+                            RareRateEnum::SPECIAL => 'rarity-special',
+                        };
+                        ?>
+                        <div class="carousel-item <?= $rarityClass ?>">
+                            <div class="rarity-glow">
+                                <img src="../../assets/images/<?= $product->getImageName() ?>"
+                                     alt="<?= $product->getName() ?>">
+                                <p><?= $product->getName() ?></p>
+                                <div class="item-price-percent-container">
+                                    <p class="item-price__before-discount"><?=$product->getPrice()?></p>
+                                    <p class="item-price__percent"><?='-'.$product->getPercent()?></p>
+                                </div>
+                                <p class="item-price__after-discount"><?=$product->getPriceAfterDiscount()?></p>
+                            </div>
                         </div>
+
                     <?php endforeach; ?>
+
                 </div>
             </div>
             <button id="start-case">Start</button>

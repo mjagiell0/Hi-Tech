@@ -25,7 +25,7 @@ class ProductRewardable extends Entity {
     }
 
     public function getPercent(){
-        return $this->percent;
+        return ($this->percent * 100).'%' ;
     }
 
     public function getName(){
@@ -97,7 +97,7 @@ class ProductRewardable extends Entity {
 
     protected function getReadQuery(...$criteria)
     {
-        return "SELECT rp.id, p.id product_id, rp.rare_rate, rp.percent, p.name, p.price, pi.path image_name
+        return "SELECT rp.id, rp.product_id, rp.rare_rate, rp.percent, p.name, p.price, pi.path image_name
                 FROM `rewardable_products` rp
                 JOIN product p ON p.id = rp.product_id
                 LEFT JOIN product_image pi ON pi.product_id = rp.product_id AND pi.is_default = 1";
@@ -128,8 +128,9 @@ class ProductRewardable extends Entity {
                 ->withProductId($row[ConstUtils::FIELD_LABEL_PRODUCT_ID])
                 ->withName($row[ConstUtils::FIELD_LABEL_NAME])
                 ->withPrice($row[ConstUtils::FIELD_LABEL_PRICE])
+                ->withPercent($row[ConstUtils::FIELD_LABEL_PERCENT])
                 ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
-                ->withRareRate($row[ConstUtils::FIELD_LABEL_RATE_RATE]);
+                ->withRareRate(RareRateEnum::from($row[ConstUtils::FIELD_LABEL_RATE_RATE]));
         }
 
         return empty($objects) ? null : $objects;
