@@ -101,7 +101,7 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
         shuffle($rewardableProducts);
         ?>
         <div class="case-opening">
-            <h2>Spróbuj szczęścia!</h2>
+            <h2>Daily luck!</h2>
             <div class="carousel">
                 <div class="win-line"></div>
                 <div class="carousel-track">
@@ -135,8 +135,9 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
     <?php else: ?>
         <p>Koło fortuny dostępne tylko dla zalogowanych użytkowników.</p>
     <?php endif; ?>
-    <!--TODO: Stopka-->
+
 
 </main>
+<?php include_once "../../components/footer.php" ?>
 </body>
 </html>
