@@ -10,6 +10,17 @@ abstract class Entity {
         };
     }
 
+    public function getResults($results)
+    {
+        $objects = [];
+
+        while ($row = $results->fetch_assoc()) {
+            $objects[] = $this->fromRow($row);
+        }
+
+        return empty($objects) ? null : $objects;
+    }
+
     abstract protected function getCreateQuery(...$criteria);
 
     abstract protected function getReadQuery(...$criteria);
@@ -18,9 +29,9 @@ abstract class Entity {
     
     abstract protected function getDeleteQuery(...$criteria);
 
-    abstract public function prepareToDisplay();
+    abstract protected function fromRow($row);
 
-    abstract public function fromResult($result);
+    abstract public function prepareToDisplay();
 
     abstract public function getTableName();
 }

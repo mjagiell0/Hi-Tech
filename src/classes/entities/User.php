@@ -113,17 +113,15 @@ class User extends Entity
         return null;
     }
 
-    public function fromResult($result)
+    public function fromRow($row)
     {
-        if ($row = $result->fetch_assoc()) {
-            return $this
-                ->withId($row[ConstUtils::FIELD_LABEL_ID])
-                ->withFirstname($row[ConstUtils::FIELD_LABEL_FIRSTNAME])
-                ->withLastname($row[ConstUtils::FIELD_LABEL_LASTNAME])
-                ->withEmail($row[ConstUtils::FIELD_LABEL_EMAIL])
-                ->withPassword($row[ConstUtils::FIELD_LABEL_PASSWORD]);
-        }
-        throw new NoSuchUserException();
+        return (new User())
+            ->withId($row[ConstUtils::FIELD_LABEL_ID])
+            ->withFirstname($row[ConstUtils::FIELD_LABEL_FIRSTNAME])
+            ->withLastname($row[ConstUtils::FIELD_LABEL_LASTNAME])
+            ->withEmail($row[ConstUtils::FIELD_LABEL_EMAIL])
+            ->withPassword($row[ConstUtils::FIELD_LABEL_PASSWORD]);
+
     }
 
     public function getTableName()

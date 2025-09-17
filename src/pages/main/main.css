@@ -394,6 +394,32 @@ header {
     box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
 }
 
+#winner-card {
+    margin-top: 30px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+#winner-card.visible {
+    opacity: 1;
+}
+
+.winner-card-content {
+    display: inline-block;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgb(148, 224, 110);
+    transition: transform 0.3s ease;
+}
+
+.winner-card-content img {
+    width: 200px;
+    height: auto;
+    margin-bottom: 5px;
+}
+
 .item-price__before-discount {
     font-size: 0.8rem;
     text-decoration: line-through;

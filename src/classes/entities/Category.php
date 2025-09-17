@@ -63,18 +63,12 @@ class Category extends Entity{
         // TODO: Implement getDeleteQuery() method.
     }
 
-    public function fromResult($result): ?array
+    public function fromRow($row)
     {
-        $objects = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $objects[] = (new Category())
-                ->withId($row[ConstUtils::FIELD_LABEL_ID])
-                ->withName($row[ConstUtils::FIELD_LABEL_NAME])
-                ->withSectionId($row[ConstUtils::FIELD_LABEL_SECTION_ID]);
-        }
-
-        return empty($objects) ? null : $objects;
+        return (new Category())
+            ->withId($row[ConstUtils::FIELD_LABEL_ID])
+            ->withName($row[ConstUtils::FIELD_LABEL_NAME])
+            ->withSectionId($row[ConstUtils::FIELD_LABEL_SECTION_ID]);
     }
 
     public function getTableName()

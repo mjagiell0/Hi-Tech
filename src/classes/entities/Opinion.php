@@ -123,23 +123,17 @@ class Opinion extends Entity
         // TODO: Implement getDeleteQuery() method.
     }
 
-    public function fromResult($result)
+    public function fromRow($row)
     {
-        $objects = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $objects[] = (new Opinion())
-                ->withId($row[ConstUtils::FIELD_LABEL_ID])
-                ->withComment($row[ConstUtils::FIELD_LABEL_COMMENT])
-                ->withStars($row[ConstUtils::FIELD_LABEL_STARS])
-                ->withOwnerFirstname($row[ConstUtils::FIELD_LABEL_FIRSTNAME])
-                ->withOwnerLastname($row[ConstUtils::FIELD_LABEL_LASTNAME])
-                ->withProduct($row[ConstUtils::FIELD_LABEL_NAME])
-                ->withProducent($row[ConstUtils::FIELD_LABEL_PRODUCENT])
-                ->withProductId($row[ConstUtils::FIELD_LABEL_PRODUCT_ID]);
-        }
-
-        return empty($objects) ? null : $objects;
+        return (new Opinion())
+            ->withId($row[ConstUtils::FIELD_LABEL_ID])
+            ->withComment($row[ConstUtils::FIELD_LABEL_COMMENT])
+            ->withStars($row[ConstUtils::FIELD_LABEL_STARS])
+            ->withOwnerFirstname($row[ConstUtils::FIELD_LABEL_FIRSTNAME])
+            ->withOwnerLastname($row[ConstUtils::FIELD_LABEL_LASTNAME])
+            ->withProduct($row[ConstUtils::FIELD_LABEL_NAME])
+            ->withProducent($row[ConstUtils::FIELD_LABEL_PRODUCENT])
+            ->withProductId($row[ConstUtils::FIELD_LABEL_PRODUCT_ID]);
     }
 
     public function getTableName()

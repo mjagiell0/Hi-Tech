@@ -91,21 +91,14 @@ class MainPageOpinion extends Entity
         // TODO: Implement getDeleteQuery() method.
     }
 
-    public function fromResult($result)
+    public function fromRow($row)
     {
-        $objects = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $objects[] = (new MainPageOpinion())
-                ->withId($row[ConstUtils::FIELD_LABEL_ID])
-                ->withFirstname($row[ConstUtils::FIELD_LABEL_FIRSTNAME])
-                ->withLastname($row[ConstUtils::FIELD_LABEL_LASTNAME])
-                ->withCreatedAt($row[ConstUtils::FIELD_LABEL_CREATED_AT])
-                ->withComment($row[ConstUtils::FIELD_LABEL_COMMENT]);
-
-        }
-
-        return empty($objects) ? null : $objects;
+        return(new MainPageOpinion())
+            ->withId($row[ConstUtils::FIELD_LABEL_ID])
+            ->withFirstname($row[ConstUtils::FIELD_LABEL_FIRSTNAME])
+            ->withLastname($row[ConstUtils::FIELD_LABEL_LASTNAME])
+            ->withCreatedAt($row[ConstUtils::FIELD_LABEL_CREATED_AT])
+            ->withComment($row[ConstUtils::FIELD_LABEL_COMMENT]);
     }
 
     public function getTableName()

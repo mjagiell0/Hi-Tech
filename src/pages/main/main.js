@@ -103,12 +103,30 @@ document.addEventListener("DOMContentLoaded", () => {
             speed *= 0.97;
             if (speed < 2) {
                 cancelAnimationFrame(animationFrame);
-                finalizeResult();
+                setTimeout(() => {
+                    finalizeResult();
+                }, 2000);
                 return;
             }
         }
 
         animationFrame = requestAnimationFrame(spin);
+    }
+
+    function submitRewardForm(rewardId) {
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "../../classes/actions/SaveRewardAction.php";
+        form.target = "hidden-frame";
+
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "reward_product_id";
+        input.value = rewardId;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
     }
 
     function startSpin() {
@@ -143,14 +161,32 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Podświetl wygrany produkt
-        track.querySelectorAll(".carousel-item").forEach(item => item.classList.remove("won-item"));
-        closestItem.classList.add("won-item");
+        // Ukryj karuzelę i przycisk
+        document.getElementById("carousel-container").style.display = "none";
+        document.getElementById("start-case").style.display = "none";
 
-        const productName = closestItem.querySelector("p").textContent;
-        resultBox.textContent = `Wygrałeś: ${productName}! 🎉`;
+        // Pokaż zwycięski produkt jako kartę
+        const winnerCard = document.getElementById("winner-card");
+        winnerCard.style.display = "block";
+        setTimeout(() => {
+            winnerCard.classList.add("visible");
+        }, 100);
 
-        // TODO: Wywołaj backend (AJAX) i zapisz wynik dla użytkownika
+        // Zachowaj klasę rzadkości
+        const rarityClass = [...closestItem.classList].find(cls =>
+            cls.startsWith("rarity-")
+        );
+
+        winnerCard.innerHTML = `
+        <h2 style="font-size: 2.0rem"">Gratulacje! Twoja dzisiejsza wygrana:</h2>
+        <div class="winner-card-content ${rarityClass}">
+            ${closestItem.innerHTML}
+        </div>`;
+
+        const rewardId = closestItem.getAttribute("data-product-id");
+
+        submitRewardForm(rewardId);
+
     }
 
     startBtn.addEventListener("click", startSpin);

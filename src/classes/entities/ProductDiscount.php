@@ -106,21 +106,15 @@ class ProductDiscount extends Entity
         // TODO: Implement getDeleteQuery() method.
     }
 
-    public function fromResult($result)
+    public function fromRow($row)
     {
-        $objects = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $objects[] = (new ProductDiscount())
-                ->withId($row[ConstUtils::FIELD_LABEL_ID])
-                ->withName($row[ConstUtils::FIELD_LABEL_NAME])
-                ->withProducent($row[ConstUtils::FIELD_LABEL_PRODUCENT])
-                ->withDiscount($row[ConstUtils::FIELD_LABEL_DISCOUNT])
-                ->withPrice($row[ConstUtils::FIELD_LABEL_PRICE])
-                ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME]);
-        }
-
-        return empty($objects) ? null : $objects;
+        return(new ProductDiscount())
+            ->withId($row[ConstUtils::FIELD_LABEL_ID])
+            ->withName($row[ConstUtils::FIELD_LABEL_NAME])
+            ->withProducent($row[ConstUtils::FIELD_LABEL_PRODUCENT])
+            ->withDiscount($row[ConstUtils::FIELD_LABEL_DISCOUNT])
+            ->withPrice($row[ConstUtils::FIELD_LABEL_PRICE])
+            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME]);
     }
 
     public function getTableName()

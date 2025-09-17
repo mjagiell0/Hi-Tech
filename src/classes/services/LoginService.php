@@ -113,4 +113,14 @@ class LoginService
             throw new NoSuchUserException();
         }
     }
+
+    public static function saveReward($userId, $rewardId)
+    {
+        $dbHandler = DatabaseHandler::getDbHandler();
+
+        $createdAt = (new DateTime())->format(ConstUtils::DATETIME_FORMAT);
+        $expiresAt = (new DateTime())->modify('+1 day')->format(ConstUtils::DATETIME_FORMAT);
+
+        $dbHandler->query(new UserSpinReward(), CrudEnum::CREATE, $userId, $rewardId, $createdAt, $expiresAt);
+    }
 }

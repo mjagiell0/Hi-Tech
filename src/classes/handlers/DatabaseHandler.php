@@ -15,8 +15,9 @@ class DatabaseHandler {
 
     public function __construct($url, $username, $password, $database, $port = 3306) {
         $this->connection = new mysqli($url, $username, $password, $database, $port);
+
         if ($this->connection->connect_error) {
-            die("Connection failed: " . $this->connection->connect_error);
+            throw new RuntimeException("Connection failed: " . $this->connection->connect_error);
         }
     }
 
@@ -41,6 +42,16 @@ class DatabaseHandler {
 
         $stmt->execute();
 
-        return $crudType === CrudEnum::READ ? $entity->fromResult($stmt->get_result()) : null;
+        if ($crudType === CrudEnum::READ) {
+            $results = $entity->getResults($stmt->get_result());
+            return match (count($results)) {
+                0 => null,
+                1 => $results[0],
+                default => $results,
+            };
+
+        }
+
+        return null;
     }
 }

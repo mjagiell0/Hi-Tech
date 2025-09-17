@@ -29,7 +29,7 @@ class ProductFortune extends Entity
     protected function getReadQuery(...$criteria)
     {
         if (count($criteria) != 1
-        || intval($criteria[0]) == 0) {
+            || intval($criteria[0]) == 0) {
             throw new InvalidArgumentException("Insufficient criteria for CREATE operation.");
         }
 
@@ -60,7 +60,7 @@ class ProductFortune extends Entity
         // TODO: Implement prepareToDisplay() method.
     }
 
-    public function fromResult($result)
+    public function fromRow($row)
     {
         // TODO: Implement fromResult() method.
     }

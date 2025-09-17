@@ -46,17 +46,11 @@ class Section extends Entity {
         // TODO: Implement getDeleteQuery() method.
     }
 
-    public function fromResult($result)
+    public function fromRow($row)
     {
-        $objects = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $objects[] = (new Section())
-                ->withId($row[ConstUtils::FIELD_LABEL_ID])
-                ->withName($row[ConstUtils::FIELD_LABEL_NAME]);
-        }
-
-        return empty($objects) ? null : $objects;
+        return (new Section())
+            ->withId($row[ConstUtils::FIELD_LABEL_ID])
+            ->withName($row[ConstUtils::FIELD_LABEL_NAME]);
     }
 
     public function getTableName()

@@ -1,5 +1,6 @@
 <?php
 class ConstUtils {
+    // Constants
     public const FIELD_LABEL_ID = 'id';
     public const FIELD_LABEL_FIRSTNAME = 'firstname';
     public const FIELD_LABEL_LASTNAME = 'lastname';
@@ -32,4 +33,5 @@ class ConstUtils {
     public const DATETIME_FORMAT = 'Y-m-d H:i:s';
     public const FIELD_LABEL_RATE_RATE = 'rare_rate';
     public const FIELD_LABEL_PERCENT = 'percent';
+    public const REWARD_PRODUCT_ID = 'reward_product_id';
 }

@@ -95,14 +95,13 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
             </div>
         </div>
     </div>
-
-    <?php if (isset($_SESSION[ConstUtils::SESSION_USER])):
-        $rewardableProducts = ProductService::getRewardableProducts();
-        shuffle($rewardableProducts);
-        ?>
-        <div class="case-opening">
-            <h2>Daily luck!</h2>
-            <div class="carousel">
+    <div class="case-opening">
+        <h2>Daily luck!</h2>
+        <?php if (isset($_SESSION[ConstUtils::SESSION_USER])):
+            $rewardableProducts = ProductService::getRewardableProducts();
+            shuffle($rewardableProducts);
+            ?>
+            <div class="carousel" id="carousel-container">
                 <div class="win-line"></div>
                 <div class="carousel-track">
                     <?php foreach ($rewardableProducts as $product):
@@ -112,16 +111,16 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
                             RareRateEnum::SPECIAL => 'rarity-special',
                         };
                         ?>
-                        <div class="carousel-item <?= $rarityClass ?>">
+                        <div class="carousel-item <?= $rarityClass ?>" data-product-id="<?= $product->getId() ?>">
                             <div class="rarity-glow">
                                 <img src="../../assets/images/<?= $product->getImageName() ?>"
                                      alt="<?= $product->getName() ?>">
                                 <p><?= $product->getName() ?></p>
                                 <div class="item-price-percent-container">
-                                    <p class="item-price__before-discount"><?=$product->getPrice()?></p>
-                                    <p class="item-price__percent"><?='-'.$product->getPercent()?></p>
+                                    <p class="item-price__before-discount"><?= $product->getPrice() ?></p>
+                                    <p class="item-price__percent"><?= '-' . $product->getPercent() ?></p>
                                 </div>
-                                <p class="item-price__after-discount"><?=$product->getPriceAfterDiscount()?></p>
+                                <p class="item-price__after-discount"><?= $product->getPriceAfterDiscount() ?></p>
                             </div>
                         </div>
 
@@ -131,13 +130,15 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
             </div>
             <button id="start-case">Start</button>
             <div id="result" class="result-box"></div>
-        </div>
-    <?php else: ?>
-        <p>Koło fortuny dostępne tylko dla zalogowanych użytkowników.</p>
-    <?php endif; ?>
-
+            <div id="winner-card" style="display: none;"></div>
+        <?php else: ?>
+            <p>Koło fortuny dostępne tylko dla zalogowanych użytkowników.</p>
+        <?php endif; ?>
+    </div>
 
 </main>
 <?php include_once "../../components/footer.php" ?>
+<iframe name="hidden-frame" style="display: none;"></iframe>
+
 </body>
 </html>

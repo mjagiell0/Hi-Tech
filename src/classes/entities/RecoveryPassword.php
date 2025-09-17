@@ -96,16 +96,13 @@ class RecoveryPassword extends Entity
         return "DELETE FROM recovery_password WHERE user_id = ?";
     }
 
-    public function fromResult($result)
+    public function fromRow($row)
     {
-        if ($row = $result->fetch_assoc()) {
-            return $this
-                ->withUserId($row[ConstUtils::FIELD_LABEL_USER_ID])
-                ->withRecoveryToken($row[ConstUtils::FIELD_LABEL_RECOVERY_TOKEN])
-                ->withExpirationDate($row[ConstUtils::FIELD_LABEL_EXPIRATION_DATE])
-                ->withCreatedAt($row[ConstUtils::FIELD_LABEL_CREATED_AT]);
-        }
-        return null;
+        return (new RecoveryPassword())
+            ->withUserId($row[ConstUtils::FIELD_LABEL_USER_ID])
+            ->withRecoveryToken($row[ConstUtils::FIELD_LABEL_RECOVERY_TOKEN])
+            ->withExpirationDate($row[ConstUtils::FIELD_LABEL_EXPIRATION_DATE])
+            ->withCreatedAt($row[ConstUtils::FIELD_LABEL_CREATED_AT]);
     }
 
     public function getTableName()

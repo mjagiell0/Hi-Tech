@@ -118,22 +118,16 @@ class ProductRewardable extends Entity {
         // TODO: Implement prepareToDisplay() method.
     }
 
-    public function fromResult($result)
+    public function fromRow($row)
     {
-        $objects = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $objects[] = (new ProductRewardable())
-                ->withId($row[ConstUtils::FIELD_LABEL_ID])
-                ->withProductId($row[ConstUtils::FIELD_LABEL_PRODUCT_ID])
-                ->withName($row[ConstUtils::FIELD_LABEL_NAME])
-                ->withPrice($row[ConstUtils::FIELD_LABEL_PRICE])
-                ->withPercent($row[ConstUtils::FIELD_LABEL_PERCENT])
-                ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
-                ->withRareRate(RareRateEnum::from($row[ConstUtils::FIELD_LABEL_RATE_RATE]));
-        }
-
-        return empty($objects) ? null : $objects;
+        return (new ProductRewardable())
+            ->withId($row[ConstUtils::FIELD_LABEL_ID])
+            ->withProductId($row[ConstUtils::FIELD_LABEL_PRODUCT_ID])
+            ->withName($row[ConstUtils::FIELD_LABEL_NAME])
+            ->withPrice($row[ConstUtils::FIELD_LABEL_PRICE])
+            ->withPercent($row[ConstUtils::FIELD_LABEL_PERCENT])
+            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
+            ->withRareRate(RareRateEnum::from($row[ConstUtils::FIELD_LABEL_RATE_RATE]));
     }
 
     public function getTableName()
