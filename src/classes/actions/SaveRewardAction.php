@@ -20,5 +20,6 @@ if ($_SERVER[ConstUtils::REQUEST_METHOD] == ConstUtils::POST_METHOD) {
     $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
     $rewardId = $_POST[ConstUtils::REWARD_PRODUCT_ID];
 
+
     LoginService::saveReward($user->getId(), $rewardId);
 }

@@ -125,6 +125,7 @@ class LoginService
         $createdAt = (new DateTime())->format(ConstUtils::DATETIME_FORMAT);
         $expiresAt = (new DateTime())->modify('+1 day')->format(ConstUtils::DATETIME_FORMAT);
 
+        $dbHandler->query(new UserSpinReward(), CrudEnum::DELETE, $userId);
         $dbHandler->query(new UserSpinReward(), CrudEnum::CREATE, $userId, $rewardId, $createdAt, $expiresAt);
     }
 }

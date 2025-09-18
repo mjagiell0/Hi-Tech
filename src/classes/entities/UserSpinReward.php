@@ -8,6 +8,8 @@ class UserSpinReward extends Entity
     private $expires_at;
     private $reward_id;
 
+    private $reward;
+
     public function getId()
     {
         return $this->id;
@@ -31,6 +33,11 @@ class UserSpinReward extends Entity
     public function getRewardId()
     {
         return $this->reward_id;
+    }
+
+    public function getProductReward()
+    {
+        return $this->reward;
     }
 
     public function withId($id)
@@ -63,6 +70,12 @@ class UserSpinReward extends Entity
         return $this;
     }
 
+    public function withProductReward($reward)
+    {
+        $this->reward = $reward;
+        return $this;
+    }
+
     protected function getCreateQuery(...$criteria)
     {
         if (count($criteria) != 4
@@ -78,7 +91,16 @@ class UserSpinReward extends Entity
 
     protected function getReadQuery(...$criteria)
     {
-        // TODO: Implement getReadQuery() method.
+        if (count($criteria) != 1
+            || intval($criteria[0]) == 0) {
+            throw new InvalidArgumentException("Insufficient criteria for READ operation.");
+        }
+        return "SELECT rp.id, rp.product_id, rp.rare_rate, rp.percent, p.name, p.price, pi.path image_name
+                FROM `rewardable_products` rp
+                JOIN user_spin_rewards usr ON usr.reward_id = rp.id
+                JOIN product p ON p.id = rp.product_id
+                LEFT JOIN product_image pi ON pi.product_id = rp.product_id AND pi.is_default = 1
+                WHERE usr.user_id = ?";
     }
 
     protected function getUpdateQuery(...$criteria)
@@ -88,29 +110,28 @@ class UserSpinReward extends Entity
 
     protected function getDeleteQuery(...$criteria)
     {
-        // TODO: Implement getDeleteQuery() method.
+        if (count($criteria) != 1
+            || intval($criteria[0]) == 0) {
+            throw new InvalidArgumentException("Insufficient criteria for DELETE operation.");
+        }
+
+        return "DELETE FROM user_spin_rewards WHERE user_id = ?";
     }
 
     public function prepareToDisplay()
     {
-        // TODO: Implement prepareToDisplay() method.
+        $this->reward->prepareToDisplay();
     }
 
     public function fromRow($row)
     {
-        $objects = [];
+        return $this
+            ->withProductReward((new ProductRewardable())->fromRow($row));
 
-        while ($row = $row->fetch_assoc()) {
-            $objects[] = (new Section())
-                ->withId($row[ConstUtils::FIELD_LABEL_ID])
-                ->withName($row[ConstUtils::FIELD_LABEL_NAME]);
-        }
-
-        return empty($objects) ? null : $objects;
     }
 
     public function getTableName()
     {
-        // TODO: Implement getTableName() method.
+        return "user_spin_rewards";
     }
 }
