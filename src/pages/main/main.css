@@ -472,6 +472,39 @@ header {
     color: #fff;
 }
 
+.tooltip-label {
+    position: relative;
+    display: inline-block;
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #1c1c1c;
+    color: #fff;
+    text-align: left;
+    padding: 10px;
+    border-radius: 8px;
+    position: absolute;
+    z-index: 11;
+    top: 120%; /* poniżej labela */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    font-size: 0.85rem;
+}
+
+.tooltip-label:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
 /* Responsywność */
 
 @media (max-width: 1000px) {
