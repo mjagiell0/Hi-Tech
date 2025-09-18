@@ -80,6 +80,11 @@ class UserSpinReward extends Entity
         return $this->expires_at < (new DateTime());
     }
 
+    public function nextSpinDate()
+    {
+        return $this->expires_at->format(ConstUtils::NEXT_SPIN_DATE_FORMAT);
+    }
+
     protected function getCreateQuery(...$criteria)
     {
         if (count($criteria) != 4

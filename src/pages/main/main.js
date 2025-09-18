@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         winnerCard.innerHTML = `
-        <h2 style="font-size: 2.0rem"">Gratulacje! Twoja dzisiejsza wygrana:</h2>
+        <h2 style="font-size: 2.0rem">Gratulacje! Twoja dzisiejsza wygrana:</h2>
         <div class="winner-card-content ${rarityClass}">
             ${closestItem.innerHTML}
         </div>`;

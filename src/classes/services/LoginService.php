@@ -140,4 +140,9 @@ class LoginService
         }
         return false;
     }
+
+    public static function getUserReward($userId)
+    {
+        return DatabaseHandler::getDbHandler()->query(new UserSpinReward(), CrudEnum::READ, $userId);
+    }
 }

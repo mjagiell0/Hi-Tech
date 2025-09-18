@@ -44,12 +44,13 @@ class DatabaseHandler {
 
         if ($crudType === CrudEnum::READ) {
             $results = $entity->getResults($stmt->get_result());
-            return match (count($results)) {
-                0 => null,
-                1 => $results[0],
-                default => $results,
-            };
-
+            if (!is_null($results)) {
+                if (count($results) === 1) {
+                    return $results[0];
+                } else {
+                    return $results;
+                }
+            }
         }
 
         return null;

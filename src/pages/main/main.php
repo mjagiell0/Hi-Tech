@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 
 <?php
-session_start();
+
 include_once "../../classes/utils/ConstUtils.php";
 include_once "../../classes/enums/CrudEnum.php";
 include_once "../../classes/enums/RareRateEnum.php";
 include_once "../../classes/handlers/DatabaseHandler.php";
 include_once "../../classes/abstracts/Entity.php";
 include_once "../../classes/entities/Section.php";
+include_once "../../classes/entities/User.php";
+include_once "../../classes/entities/UserSpinReward.php";
 include_once "../../classes/entities/ProductDiscount.php";
 include_once "../../classes/entities/Opinion.php";
 include_once "../../classes/entities/ProductRewardable.php";
 include_once "../../classes/services/ProductService.php";
+include_once "../../classes/services/LoginService.php";
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../'); // Ścieżka do katalogu z .env
 $dotenv->load();
+
+session_start();
 
 $discountedProducts = ProductService::getProductsWithDiscounts();
 $sections = ProductService::getSections();
@@ -107,40 +112,69 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
             </span>
         </label>
 
-        <?php if (isset($_SESSION[ConstUtils::SESSION_USER])):
-            $rewardableProducts = ProductService::getRewardableProducts();
-            shuffle($rewardableProducts);
-            ?>
-            <div class="carousel" id="carousel-container">
-                <div class="win-line"></div>
-                <div class="carousel-track">
-                    <?php foreach ($rewardableProducts as $product):
-                        $rarityClass = match ($product->getRareRate()) {
-                            RareRateEnum::COMMON => 'rarity-common',
-                            RareRateEnum::RARE => 'rarity-rare',
-                            RareRateEnum::SPECIAL => 'rarity-special',
-                        };
-                        ?>
-                        <div class="carousel-item <?= $rarityClass ?>" data-product-id="<?= $product->getId() ?>">
-                            <div class="rarity-glow">
-                                <img src="../../assets/images/<?= $product->getImageName() ?>"
-                                     alt="<?= $product->getName() ?>">
-                                <p><?= $product->getName() ?></p>
-                                <div class="item-price-percent-container">
-                                    <p class="item-price__before-discount"><?= $product->getPrice() ?></p>
-                                    <p class="item-price__percent"><?= '-' . $product->getPercent() ?></p>
+        <?php if ($user != ''):
+            $user = $_SESSION[ConstUtils::SESSION_USER];
+            if (!LoginService::doesUserHaveReward($user->getId())):
+                $rewardableProducts = ProductService::getRewardableProducts();
+                shuffle($rewardableProducts);
+                ?>
+                <div class="carousel" id="carousel-container">
+                    <div class="win-line"></div>
+                    <div class="carousel-track">
+                        <?php foreach ($rewardableProducts as $product):
+                            $rarityClass = match ($product->getRareRate()) {
+                                RareRateEnum::COMMON => 'rarity-common',
+                                RareRateEnum::RARE => 'rarity-rare',
+                                RareRateEnum::SPECIAL => 'rarity-special',
+                            };
+                            ?>
+                            <div class="carousel-item <?= $rarityClass ?>" data-product-id="<?= $product->getId() ?>">
+                                <div class="rarity-glow">
+                                    <img src="../../assets/images/<?= $product->getImageName() ?>"
+                                         alt="<?= $product->getName() ?>">
+                                    <p><?= $product->getName() ?></p>
+                                    <div class="item-price-percent-container">
+                                        <p class="item-price__before-discount"><?= $product->getPrice() ?></p>
+                                        <p class="item-price__percent"><?= '-' . $product->getPercent() ?></p>
+                                    </div>
+                                    <p class="item-price__after-discount"><?= $product->getPriceAfterDiscount() ?></p>
                                 </div>
-                                <p class="item-price__after-discount"><?= $product->getPriceAfterDiscount() ?></p>
                             </div>
-                        </div>
 
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
 
+                    </div>
                 </div>
-            </div>
-            <button id="start-case">Start</button>
-            <div id="result" class="result-box"></div>
-            <div id="winner-card" style="display: none;"></div>
+                <button id="start-case">Start</button>
+                <div id="result" class="result-box"></div>
+                <div id="winner-card" style="display: none;"></div>
+            <?php else: ?>
+                <h2 style="font-size: 2.0rem">Twoja dzisiejsza wygrana:</h2>
+                <?php
+                $userReward = LoginService::getUserReward($user->getId());
+                $reward = $userReward->getProductReward();
+                $rarityClass = match ($reward->getRareRate()) {
+                    RareRateEnum::COMMON => 'rarity-common',
+                    RareRateEnum::RARE => 'rarity-rare',
+                    RareRateEnum::SPECIAL => 'rarity-special',
+                };
+                ?>
+                <div id="winner-card" class="visible">
+                    <div class="winner-card-content <?= $rarityClass ?>">
+                        <div class="rarity-glow">
+                            <img src="../../assets/images/<?= $reward->getImageName() ?>"
+                                 alt="<?= $reward->getName() ?>">
+                            <p><?= $reward->getName() ?></p>
+                            <div class="item-price-percent-container">
+                                <p class="item-price__before-discount"><?= $reward->getPrice() ?></p>
+                                <p class="item-price__percent"><?= '-' . $reward->getPercent() ?></p>
+                            </div>
+                            <p class="item-price__after-discount"><?= $reward->getPriceAfterDiscount() ?></p>
+                        </div>
+                    </div>
+                </div>
+                <h2 style="font-size: 1.3rem; padding-top: 20px; font-weight: normal">Kolejne losowanie: <?=$userReward->nextSpinDate()?></h2>
+            <?php endif;?>
         <?php else: ?>
             <p class="access-info">Uczestnictwo w Daily luck jest udzielane tylko zalogowanym użytkownikom</p>
             <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; text-align: center">
