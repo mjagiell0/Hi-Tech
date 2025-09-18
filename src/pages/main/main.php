@@ -97,6 +97,16 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
     </div>
     <div class="case-opening">
         <h2>Daily luck!</h2>
+        <p style="padding-bottom: 20px; color: #8b8b8b">Każdy dzisiaj wygrać może...</p>
+        <label class="tooltip-label">Zasady
+            <span class="tooltip-text">
+            • Możesz losować raz dziennie<br>
+            • Nagroda jest przypisywana do konta<br>
+            • Rzadkość wpływa na wartość produktu<br>
+            • Nie można wymieniać nagród
+            </span>
+        </label>
+
         <?php if (isset($_SESSION[ConstUtils::SESSION_USER])):
             $rewardableProducts = ProductService::getRewardableProducts();
             shuffle($rewardableProducts);
@@ -132,7 +142,13 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
             <div id="result" class="result-box"></div>
             <div id="winner-card" style="display: none;"></div>
         <?php else: ?>
-            <p>Koło fortuny dostępne tylko dla zalogowanych użytkowników.</p>
+            <p class="access-info">Uczestnictwo w Daily luck jest udzielane tylko zalogowanym użytkownikom</p>
+            <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; text-align: center">
+                <a href="../login/login.php" class="login-link">Zaloguj się</a>
+                <p style="padding: 0 10px">lub</p>
+                <a href="../register/register.php" class="login-link">utwórz konto</a>
+            </div>
+
         <?php endif; ?>
     </div>
 

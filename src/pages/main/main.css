@@ -505,6 +505,37 @@ header {
     opacity: 1;
 }
 
+.access-info {
+    color: #ff4d4d;
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.login-link {
+    display: inline-block;
+    padding: 10px 18px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.login-link:hover {
+    background-color: #2f91fc;
+}
+
+.logout-button {
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 /* Responsywność */
 
 @media (max-width: 1000px) {

@@ -20,6 +20,10 @@ class LoginService
         }
     }
 
+    public static function logout() {
+        unset($_SESSION[ConstUtils::SESSION_USER]);
+    }
+
     public static function register($firstName, $lastName, $email, $password)
     {
         $dbHandler = DatabaseHandler::getDbHandler();
