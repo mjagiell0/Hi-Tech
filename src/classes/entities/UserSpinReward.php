@@ -27,7 +27,7 @@ class UserSpinReward extends Entity
 
     public function getExpiresAt()
     {
-        return $this->expires_at;
+        return $this->expires_at->format(ConstUtils::DATETIME_FORMAT);
     }
 
     public function getRewardId()
@@ -76,6 +76,10 @@ class UserSpinReward extends Entity
         return $this;
     }
 
+    public function isExpired() {
+        return $this->expires_at < (new DateTime());
+    }
+
     protected function getCreateQuery(...$criteria)
     {
         if (count($criteria) != 4
@@ -95,7 +99,7 @@ class UserSpinReward extends Entity
             || intval($criteria[0]) == 0) {
             throw new InvalidArgumentException("Insufficient criteria for READ operation.");
         }
-        return "SELECT rp.id, rp.product_id, rp.rare_rate, rp.percent, p.name, p.price, pi.path image_name
+        return "SELECT rp.id, rp.product_id, rp.rare_rate, rp.percent, p.name, p.price, pi.path image_name, usr.expires_at
                 FROM `rewardable_products` rp
                 JOIN user_spin_rewards usr ON usr.reward_id = rp.id
                 JOIN product p ON p.id = rp.product_id
@@ -126,6 +130,7 @@ class UserSpinReward extends Entity
     public function fromRow($row)
     {
         return $this
+            ->withExpiresAt(new DateTime($row[ConstUtils::FIELD_LABEL_EXPIRES_AT]))
             ->withProductReward((new ProductRewardable())->fromRow($row));
 
     }

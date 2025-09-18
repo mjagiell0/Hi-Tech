@@ -9,7 +9,7 @@ class ConstUtils {
     public const FIELD_LABEL_NAME = 'name';
     public const FIELD_LABEL_SECTION_ID = 'section_id';
     public const FIELD_LABEL_RECOVERY_TOKEN = 'token';
-    public const FIELD_LABEL_EXPIRATION_DATE = 'expires_at';
+    public const FIELD_LABEL_EXPIRES_AT = 'expires_at';
     public const FIELD_LABEL_CREATED_AT = 'created_at';
     public const FIELD_LABEL_USER_ID = 'user_id';
     public const BLANK_STRING = '';

@@ -128,4 +128,16 @@ class LoginService
         $dbHandler->query(new UserSpinReward(), CrudEnum::DELETE, $userId);
         $dbHandler->query(new UserSpinReward(), CrudEnum::CREATE, $userId, $rewardId, $createdAt, $expiresAt);
     }
+
+    public static function doesUserHaveReward($userId)
+    {
+        $dbHandler = DatabaseHandler::getDbHandler();
+
+        $reward = $dbHandler->query(new UserSpinReward(), CrudEnum::READ, $userId);
+
+        if (!is_null($reward)) {
+            return !$reward->isExpired();
+        }
+        return false;
+    }
 }

@@ -101,7 +101,7 @@ class RecoveryPassword extends Entity
         return (new RecoveryPassword())
             ->withUserId($row[ConstUtils::FIELD_LABEL_USER_ID])
             ->withRecoveryToken($row[ConstUtils::FIELD_LABEL_RECOVERY_TOKEN])
-            ->withExpirationDate($row[ConstUtils::FIELD_LABEL_EXPIRATION_DATE])
+            ->withExpirationDate($row[ConstUtils::FIELD_LABEL_EXPIRES_AT])
             ->withCreatedAt($row[ConstUtils::FIELD_LABEL_CREATED_AT]);
     }
 
