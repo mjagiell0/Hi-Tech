@@ -10,8 +10,7 @@ class LoginService
 
         if ($user) {
             if (password_verify($password, $user->getPassword())) {
-                $_SESSION[ConstUtils::USER_ID_LABEL] = $user->getId();
-                $_SESSION[ConstUtils::USER_EMAIL_LABEL] = $user->getEmail();
+                $_SESSION[ConstUtils::SESSION_USER] = $user;
                 return $user;
             } else {
                 throw new PasswordMismatchException();
@@ -19,6 +18,10 @@ class LoginService
         } else {
             throw new NoSuchUserException();
         }
+    }
+
+    public static function logout() {
+        unset($_SESSION[ConstUtils::SESSION_USER]);
     }
 
     public static function register($firstName, $lastName, $email, $password)
@@ -39,7 +42,7 @@ class LoginService
 
         $user = $dbHandler->query(new User(), CrudEnum::READ, $email);
         if ($user) {
-            $recoveryToken = new RecoveryPassword($email, $user->getId());
+            $recoveryToken = new RecoveryPassword();
             $recoveryToken->generateRecoveryToken();
 
             $dbHandler->query(
@@ -113,5 +116,33 @@ class LoginService
         } else {
             throw new NoSuchUserException();
         }
+    }
+
+    public static function saveReward($userId, $rewardId)
+    {
+        $dbHandler = DatabaseHandler::getDbHandler();
+
+        $createdAt = (new DateTime())->format(ConstUtils::DATETIME_FORMAT);
+        $expiresAt = (new DateTime())->modify('+1 day')->format(ConstUtils::DATETIME_FORMAT);
+
+        $dbHandler->query(new UserSpinReward(), CrudEnum::DELETE, $userId);
+        $dbHandler->query(new UserSpinReward(), CrudEnum::CREATE, $userId, $rewardId, $createdAt, $expiresAt);
+    }
+
+    public static function doesUserHaveReward($userId)
+    {
+        $dbHandler = DatabaseHandler::getDbHandler();
+
+        $reward = $dbHandler->query(new UserSpinReward(), CrudEnum::READ, $userId);
+
+        if (!is_null($reward)) {
+            return !$reward->isExpired();
+        }
+        return false;
+    }
+
+    public static function getUserReward($userId)
+    {
+        return DatabaseHandler::getDbHandler()->query(new UserSpinReward(), CrudEnum::READ, $userId);
     }
 }

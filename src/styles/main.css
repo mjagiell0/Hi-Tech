@@ -1,6 +1,7 @@
-@import url('/Hi-Tech/src/pages/login/login.css');
-@import url('/Hi-Tech/src/pages/forgot_password/forgot_password.css');
-@import url('/Hi-Tech/src/pages/reset_password/reset_password.css');
+@import url('../pages/login/login.css');
+@import url('../pages/forgot_password/forgot_password.css');
+@import url('../pages/reset_password/reset_password.css');
+@import url('../pages/main/main.css');
 
 *{
     margin: 0;

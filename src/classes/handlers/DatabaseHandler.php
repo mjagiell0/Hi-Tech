@@ -15,8 +15,9 @@ class DatabaseHandler {
 
     public function __construct($url, $username, $password, $database, $port = 3306) {
         $this->connection = new mysqli($url, $username, $password, $database, $port);
+
         if ($this->connection->connect_error) {
-            die("Connection failed: " . $this->connection->connect_error);
+            throw new RuntimeException("Connection failed: " . $this->connection->connect_error);
         }
     }
 
@@ -26,8 +27,8 @@ class DatabaseHandler {
         }
     }
 
-    public function query(Entity $querable, CrudEnum $crudType, ...$criteria) {
-        $query = $querable->getQuery($crudType, ...$criteria);
+    public function query(Entity $entity, CrudEnum $crudType, ...$criteria) {
+        $query = $entity->getQuery($crudType, ...$criteria);
 
         $stmt = $this->connection->prepare($query);
 
@@ -41,6 +42,17 @@ class DatabaseHandler {
 
         $stmt->execute();
 
-        return $crudType === CrudEnum::READ ? $querable->fromResult($stmt->get_result()) : null;
+        if ($crudType === CrudEnum::READ) {
+            $results = $entity->getResults($stmt->get_result());
+            if (!is_null($results)) {
+                if (count($results) === 1) {
+                    return $results[0];
+                } else {
+                    return $results;
+                }
+            }
+        }
+
+        return null;
     }
 }

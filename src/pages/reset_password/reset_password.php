@@ -6,7 +6,7 @@ include_once '../../classes/utils/ConstUtils.php';
 include_once '../../classes/services/LoginService.php';
 include_once '../../classes/exceptions/NoTokenFoundException.php';
 include_once '../../classes/exceptions/ExpiredTokenException.php';
-include_once '../../classes/DatabaseHandler.php';
+include_once '../../classes/handlers/DatabaseHandler.php';
 include_once '../../classes/utils/ConstUtils.php';
 include_once '../../classes/entities/RecoveryPassword.php';
 

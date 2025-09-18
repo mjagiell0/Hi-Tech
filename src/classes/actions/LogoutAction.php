@@ -1,13 +1,13 @@
 <?php
 include_once '../../classes/utils/ConstUtils.php';
 
-
 if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
     include_once '../abstracts/Entity.php';
     include_once '../../classes/exceptions/NoSuchUserException.php';
     include_once '../enums/CrudEnum.php';
     include_once '../../classes/exceptions/PasswordMismatchException.php';
     include_once '../../classes/entities/User.php';
+
     include_once '../../classes/handlers/DatabaseHandler.php';
     include_once '../../classes/Services/LoginService.php';
     require_once __DIR__ . '/../../../vendor/autoload.php';
@@ -16,19 +16,10 @@ if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
     $dotenv->load();
     session_start();
 
+    $loginService = new LoginService();
 
-    $email = $_POST[ConstUtils::FIELD_LABEL_EMAIL];
-    $password = $_POST[ConstUtils::FIELD_LABEL_PASSWORD];
-
-    try {
-        LoginService::login($email, $password);
-    } catch (NoSuchUserException $e) {
-        echo 'no user';
-    } catch (PasswordMismatchException $e) {
-        echo 'password mismatch';
+    if (isset($_SESSION[ConstUtils::SESSION_USER])) {
+        LoginService::logout();
     }
-
-    if ($_SESSION[ConstUtils::SESSION_USER]) {
-        header('Location: ../../pages/main/main.php');
-    }
+    header('Location: ../../pages/main/main.php');
 }

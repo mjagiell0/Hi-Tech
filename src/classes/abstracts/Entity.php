@@ -2,18 +2,23 @@
 
 abstract class Entity {
     public function getQuery(CrudEnum $crudType, ...$criteria) {
-        switch ($crudType) {
-            case CrudEnum::CREATE:
-                return $this->getCreateQuery(...$criteria);
-            case CrudEnum::READ:
-                return $this->getReadQuery(...$criteria);
-            case CrudEnum::UPDATE:
-                return $this->getUpdateQuery(...$criteria);
-            case CrudEnum::DELETE:
-                return $this->getDeleteQuery(...$criteria);
-            default:
-                throw new InvalidArgumentException("Invalid CRUD operation type.");
+        return match ($crudType) {
+            CrudEnum::CREATE => $this->getCreateQuery(...$criteria),
+            CrudEnum::READ => $this->getReadQuery(...$criteria),
+            CrudEnum::UPDATE => $this->getUpdateQuery(...$criteria),
+            CrudEnum::DELETE => $this->getDeleteQuery(...$criteria),
+        };
+    }
+
+    public function getResults($results)
+    {
+        $objects = [];
+
+        while ($row = $results->fetch_assoc()) {
+            $objects[] = $this->fromRow($row);
         }
+
+        return empty($objects) ? null : $objects;
     }
 
     abstract protected function getCreateQuery(...$criteria);
@@ -24,7 +29,9 @@ abstract class Entity {
     
     abstract protected function getDeleteQuery(...$criteria);
 
-    abstract public function fromResult($row);
+    abstract protected function fromRow($row);
+
+    abstract public function prepareToDisplay();
 
     abstract public function getTableName();
 }

@@ -41,8 +41,8 @@ class RecoveryPassword extends Entity
     public function generateRecoveryToken()
     {
         $this->recoveryToken = bin2hex(random_bytes(16));
-        $this->expirationDate = (new DateTime())->modify('+1 hour')->format('Y-m-d H:i:s');
-        $this->createdAt = (new DateTime())->format('Y-m-d H:i:s');
+        $this->expirationDate = (new DateTime())->modify('+1 hour')->format(ConstUtils::DATETIME_FORMAT);
+        $this->createdAt = (new DateTime())->format(ConstUtils::DATETIME_FORMAT);
     }
 
     public function getRecoveryToken()
@@ -67,7 +67,12 @@ class RecoveryPassword extends Entity
 
     protected function getCreateQuery(...$criteria)
     {
-        if (count($criteria) < 4) {
+        if (count($criteria) != 4 ||
+            !is_int($criteria[0]) ||
+            !is_string($criteria[1]) ||
+            !is_string($criteria[2]) ||
+            !is_string($criteria[3])
+        ) {
             throw new InvalidArgumentException("Insufficient criteria for CREATE operation.");
         }
         return "INSERT INTO recovery_password (user_id, token, expires_at, created_at) VALUES (?, ?, ?, ?)";
@@ -75,7 +80,7 @@ class RecoveryPassword extends Entity
 
     protected function getReadQuery(...$criteria)
     {
-        if (count($criteria) != 1) {
+        if (count($criteria) != 1 || !is_string($criteria[0])) {
             throw new InvalidArgumentException("Insufficient criteria for READ operation.");
         }
         return "SELECT user_id, token, expires_at, created_at FROM recovery_password WHERE token = ?";
@@ -85,26 +90,28 @@ class RecoveryPassword extends Entity
 
     protected function getDeleteQuery(...$criteria)
     {
-        if (count($criteria) != 1) {
+        if (count($criteria) != 1 || intval($criteria[0]) === 0) {
             throw new InvalidArgumentException("Insufficient criteria for DELETE operation.");
         }
         return "DELETE FROM recovery_password WHERE user_id = ?";
     }
 
-    public function fromResult($result)
+    public function fromRow($row)
     {
-        if ($row = $result->fetch_assoc()) {
-            return $this
-                ->withUserId($row[ConstUtils::FIELD_LABEL_USER_ID])
-                ->withRecoveryToken($row[ConstUtils::FIELD_LABEL_RECOVERY_TOKEN])
-                ->withExpirationDate($row[ConstUtils::FIELD_LABEL_EXPIRATION_DATE])
-                ->withCreatedAt($row[ConstUtils::FIELD_LABEL_CREATED_AT]);
-        }
-        return null;
+        return (new RecoveryPassword())
+            ->withUserId($row[ConstUtils::FIELD_LABEL_USER_ID])
+            ->withRecoveryToken($row[ConstUtils::FIELD_LABEL_RECOVERY_TOKEN])
+            ->withExpirationDate($row[ConstUtils::FIELD_LABEL_EXPIRES_AT])
+            ->withCreatedAt($row[ConstUtils::FIELD_LABEL_CREATED_AT]);
     }
 
     public function getTableName()
     {
         return 'recovery_password';
+    }
+
+    public function prepareToDisplay()
+    {
+        // TODO: Implement prepareToDisplay() method.
     }
 }

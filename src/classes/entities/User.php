@@ -74,9 +74,9 @@ class User extends Entity
 
     protected function getReadQuery(...$criteria)
     {
-        if (!filter_var($criteria[0], FILTER_VALIDATE_EMAIL)) {
-            if (!filter_var($criteria[0], FILTER_VALIDATE_INT)) {
-                throw new InvalidArgumentException("Invalid argument. Enter value in email or id format. ");
+        if (!filter_var($criteria[0], FILTER_VALIDATE_EMAIL) || count($criteria) != 1) {
+            if (!filter_var($criteria[0], FILTER_VALIDATE_INT) || count($criteria) != 1) {
+                throw new InvalidArgumentException("Insufficient criteria for READ operation.");
             }
             return "SELECT id, firstname, lastname, email, password FROM user WHERE id = ?";
         }
@@ -85,7 +85,7 @@ class User extends Entity
 
     protected function getCreateQuery(...$criteria)
     {
-        if (count($criteria) < 4 ||
+        if (count($criteria) != 4 ||
             !is_string($criteria[0]) ||
             !is_string($criteria[1]) ||
             !filter_var($criteria[2], FILTER_VALIDATE_EMAIL) ||
@@ -97,7 +97,7 @@ class User extends Entity
 
     protected function getUpdateQuery(...$criteria)
     {
-        if (count($criteria) < 5 ||
+        if (count($criteria) != 5 ||
             !is_string($criteria[0]) ||
             !is_string($criteria[1]) ||
             !filter_var($criteria[2], FILTER_VALIDATE_EMAIL) ||
@@ -113,17 +113,15 @@ class User extends Entity
         return null;
     }
 
-    public function fromResult($result)
+    public function fromRow($row)
     {
-        if ($row = $result->fetch_assoc()) {
-            return $this
-                ->withId($row[ConstUtils::FIELD_LABEL_ID])
-                ->withFirstname($row[ConstUtils::FIELD_LABEL_FIRSTNAME])
-                ->withLastname($row[ConstUtils::FIELD_LABEL_LASTNAME])
-                ->withEmail($row[ConstUtils::FIELD_LABEL_EMAIL])
-                ->withPassword($row[ConstUtils::FIELD_LABEL_PASSWORD]);
-        }
-        throw new NoSuchUserException();
+        return (new User())
+            ->withId($row[ConstUtils::FIELD_LABEL_ID])
+            ->withFirstname($row[ConstUtils::FIELD_LABEL_FIRSTNAME])
+            ->withLastname($row[ConstUtils::FIELD_LABEL_LASTNAME])
+            ->withEmail($row[ConstUtils::FIELD_LABEL_EMAIL])
+            ->withPassword($row[ConstUtils::FIELD_LABEL_PASSWORD]);
+
     }
 
     public function getTableName()
@@ -134,5 +132,12 @@ class User extends Entity
     public function __toString()
     {
         return "User [id={$this->id}, firstname={$this->firstname}, lastname={$this->lastname}, email={$this->email}]";
+    }
+
+    public function prepareToDisplay()
+    {
+        $this->firstname = htmlspecialchars($this->firstname, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $this->lastname = htmlspecialchars($this->lastname, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $this->email = htmlspecialchars($this->email, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
 }
