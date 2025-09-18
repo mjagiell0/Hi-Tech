@@ -5,8 +5,12 @@
 include_once "../../classes/utils/ConstUtils.php";
 $sectionId = $_GET[ConstUtils::FIELD_LABEL_ID] ?? '';
 
-if (intval($sectionId) === 0) {
-    header('Location: ../main/main.php');
+if ($sectionId != '') {
+    if (intval($sectionId) === 0) {
+        header('Location: ../main/main.php');
+    }
+} else {
+
 }
 
 include_once "../../classes/enums/CrudEnum.php";
@@ -23,6 +27,7 @@ $dotenv->load();
 session_start();
 
 $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
+$categories = ProductService::getCategories($sectionId);
 ?>
 <html lang="pl">
 <head>
@@ -35,8 +40,25 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
 <body>
 <?php include_once "../../components/header.php" ?>
 
-<main style="padding: 20px; text-align: center;">
-    
+<main style="padding: 20px; text-align: center; margin: 0 auto">
+    <?php if (empty($categories)): ?>
+        <p>Brak dostępnych kategorii w tej sekcji.</p>
+    <?php else:
+        $sectionName = $categories[0]->getSectionName();
+        ?>
+        <div class="actual-path">
+            <a class="actual-path-link" href="section.php?id=<?=$sectionId?>"><?=$sectionName?></a>/
+        </div>
+        <h2 class="section-title"><?= $sectionName ?></h2>
+        <div class="category-grid">
+            <?php foreach ($categories as $category):?>
+                <a href="../products/products.php?category_id=<?= $category->getId() ?>" class="category-card">
+                    <img src="../../assets/images/<?= $category->getImagePath() ?>" alt="<?= $category->getName() ?>">
+                    <h3><?= $category->getName() ?></h3>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </main>
 <?php include_once "../../components/footer.php" ?>
 </body>

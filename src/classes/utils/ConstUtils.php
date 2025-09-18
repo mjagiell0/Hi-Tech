@@ -35,4 +35,5 @@ class ConstUtils {
     public const FIELD_LABEL_PERCENT = 'percent';
     public const REWARD_PRODUCT_ID = 'reward_product_id';
     public const NEXT_SPIN_DATE_FORMAT = 'Y-m-d H:i';
+    public const FIELD_LABEL_SECTION_NAME = 'section_name';
 }
