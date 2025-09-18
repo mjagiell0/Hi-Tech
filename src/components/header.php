@@ -1,3 +1,6 @@
+<?php
+$sections = ProductService::getSections();
+?>
 <header>
     <div class="top-bar">
         <div class="header--logo">

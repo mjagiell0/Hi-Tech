@@ -24,7 +24,6 @@ $dotenv->load();
 session_start();
 
 $discountedProducts = ProductService::getProductsWithDiscounts();
-$sections = ProductService::getSections();
 $opinions = ProductService::getBestOpinions();
 
 $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
