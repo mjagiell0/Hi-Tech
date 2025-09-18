@@ -24,14 +24,19 @@ $status = $_GET[ConstUtils::STATUS] ?? '';
     <?php if ($status !== ''): ?>
         <div class="password-reset-notification">
             <?php if ($status === ConstUtils::STATUS_SUCCESS): ?>
-                Rejestracja przebiegła pomyślnie. Zaloguj się na podane dane.
+                Rejestracja przebiegła pomyślnie. Zaloguj się na podane dane.<br>
+                <a href="../login/login.php" class="password-reset-back-link">
+                    < Powrót do logowania</a>
             <?php elseif ($status === ConstUtils::STATUS_ERROR_EMAIL_IN_USE): ?>
-                Użytkownik o podanym adresie email już istnieje.
+                Użytkownik o podanym adresie email już istnieje.<br>
+                <a href="./register.php" class="password-reset-back-link">
+                    < Spróbuj ponownie z innymi danymi.</a>
             <?php elseif ($status === ConstUtils::STATUS_ERROR): ?>
-                Wystąpił błąd podczas próby rejestracji. Proszę spróbować ponownie później.
+                Wystąpił błąd podczas próby rejestracji.<br>
+                <a href="./register.php" class="password-reset-back-link">
+                    < Spróbuj ponownie.</a>
             <?php endif; ?>
-            <a href="../login/login.php" class="password-reset-back-link">
-                < Powrót do logowania</a>
+
         </div>
     <?php endif; ?>
     <?php if ($status === ''): ?>

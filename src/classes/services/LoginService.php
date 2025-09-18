@@ -28,12 +28,12 @@ class LoginService
     {
         $dbHandler = DatabaseHandler::getDbHandler();
 
-        try {
-            $dbHandler->query(new User(), CrudEnum::READ, $email);
+        $user = $dbHandler->query(new User(), CrudEnum::READ, $email);
+        if (!is_null($user)) {
+            echo $user->getFirstName();
             throw new EmailInUseException();
-        } catch (NoSuchUserException) {
-            $dbHandler->query(new User(), CrudEnum::CREATE, $firstName, $lastName, $email, password_hash($password, PASSWORD_DEFAULT));
         }
+        $dbHandler->query(new User(), CrudEnum::CREATE, $firstName, $lastName, $email, password_hash($password, PASSWORD_DEFAULT));
     }
 
     public static function recoverPassword($email): void
