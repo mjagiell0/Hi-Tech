@@ -5,12 +5,8 @@
 include_once "../../classes/utils/ConstUtils.php";
 $sectionId = $_GET[ConstUtils::FIELD_LABEL_ID] ?? '';
 
-if ($sectionId != '') {
-    if (intval($sectionId) === 0) {
-        header('Location: ../main/main.php');
-    }
-} else {
-
+if (intval($sectionId) === 0) {
+    header('Location: ../main/main.php');
 }
 
 include_once "../../classes/enums/CrudEnum.php";
@@ -35,7 +31,7 @@ $categories = ProductService::getCategories($sectionId);
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Sklep z elektroniką</title>
     <link rel="stylesheet" href="../../styles/main.css"/>
-    <script src="section.js" defer></script>
+    <script src="../main/main.js" defer></script>
 </head>
 <body>
 <?php include_once "../../components/header.php" ?>
@@ -52,7 +48,7 @@ $categories = ProductService::getCategories($sectionId);
         <h2 class="section-title"><?= $sectionName ?></h2>
         <div class="category-grid">
             <?php foreach ($categories as $category):?>
-                <a href="../products/products.php?category_id=<?= $category->getId() ?>" class="category-card">
+                <a href="../category/category.php?id=<?= $category->getId() ?>" class="category-card">
                     <img src="../../assets/images/<?= $category->getImagePath() ?>" alt="<?= $category->getName() ?>">
                     <h3><?= $category->getName() ?></h3>
                 </a>

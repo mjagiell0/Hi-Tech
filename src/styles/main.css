@@ -3,6 +3,7 @@
 @import url('../pages/reset_password/reset_password.css');
 @import url('../pages/main/main.css');
 @import url('../pages/section/section.css');
+@import url('../pages/category/category.css');
 
 *{
     margin: 0;

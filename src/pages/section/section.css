@@ -63,6 +63,8 @@
     display: flex;
     flex-direction: row;
     color: #8b8b8b;
+    gap: 4px;
+    padding-bottom: 5px;
 }
 
 .actual-path a{

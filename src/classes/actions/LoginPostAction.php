@@ -23,9 +23,9 @@ if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
     try {
         LoginService::login($email, $password);
     } catch (NoSuchUserException $e) {
-        echo 'no user';
+        header('Location: ../../pages/login/login.php?status='.ConstUtils::STATUS_ERROR_NO_USER);
     } catch (PasswordMismatchException $e) {
-        echo 'password mismatch';
+        header('Location: ../../pages/login/login.php?status='.ConstUtils::STATUS_ERROR);
     }
 
     if ($_SESSION[ConstUtils::SESSION_USER]) {

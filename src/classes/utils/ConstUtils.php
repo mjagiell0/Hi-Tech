@@ -1,5 +1,6 @@
 <?php
-class ConstUtils {
+class ConstUtils
+{
     // Constants
     public const FIELD_LABEL_ID = 'id';
     public const FIELD_LABEL_FIRSTNAME = 'firstname';
@@ -36,4 +37,12 @@ class ConstUtils {
     public const REWARD_PRODUCT_ID = 'reward_product_id';
     public const NEXT_SPIN_DATE_FORMAT = 'Y-m-d H:i';
     public const FIELD_LABEL_SECTION_NAME = 'section_name';
+    public const FIELD_LABEL_DESCRIPTION = 'description';
+    public const FIELD_LABEL_ARCHIVED = 'archived';
+    public const FIELD_LABEL_CATEGORY_ID = 'category_id';
+    public const FIELD_LABEL_CATEGORY_NAME = 'category_name';
+    public const RECORD_PER_PAGE = 12;
+    public const FIELD_LABEL_AVG_OPINION = 'average_rating';
+    public const FIELD_LABEL_OPINION_COUNT = 'opinion_count';
+    public const FIELD_LABEL_QUANTITY = 'quantity';
 }

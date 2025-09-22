@@ -79,6 +79,12 @@
     align-items: center;
 }
 
+.logo-container a {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
 .logo {
     width: 40%;
     height: auto;
@@ -116,4 +122,14 @@
     font-size: 0.9rem;
     font-weight: lighter;
     color: #8b8b8b;
+}
+
+.error-banner {
+    background-color: #ffdddd;
+    color: #a94442;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ebccd1;
+    border-radius: 4px;
+    text-align: center;
 }

@@ -3,9 +3,9 @@ $sections = ProductService::getSections();
 ?>
 <header>
     <div class="top-bar">
-        <div class="header--logo">
+        <a href="../main/main.php" class="header--logo">
             <img src="../../assets/logo.png" alt="Logo Sklepu">
-        </div>
+        </a>
 
         <div class="search-bar">
             <input type="text" placeholder="Szukaj produktów...">

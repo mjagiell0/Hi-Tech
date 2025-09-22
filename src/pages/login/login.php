@@ -13,13 +13,22 @@
     <div class="container">
         <div class="content-container">
             <div class="logo-container">
-                <img class="logo" src="../../assets/logo.png" alt="Logo">
+                <a href="../../pages/main/main.php">
+                    <img class="logo" src="../../assets/logo.png" alt="Logo">
+                </a>
             </div>
-
             <div class="login-form-container">
                 <div class="login-title">
                     <h1>Zaloguj się</h1>
                 </div>
+                <?php
+                $status = $_GET['status'] ?? null;
+                if ($status === 'error') {
+                    echo '<div class="error-banner">Nieprawidłowe hasło. Spróbuj ponownie.</div>';
+                } elseif ($status === 'error_no_user') {
+                    echo '<div class="error-banner">Użytkownik o podanym adresie email nie istnieje.</div>';
+                }
+                ?>
                 <form class="login-form" id="loginForm" action="../../classes/actions/LoginPostAction.php" method="post" novalidate>
                     <div class="input-container">
                         <input class="email-input" type="email" id="email" name="email" placeholder="Email">
@@ -41,7 +50,6 @@
             </div>
         </div>
     </div>
-
 </body>
 
 </html>

@@ -14,9 +14,9 @@ class ProductService
         return $records;
     }
 
-    public static function getCategories($section_id)
+    public static function getCategories($sectionId)
     {
-        return self::dataRetriever(new Category(), $section_id);
+        return self::dataRetriever(new Category(), $sectionId);
     }
 
     public static function getSections()
@@ -36,5 +36,12 @@ class ProductService
 
     public static function getRewardableProducts() {
         return self::dataRetriever(new ProductRewardable());
+    }
+
+    public static function getCategoryProducts($categoryId, $page)
+    {
+        $product = new Product();
+        $product->setPage($page);
+        return self::dataRetriever($product, $categoryId);
     }
 }
