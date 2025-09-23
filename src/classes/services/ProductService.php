@@ -1,5 +1,10 @@
 <?php
 
+if (!class_exists('Cart')) {
+    include_once '../../classes/entities/Cart.php';
+    include_once '../../classes/entities/CartProduct.php';
+}
+
 class ProductService
 {
     private static function dataRetriever(Entity $entity, ...$criteria)

@@ -1,5 +1,6 @@
 <?php
-include_once '../../classes/utils/ConstUtils.php';
+
+
 
 
 if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
@@ -19,16 +20,20 @@ if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
 
     $email = $_POST[ConstUtils::FIELD_LABEL_EMAIL];
     $password = $_POST[ConstUtils::FIELD_LABEL_PASSWORD];
+    $status = '';
 
     try {
         LoginService::login($email, $password);
     } catch (NoSuchUserException $e) {
+        $status = ConstUtils::STATUS_ERROR_NO_USER;
         header('Location: ../../pages/login/login.php?status='.ConstUtils::STATUS_ERROR_NO_USER);
     } catch (PasswordMismatchException $e) {
+        $status = ConstUtils::STATUS_ERROR;
         header('Location: ../../pages/login/login.php?status='.ConstUtils::STATUS_ERROR);
     }
 
     if ($_SESSION[ConstUtils::SESSION_USER]) {
-        header('Location: ../../pages/main/main.php');
+        $url = $_SESSION[ConstUtils::PREV_PAGE];
+        header("Location: $url". ($status !== '' ? '?status='.$status : ''));
     }
 }

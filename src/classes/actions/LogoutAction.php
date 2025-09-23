@@ -21,5 +21,6 @@ if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
     if (isset($_SESSION[ConstUtils::SESSION_USER])) {
         LoginService::logout();
     }
-    header('Location: ../../pages/main/main.php');
+    $url = $_SESSION[ConstUtils::PREV_PAGE];
+    header("Location: $url");
 }

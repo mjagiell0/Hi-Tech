@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
     if (isset($_SESSION[ConstUtils::SESSION_USER])) {
         try {
             ProductService::addProductToCart($productId, $quantity);
+            $status = ConstUtils::STATUS_SUCCESS;
         } catch (NoSuchUserException $e) {
             $status = ConstUtils::STATUS_ERROR_NO_USER;
         }
