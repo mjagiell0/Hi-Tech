@@ -1,5 +1,6 @@
 <?php
 $sections = ProductService::getSections();
+$_SESSION[ConstUtils::PREV_PAGE] = ConstUtils::getCurrentUrl();
 ?>
 <header>
     <div class="top-bar">

@@ -45,4 +45,12 @@ class ConstUtils
     public const FIELD_LABEL_AVG_OPINION = 'average_rating';
     public const FIELD_LABEL_OPINION_COUNT = 'opinion_count';
     public const FIELD_LABEL_QUANTITY = 'quantity';
+    public const SESSION_USER_CART = '__session_user_cart';
+    public const PREV_PAGE = '__prev_page';
+    public static function getCurrentUrl()
+    {
+        $currentUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+        $currentUrl .= "://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        return $currentUrl;
+    }
 }

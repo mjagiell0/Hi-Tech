@@ -44,4 +44,16 @@ class ProductService
         $product->setPage($page);
         return self::dataRetriever($product, $categoryId);
     }
+
+    public static function addProductToCart($productId, $quantity) {
+        if (!isset($_SESSION[ConstUtils::SESSION_USER])) {
+            throw new NoSuchUserException();
+        }
+        $user = $_SESSION[ConstUtils::SESSION_USER];
+
+        $dbHandler = DatabaseHandler::getDBHandler();
+        $cart = $dbHandler->query(new Cart(), CrudEnum::READ, $user->getId());
+
+        $dbHandler->query(new CartProduct(), CrudEnum::CREATE, $productId, $quantity, $cart->getId());
+    }
 }

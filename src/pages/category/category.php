@@ -56,7 +56,8 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
         <h2 class="section-title"><?= $categoryName ?></h2>
         <div class="product-container">
             <?php foreach ($products as $product): ?>
-                <div class="product-card<?= $product->getDiscount() > 0 ? '--discount' : '' ?>" data-href="../product/product.php?id=<?= $product->getId() ?>">
+                <div class="product-card<?= $product->getDiscount() > 0 ? '--discount' : '' ?>"
+                     data-href="../product/product.php?id=<?= $product->getId() ?>">
                     <div class="product-image">
                         <img src="../../assets/images/<?= $product->getImageName() ?>" alt="...">
                     </div>
@@ -64,10 +65,10 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
                     <div class="product-info">
                         <h3><?= $product->getProductName() ?></h3>
                         <div class="product-rating">
-                            (<?=$product->getOpinionCount()?>)
+                            (<?= $product->getOpinionCount() ?>)
                             <?php
                             $rating = round($product->getAvgOpinion());
-                            echo '<p class="product-stars">'.str_repeat('★', $rating).'</p>' . str_repeat('★', 5 - $rating);
+                            echo '<p class="product-stars">' . str_repeat('★', $rating) . '</p>' . str_repeat('★', 5 - $rating);
                             ?>
                         </div>
 
@@ -80,17 +81,24 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
                             <?= $product->getPrice() ?>
                         </p>
                         <?php if ($product->getDiscount() > 0.0): ?>
-                            <p class="product-price--discount">(- <?=$product->getDiscount() * 100?>%) <?=$product->getPriceWithDiscount()?></p>
-                        <?php endif;?>
+                            <p class="product-price--discount">(-<?= $product->getDiscount() * 100 ?>
+                                %) <?= $product->getPriceWithDiscount() ?></p>
+                        <?php endif; ?>
                         <div class="cart-controls">
-                            <input type="number" class="quantity-input" min="1" max="<?=$product->getQuantity()?>" value="1">
+                            <input type="number" class="quantity-input" min="1" max="<?= $product->getQuantity() ?>"
+                                   value="1">
                             <button class="add-to-cart-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#FFFFFF"><path d="M456.67-608.67v-122H334v-66.66h122.67v-122h66.66v122h122v66.66h-122v122h-66.66ZM286.53-80q-30.86 0-52.7-21.97Q212-123.95 212-154.81q0-30.86 21.98-52.69 21.97-21.83 52.83-21.83t52.69 21.97q21.83 21.98 21.83 52.84 0 30.85-21.97 52.69Q317.38-80 286.53-80Zm402.66 0q-30.86 0-52.69-21.97-21.83-21.98-21.83-52.84 0-30.86 21.97-52.69 21.98-21.83 52.84-21.83 30.85 0 52.69 21.97Q764-185.38 764-154.52q0 30.85-21.97 52.69Q720.05-80 689.19-80ZM54.67-813.33V-880h121l170 362.67H630.8l158.87-280h75L698-489.33q-11 19.33-28.87 30.66-17.88 11.34-39.13 11.34H328.67l-52 96H764v66.66H282.67q-40.11 0-61.06-33-20.94-33-2.28-67L280-496 133.33-813.33H54.67Z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960"
+                                     width="30px" fill="#FFFFFF">
+                                    <path d="M456.67-608.67v-122H334v-66.66h122.67v-122h66.66v122h122v66.66h-122v122h-66.66ZM286.53-80q-30.86 0-52.7-21.97Q212-123.95 212-154.81q0-30.86 21.98-52.69 21.97-21.83 52.83-21.83t52.69 21.97q21.83 21.98 21.83 52.84 0 30.85-21.97 52.69Q317.38-80 286.53-80Zm402.66 0q-30.86 0-52.69-21.97-21.83-21.98-21.83-52.84 0-30.86 21.97-52.69 21.98-21.83 52.84-21.83 30.85 0 52.69 21.97Q764-185.38 764-154.52q0 30.85-21.97 52.69Q720.05-80 689.19-80ZM54.67-813.33V-880h121l170 362.67H630.8l158.87-280h75L698-489.33q-11 19.33-28.87 30.66-17.88 11.34-39.13 11.34H328.67l-52 96H764v66.66H282.67q-40.11 0-61.06-33-20.94-33-2.28-67L280-496 133.33-813.33H54.67Z"/>
+                                </svg>
                             </button>
                         </div>
-
-
                     </div>
+                    <form class="add-to-cart-form" style="display: none;">
+                        <input type="hidden" name="product_id" value="<?= $product->getId() ?>">
+                        <input type="hidden" name="quantity" value="1">
+                    </form>
                 </div>
             <?php endforeach; ?>
         </div>
