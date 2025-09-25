@@ -1,7 +1,5 @@
 <?php
-
-
-
+include_once '../utils/ConstUtils.php';
 
 if ($_SERVER[ConstUtils::REQUEST_METHOD] === ConstUtils::POST_METHOD) {
     include_once '../abstracts/Entity.php';

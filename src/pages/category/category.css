@@ -253,6 +253,19 @@
     pointer-events: none;
 }
 
+.product-card .cart-controls,
+.product-card--discount .cart-controls {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.product-card:hover .cart-controls,
+.product-card--discount:hover .cart-controls {
+    opacity: 1;
+    visibility: visible;
+}
+
 
 @media (max-width: 560px) {
     .product-image img {

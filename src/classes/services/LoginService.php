@@ -35,7 +35,6 @@ class LoginService
         }
         $dbHandler->query(new User(), CrudEnum::CREATE, $firstName, $lastName, $email, password_hash($password, PASSWORD_DEFAULT));
         $user = $dbHandler->query(new User(), CrudEnum::READ, $email);
-        $dbHandler->query(new Cart(), CrudEnum::CREATE, $user->getId());
     }
 
     public static function recoverPassword($email): void

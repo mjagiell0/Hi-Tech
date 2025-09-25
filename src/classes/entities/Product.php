@@ -16,7 +16,7 @@ class Product extends Entity
     private $avgOpinion;
     private $opinionCount;
     private $discount;
-    private $quantity;
+    private $stockQuantity;
 
     public function getId()
     {
@@ -89,9 +89,19 @@ class Product extends Entity
         return $this->discount;
     }
 
-    public function getQuantity()
+    public function getStockQuantity()
     {
-        return $this->quantity;
+        return $this->stockQuantity;
+    }
+
+    public function getPriceValue()
+    {
+        return $this->price;
+    }
+
+    public function getPriceWithDiscountValue()
+    {
+        return $this->price - ($this->price * $this->discount);
     }
 
     public function withId($id)
@@ -172,9 +182,9 @@ class Product extends Entity
         return $this;
     }
 
-    public function withQuantity($quantity)
+    public function withStockQuantity($quantity)
     {
-        $this->quantity = $quantity;
+        $this->stockQuantity = $quantity;
         return $this;
     }
 
@@ -199,7 +209,7 @@ class Product extends Entity
         $offset = ($this->page - 1) * $limit;
 
 
-        return "SELECT p.id, p.name, p.description, p.stock_quantity quantity,p.producent, p.price, p.archived, pi.path image_name, 
+        return "SELECT p.id, p.name, p.description, p.stock_quantity,p.producent, p.price, p.archived, pi.path image_name, 
                 COALESCE(ROUND(AVG(o.stars), 1), 0) average_rating, COUNT(o.id) opinion_count, c.id AS category_id,
                 c.name category_name, s.id AS section_id, s.name section_name, COALESCE(d.percent, 0) discount
                 FROM product p
@@ -239,7 +249,7 @@ class Product extends Entity
             ->withAvgOpinion($row[ConstUtils::FIELD_LABEL_AVG_OPINION])
             ->withOpinionCount($row[ConstUtils::FIELD_LABEL_OPINION_COUNT])
             ->withDiscount($row[ConstUtils::FIELD_LABEL_DISCOUNT])
-            ->withQuantity($row[ConstUtils::FIELD_LABEL_QUANTITY]);
+            ->withStockQuantity($row[ConstUtils::FIELD_LABEL_STOCK_QUANTITY]);
     }
 
     public function prepareToDisplay()

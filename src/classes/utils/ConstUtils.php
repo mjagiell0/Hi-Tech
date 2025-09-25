@@ -47,6 +47,9 @@ class ConstUtils
     public const FIELD_LABEL_QUANTITY = 'quantity';
     public const SESSION_USER_CART = '__session_user_cart';
     public const PREV_PAGE = '__prev_page';
+    public const FIELD_LABEL_STOCK_QUANTITY = 'stock_quantity';
+    public const FIELD_LABEL_DO_MERGE = 'merge';
+
     public static function getCurrentUrl()
     {
         $currentUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");

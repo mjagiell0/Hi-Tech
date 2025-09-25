@@ -22,7 +22,6 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../'); // Ścieżka d
 $dotenv->load();
 
 session_start();
-
 $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
 $page = isset($_GET['page']) && intval($_GET['page']) > 0 ? intval($_GET['page']) : 1;
 $products = ProductService::getCategoryProducts($categoryId, $page);
@@ -71,11 +70,8 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
                             echo '<p class="product-stars">' . str_repeat('★', $rating) . '</p>' . str_repeat('★', 5 - $rating);
                             ?>
                         </div>
-
-
                         <p class="product-producer">Producent: <?= $product->getProducent() ?></p>
                     </div>
-
                     <div class="product-price-box">
                         <p class="product-price<?= $product->getDiscount() > 0 ? '--line-through' : '' ?>">
                             <?= $product->getPrice() ?>
@@ -85,7 +81,8 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
                                 %) <?= $product->getPriceWithDiscount() ?></p>
                         <?php endif; ?>
                         <div class="cart-controls">
-                            <input type="number" class="quantity-input" min="1" max="<?= $product->getQuantity() ?>"
+                            <input type="number" class="quantity-input" min="1"
+                                   max="<?= $product->getStockQuantity() ?>"
                                    value="1">
                             <button class="add-to-cart-button">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960"
@@ -96,8 +93,14 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
                         </div>
                     </div>
                     <form class="add-to-cart-form" style="display: none;">
-                        <input type="hidden" name="product_id" value="<?= $product->getId() ?>">
-                        <input type="hidden" name="quantity" value="1">
+                        <input type="hidden" name="<?=ConstUtils::FIELD_LABEL_PRODUCT_ID?>" value="<?= $product->getId() ?>">
+                        <input type="hidden" name="<?=ConstUtils::FIELD_LABEL_QUANTITY?>" value="1">
+                        <input type="hidden" name="<?=ConstUtils::FIELD_LABEL_NAME?>" value="<?= $product->getProductName() ?>">
+                        <input type="hidden" name="<?=ConstUtils::FIELD_LABEL_STOCK_QUANTITY?>" value="<?= $product->getStockQuantity() ?>">
+                        <input type="hidden" name="<?=ConstUtils::FIELD_LABEL_PRICE?>" value="<?= $product->getPriceValue() ?>">
+                        <input type="hidden" name="<?=ConstUtils::FIELD_LABEL_IMAGE_NAME?>" value="<?= $product->getImageName() ?>">
+                        <input type="hidden" name="<?=ConstUtils::FIELD_LABEL_PRODUCENT?>" value="<?= $product->getProducent() ?>">
+                        <input type="hidden" name="<?=ConstUtils::FIELD_LABEL_DISCOUNT?>" value="<?= $product->getDiscount() ?>">
                     </form>
                 </div>
             <?php endforeach; ?>
@@ -106,19 +109,16 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
         $totalProducts = count($products);
         $totalPages = ceil($totalProducts / ConstUtils::RECORD_PER_PAGE);
         ?>
-
         <div class="pagination">
             <?php if ($page > 1): ?>
                 <a href="?id=<?= $categoryId ?>&page=<?= $page - 1 ?>" class="pagination-button">« Poprzednia</a>
             <?php endif; ?>
-
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                 <a href="?id=<?= $categoryId ?>&page=<?= $i ?>"
                    class="pagination-button <?= $i === $page ? 'active' : '' ?>">
                     <?= $i ?>
                 </a>
             <?php endfor; ?>
-
             <?php if ($page < $totalPages): ?>
                 <a href="?id=<?= $categoryId ?>&page=<?= $page + 1 ?>" class="pagination-button">Następna »</a>
             <?php endif; ?>

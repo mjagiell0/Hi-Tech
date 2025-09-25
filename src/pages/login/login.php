@@ -1,3 +1,10 @@
+<?php
+include_once '../../classes/utils/ConstUtils.php';
+session_start();
+if (isset($_SESSION[ConstUtils::SESSION_USER])) {
+    header('location: ../main/main.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="pl">
 

@@ -17,11 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
     $dotenv->load();
     session_start();
 
-    $productId = $_POST['product_id'];
-    $quantity = $_POST['quantity'];
+    $productId = $_POST[ConstUtils::FIELD_LABEL_PRODUCT_ID];
+    $quantity = $_POST[ConstUtils::FIELD_LABEL_QUANTITY];
+
     $status = '';
 
     if (isset($_SESSION[ConstUtils::SESSION_USER])) {
+        $user = $_SESSION[ConstUtils::SESSION_USER];
         try {
             ProductService::addProductToCart($productId, $quantity);
             $status = ConstUtils::STATUS_SUCCESS;
@@ -30,26 +32,33 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
         }
     } else {
         $cart = $_SESSION[ConstUtils::SESSION_USER_CART] ?? [];
+        if (isset($cart[$productId])) {
+            $currQuantity = $cart[$productId]->getQuantity();
+            $currQuantity += $quantity;
+            $cart[$productId]->withQuantity(min($currQuantity, $cart[$productId]->getStockQuantity()));
+        } else {
+            $price = $_POST[ConstUtils::FIELD_LABEL_PRICE];
+            $productName = $_POST[ConstUtils::FIELD_LABEL_NAME];
+            $imageName = $_POST[ConstUtils::FIELD_LABEL_IMAGE_NAME];
+            $producent = $_POST[ConstUtils::FIELD_LABEL_PRODUCENT];
+            $discount = $_POST[ConstUtils::FIELD_LABEL_DISCOUNT];
+            $stockQuantity = $_POST[ConstUtils::FIELD_LABEL_STOCK_QUANTITY];
 
-        $cart[] = [
-            'product_id' => $productId,
-            'quantity' => $quantity
-        ];
+            $cart[$productId] = (new CartProduct())
+                ->withId($productId)
+                ->withQuantity($quantity)
+                ->withPrice($price)
+                ->withProducent($producent)
+                ->withDiscount($discount)
+                ->withImageName($imageName)
+                ->withProductName($productName)
+                ->withStockQuantity($stockQuantity);
+        }
 
         $_SESSION[ConstUtils::SESSION_USER_CART] = $cart;
         $status = ConstUtils::STATUS_SUCCESS;
     }
 
-
-    if ($status === ConstUtils::STATUS_SUCCESS) {
-        echo json_encode([
-            'status' => 'success',
-            'cart' => $_SESSION[ConstUtils::SESSION_USER_CART] ?? []
-        ]);
-
-        http_response_code(200);
-    } else {
-        http_response_code(400);
-    }
+    http_response_code($status === ConstUtils::STATUS_SUCCESS ? 200 : 400);
     exit;
 }

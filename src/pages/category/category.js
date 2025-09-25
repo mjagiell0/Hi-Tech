@@ -43,9 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: formData
                 });
                 if (response.ok) {
-                    const result = await response.json();
-                    console.log('Odpowiedź z serwera:', result);
-
                     alert('Produkt dodany!');
                 } else {
                     alert('Błąd serwera');
