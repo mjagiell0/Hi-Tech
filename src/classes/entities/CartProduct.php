@@ -41,13 +41,13 @@ class CartProduct extends Product
                 || intval($criteria[1]) === 0) {
                 throw new InvalidArgumentException("Insufficient criteria for READ operation.");
             }
-            return "SELECT p.id, p.name, ci.quantity, p.price, p.stock_quantity, pi.path image_name
+            return "SELECT p.id, p.name, ci.quantity, p.price, p.stock_quantity, pi.path image_name, p.producent
                 FROM cart_item ci
                 LEFT JOIN product_image pi ON pi.product_id = ci.product_id AND pi.is_default = 1
                 JOIN product p ON ci.product_id = p.id
                 WHERE ci.product_id IN (?) AND ci.owner_id = ?;";
         }
-        return "SELECT p.id, p.name, ci.quantity, p.price, p.stock_quantity, pi.path image_name
+        return "SELECT p.id, p.name, ci.quantity, p.price, p.stock_quantity, pi.path image_name, p.producent
                 FROM cart_item ci
                 LEFT JOIN product_image pi ON pi.product_id = ci.product_id AND pi.is_default = 1
                 JOIN product p ON ci.product_id = p.id
@@ -89,7 +89,8 @@ class CartProduct extends Product
             ->withPrice($row[ConstUtils::FIELD_LABEL_PRICE])
             ->withStockQuantity($row[ConstUtils::FIELD_LABEL_STOCK_QUANTITY])
             ->withQuantity($row[ConstUtils::FIELD_LABEL_QUANTITY])
-            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME]);
+            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
+            ->withProducent($row[ConstUtils::FIELD_LABEL_PRODUCENT]);
     }
 
     public

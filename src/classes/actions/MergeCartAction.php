@@ -22,11 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
 
     if ($doMerge === 'yes') {
         ProductService::mergeCartWithAccount();
-    } else {
-        if(isset($_SESSION[ConstUtils::SESSION_USER_CART])) {
-            unset($_SESSION[ConstUtils::SESSION_USER_CART]);
-        }
+    }
+
+    if(isset($_SESSION[ConstUtils::SESSION_USER_CART])) {
+        $_SESSION[ConstUtils::SESSION_USER_CART] = [];
     }
     $url = $_SESSION[ConstUtils::PREV_PAGE];
-//    header("Location: $url");
+
+    header("Location: $url");
 }

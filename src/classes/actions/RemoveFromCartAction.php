@@ -25,4 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
     } else {
         unset($_SESSION[ConstUtils::SESSION_USER_CART][$productId]);
     }
+
+    http_response_code(200);
 }

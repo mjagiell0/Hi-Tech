@@ -51,53 +51,69 @@ $cartPage = array_slice($cart, $offset, $itemsPerPage);
 
 ?>
 
-<main style="padding: 20px; text-align: center; margin: 0 auto">
+<main class="cart-main">
     <h2 class="cart-title">Twój koszyk</h2>
-    <?php if (!empty($cart)): ?>
-        <div class="cart-list">
-            <?php foreach ($cartPage as $item): ?>
-                <div class="cart-item">
-                    <img src="../../assets/images/<?= $item->getImageName() ?>" alt="Produkt"
-                         class="cart-item-image">
-                    <div class="cart-item-details">
-                        <h3><?= $item->getProductName() ?></h3>
-                        <p class="item-producent">Producent: <?= $item->getProducent() ?></p>
-                        <label>
-                            Ilość:
-                            <input type="number"
-                                   class="cart-quantity-input"
-                                   min="1"
-                                   max="<?= $item->getStockQuantity() ?>"
-                                   value="<?= $item->getQuantity() ?>"
-                                   data-id="<?= $item->getId() ?>">
-                        </label>
+    <?php if (!empty($cart)):
+        $total = 0;
+        ?>
+        <div class="cart-layout">
+            <div>
+                <div class="cart-list">
+                    <?php foreach ($cartPage as $item):
+                        $price = $item->getPriceWithDiscountValue();
+                        $total += $price * $item->getQuantity();
+                        ?>
+                        <div class="cart-item">
+                            <img src="../../assets/images/<?= $item->getImageName() ?>" alt="Produkt"
+                                 class="cart-item-image">
+                            <div class="cart-item-details">
+                                <h3><?= $item->getProductName() ?></h3>
+                                <p class="item-producent">Producent: <?= $item->getProducent() ?></p>
+                                <label>
+                                    Ilość:
+                                    <input type="number"
+                                           class="cart-quantity-input"
+                                           min="1"
+                                           max="<?= $item->getStockQuantity() ?>"
+                                           value="<?= $item->getQuantity() ?>"
+                                           data-id="<?= $item->getId() ?>">
+                                </label>
 
-                        <?php if ($item->getDiscount() > 0): ?>
-                            <p class="price-old"><?= $item->getPrice() ?></p>
-                            <p class="price-new">( -<?= $item->getDiscount() * 100 ?>%)
-                                → <?= $item->getPriceWithDiscount() ?></p>
-                        <?php else: ?>
-                            <p class="price"><?= $item->getPrice() ?></p>
-                        <?php endif; ?>
+                                <?php if ($item->getDiscount() > 0): ?>
+                                    <p class="price-old"><?= $item->getPrice() ?></p>
+                                    <p class="price-new">( -<?= $item->getDiscount() * 100 ?>%)
+                                        → <?= $item->getPriceWithDiscount() ?></p>
+                                <?php else: ?>
+                                    <p class="price"><?= $item->getPrice() ?></p>
+                                <?php endif; ?>
+                            </div>
+                            <button class="remove-from-cart-button" data-id="<?= $item->getId() ?>">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                     fill="#FFFFFF">
+                                    <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <?php if ($totalPages > 1): ?>
+                    <div class="pagination">
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <a href="?page=<?= $i ?>"
+                               class="pagination-button<?= $i === $currentPage ? ' active' : '' ?>">
+                                <?= $i ?>
+                            </a>
+                        <?php endfor; ?>
                     </div>
-                    <button class="remove-from-cart-button" data-id="<?= $item->getId() ?>">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                             fill="#FFFFFF">
-                            <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
-                        </svg>
-                    </button>
-                </div>
-            <?php endforeach; ?>
-            <?php if ($totalPages > 1): ?>
-                <div class="pagination">
-                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <a href="?page=<?= $i ?>" class="pagination-button<?= $i === $currentPage ? ' active' : '' ?>">
-                            <?= $i ?>
-                        </a>
-                    <?php endfor; ?>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
+            </div>
 
+            <aside class="cart-summary">
+                <h4>Łączna wartość do zapłaty:</h4>
+                <h3> <?= number_format($total, 2, ',', ' ') ?> zł</h3>
+                <button class="checkout-button">Przejdź do płatności</button>
+            </aside>
         </div>
     <?php else: ?>
         <p>Twój koszyk jest pusty.</p>
@@ -117,5 +133,7 @@ $cartPage = array_slice($cart, $offset, $itemsPerPage);
         </div>
     </div>
 <?php endif; ?>
+
+<?php include_once "../../components/toast.php"; ?>
 </body>
 </html>

@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const message = sessionStorage.getItem('toastMessage');
+    const type = sessionStorage.getItem('toastType') || 'info';
+
+    if (message) {
+        showToast(message, type);
+        sessionStorage.removeItem('toastMessage');
+        sessionStorage.removeItem('toastType');
+    }
+
     document.querySelectorAll('.remove-from-cart-button').forEach(button => {
         button.addEventListener('click', async () => {
             const productId = button.dataset.id;
@@ -10,9 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: `product_id=${encodeURIComponent(productId)}`
                 });
 
-                const result = await response.json();
-                if (result.status === 'success') {
-                    location.reload(); // odświeżenie koszyka po usunięciu
+                if (response.ok) {
+                    sessionStorage.setItem('toastMessage', 'Usunięto produkt');
+                    sessionStorage.setItem('toastType', 'info');
+                    location.reload();
                 } else {
                     alert('Nie udało się usunąć produktu.');
                 }
@@ -27,12 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const productId = input.dataset.id;
             const maxValue = parseInt(input.max, 10);
             let newQuantity = parseInt(input.value, 10);
-            console.log(maxValue);
+
             if (newQuantity > maxValue) {
                 newQuantity = maxValue;
                 input.value = maxValue;
             }
-
 
             try {
                 const response = await fetch('../../classes/actions/UpdateCartQuantityAction.php', {

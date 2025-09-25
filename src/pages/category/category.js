@@ -27,7 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = button.closest('.product-card') || button.closest('.product-card--discount');
             const form = card.querySelector('.add-to-cart-form');
             const quantityInput = card.querySelector('.quantity-input');
-            const quantity = quantityInput ? quantityInput.value : 1;
+            let quantity = quantityInput ? quantityInput.value : 1;
+            const stockQuantity = form.querySelector('[name="stock_quantity"]').value;
+
+            if (parseInt(stockQuantity, 10) < parseInt(quantity,10)) {
+                quantity = stockQuantity;
+                quantityInput.value = quantity;
+            }
 
             if (!form) {
                 console.warn('Brak formularza');
@@ -43,9 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: formData
                 });
                 if (response.ok) {
-                    alert('Produkt dodany!');
+                    showToast('Produkt dodany!', 'success');
                 } else {
-                    alert('Błąd serwera');
+                    showToast('Coś poszło nie tak. Spróbuj ponownie później', 'error')
                 }
             } catch (err) {
                 console.error('Błąd sieci:', err);

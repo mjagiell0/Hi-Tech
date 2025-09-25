@@ -105,7 +105,7 @@ class ProductService
             } catch (Exception) {
                 $dbHandler->rollback();
             }
-            unset($sessionCart);
+            
         }
     }
 

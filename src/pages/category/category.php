@@ -126,5 +126,6 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
     <?php endif; ?>
 </main>
 <?php include_once "../../components/footer.php" ?>
+<?php include_once "../../components/toast.php"; ?>
 </body>
 </html>
