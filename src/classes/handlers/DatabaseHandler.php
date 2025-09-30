@@ -1,6 +1,7 @@
 <?php
 
-class DatabaseHandler {
+class DatabaseHandler
+{
     private $connection;
 
     public static function getDbHandler()
@@ -13,7 +14,8 @@ class DatabaseHandler {
         );
     }
 
-    public function __construct($url, $username, $password, $database, $port = 3306) {
+    public function __construct($url, $username, $password, $database, $port = 3306)
+    {
         $this->connection = new mysqli($url, $username, $password, $database, $port);
 
         if ($this->connection->connect_error) {
@@ -21,13 +23,30 @@ class DatabaseHandler {
         }
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         if ($this->connection) {
             $this->connection->close();
         }
     }
 
-    public function query(Entity $entity, CrudEnum $crudType, ...$criteria) {
+    public function beginTransaction()
+    {
+        $this->connection->begin_transaction();
+    }
+
+    public function commit()
+    {
+        $this->connection->commit();
+    }
+
+    public function rollback()
+    {
+        $this->connection->rollback();
+    }
+
+    public function query(Entity $entity, CrudEnum $crudType, ...$criteria)
+    {
         $query = $entity->getQuery($crudType, ...$criteria);
 
         $stmt = $this->connection->prepare($query);

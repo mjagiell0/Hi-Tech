@@ -41,7 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (password.length < 6) {
             showError("passwordError", "Hasło musi mieć co najmniej 6 znaków");
             isValid = false;
+        } else if (!/\d/.test(password)) {
+            showError("passwordError", "Hasło musi zawierać przynajmniej jedną cyfrę");
+            isValid = false;
         }
+
 
         // Sprawdzenie zgodności haseł
         if (password !== confirmPassword) {

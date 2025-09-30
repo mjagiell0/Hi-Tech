@@ -1,5 +1,6 @@
 <?php
-class ConstUtils {
+class ConstUtils
+{
     // Constants
     public const FIELD_LABEL_ID = 'id';
     public const FIELD_LABEL_FIRSTNAME = 'firstname';
@@ -35,4 +36,24 @@ class ConstUtils {
     public const FIELD_LABEL_PERCENT = 'percent';
     public const REWARD_PRODUCT_ID = 'reward_product_id';
     public const NEXT_SPIN_DATE_FORMAT = 'Y-m-d H:i';
+    public const FIELD_LABEL_SECTION_NAME = 'section_name';
+    public const FIELD_LABEL_DESCRIPTION = 'description';
+    public const FIELD_LABEL_ARCHIVED = 'archived';
+    public const FIELD_LABEL_CATEGORY_ID = 'category_id';
+    public const FIELD_LABEL_CATEGORY_NAME = 'category_name';
+    public const RECORD_PER_PAGE = 12;
+    public const FIELD_LABEL_AVG_OPINION = 'average_rating';
+    public const FIELD_LABEL_OPINION_COUNT = 'opinion_count';
+    public const FIELD_LABEL_QUANTITY = 'quantity';
+    public const SESSION_USER_CART = '__session_user_cart';
+    public const PREV_PAGE = '__prev_page';
+    public const FIELD_LABEL_STOCK_QUANTITY = 'stock_quantity';
+    public const FIELD_LABEL_DO_MERGE = 'merge';
+
+    public static function getCurrentUrl()
+    {
+        $currentUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+        $currentUrl .= "://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        return $currentUrl;
+    }
 }

@@ -34,6 +34,7 @@ class LoginService
             throw new EmailInUseException();
         }
         $dbHandler->query(new User(), CrudEnum::CREATE, $firstName, $lastName, $email, password_hash($password, PASSWORD_DEFAULT));
+        $user = $dbHandler->query(new User(), CrudEnum::READ, $email);
     }
 
     public static function recoverPassword($email): void
