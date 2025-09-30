@@ -74,7 +74,7 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
                     </div>
                     <div class="product-price-box">
                         <p class="product-price<?= $product->getDiscount() > 0 ? '--line-through' : '' ?>">
-                            <?= $product->getPrice() ?>
+                            <?= $product->getPrice() ?> zł
                         </p>
                         <?php if ($product->getDiscount() > 0.0): ?>
                             <p class="product-price--discount">(-<?= $product->getDiscount() * 100 ?>
