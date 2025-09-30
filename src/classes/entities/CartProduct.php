@@ -20,6 +20,16 @@ class CartProduct extends Product
         return $this;
     }
 
+    public function getPriceWithQuantity()
+    {
+        return number_format($this->getPriceValue() * $this->quantity, 2, ',','');
+    }
+
+    public function getPriceWithDiscountAndQuantity()
+    {
+        return number_format($this->getPriceWithDiscountValue() * $this->quantity, 2, ',','');
+    }
+
     protected function getCreateQuery(...$criteria)
     {
         if (count($criteria) != 3

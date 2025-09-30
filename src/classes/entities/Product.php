@@ -35,13 +35,13 @@ class Product extends Entity
 
     public function getPrice()
     {
-        return number_format($this->price, 2, ',');
+        return number_format($this->price, 2, ',','');
     }
 
     public function getPriceWithDiscount()
     {
         $discountedPrice = $this->price - ($this->price * $this->discount);
-        return number_format($discountedPrice, 2, ',');
+        return number_format($discountedPrice, 2, ',','');
     }
 
     public function isArchived()

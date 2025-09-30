@@ -76,15 +76,18 @@ $cartPage = array_slice($cart, $offset, $itemsPerPage);
                                            min="1"
                                            max="<?= $item->getStockQuantity() ?>"
                                            value="<?= $item->getQuantity() ?>"
-                                           data-id="<?= $item->getId() ?>">
+                                           data-id="<?= $item->getId() ?>"
+                                           data-price="<?= $item->getPrice() ?>"
+                                           data-discount="<?= $item->getDiscount() ?>">
+
                                 </label>
 
                                 <?php if ($item->getDiscount() > 0): ?>
-                                    <p class="price-old"><?= $item->getPrice() ?></p>
-                                    <p class="price-new">( -<?= $item->getDiscount() * 100 ?>%)
-                                        → <?= $item->getPriceWithDiscount() ?></p>
+                                    <p class="price-old"><?= $item->getPrice() ?> zł</p>
+                                    <p class="price-new" data-price-container>( -<?= $item->getDiscount() * 100 ?>%)
+                                        → <?= $item->getPriceWithDiscountAndQuantity() ?> zł</p>
                                 <?php else: ?>
-                                    <p class="price"><?= $item->getPrice() ?></p>
+                                    <p class="price"><?= $item->getPriceWithQuantity() ?> zł</p>
                                 <?php endif; ?>
                             </div>
                             <button class="remove-from-cart-button" data-id="<?= $item->getId() ?>">
@@ -111,7 +114,7 @@ $cartPage = array_slice($cart, $offset, $itemsPerPage);
 
             <aside class="cart-summary">
                 <h4>Łączna wartość do zapłaty:</h4>
-                <h3> <?= number_format($total, 2, ',', ' ') ?> zł</h3>
+                <h3> <?= number_format($total, 2, ',', '') ?> zł</h3>
                 <button class="checkout-button">Przejdź do płatności</button>
             </aside>
         </div>

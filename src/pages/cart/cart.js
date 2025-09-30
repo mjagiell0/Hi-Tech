@@ -50,11 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: `product_id=${encodeURIComponent(productId)}&quantity=${encodeURIComponent(newQuantity)}`
                 });
 
-                const result = await response.json();
-                if (result.status === 'success') {
+                if (response.ok) {
                     location.reload();
                 } else {
-                    alert(result.message || 'Nie udało się zaktualizować ilości.');
+                    sessionStorage.setItem('toastMessage', 'Nie udało się zaktualizować ilości.');
+                    sessionStorage.setItem('toastType', 'error');
                 }
             } catch (err) {
                 console.error('Błąd sieci:', err);
