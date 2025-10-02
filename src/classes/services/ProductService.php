@@ -123,4 +123,9 @@ class ProductService
 
         $dbHandler->query(new CartProduct(), CrudEnum::UPDATE, $quantity, $productId, $user->getId());
     }
+
+    public static function getProduct($productId)
+    {
+        return self::dataRetriever(new ProductDetail(), $productId)[0];
+    }
 }
