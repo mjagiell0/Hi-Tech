@@ -114,7 +114,7 @@ class ProductDiscount extends Entity
             ->withProducent($row[ConstUtils::FIELD_LABEL_PRODUCENT])
             ->withDiscount($row[ConstUtils::FIELD_LABEL_DISCOUNT])
             ->withPrice($row[ConstUtils::FIELD_LABEL_PRICE])
-            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME]);
+            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? ConstUtils::DEFAULT_IMAGE : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME]);
     }
 
     public function getTableName()

@@ -106,11 +106,25 @@ class Opinion extends Entity
 
     protected function getReadQuery(...$criteria)
     {
+        if (count($criteria) !== 0) {
+            if (count($criteria) !== 1
+                || intval($criteria[0]) === 0) {
+                throw new Exception("Insufficient criteria for READ operation.");
+            }
+            return "SELECT op.id, op.stars, op.comment, u.firstname, u.lastname, p.name, p.producent, p.id product_id
+                FROM opinion op 
+                    JOIN product p ON p.id = op.product_id 
+                    JOIN user u ON u.id = op.owner_id 
+                WHERE op.product_id = ?";
+        }
+
+        $MIN_STARS_VALUE = ConstUtils::MIN_STARS_VALUE;
+
         return "SELECT op.id, op.stars, op.comment, u.firstname, u.lastname, p.name, p.producent, p.id product_id
                 FROM opinion op 
                     JOIN product p ON p.id = op.product_id 
                     JOIN user u ON u.id = op.owner_id 
-                WHERE op.stars >= 4";
+                WHERE op.stars >= $MIN_STARS_VALUE";
     }
 
     protected function getUpdateQuery(...$criteria)

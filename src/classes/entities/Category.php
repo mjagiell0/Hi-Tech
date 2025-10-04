@@ -51,7 +51,7 @@ class Category extends Entity
         return $this;
     }
 
-    public function withImagePath($image_path)
+    public function withImageName($image_path)
     {
         $this->imagePath = $image_path;
         return $this;
@@ -100,7 +100,7 @@ class Category extends Entity
             ->withId($row[ConstUtils::FIELD_LABEL_ID])
             ->withName($row[ConstUtils::FIELD_LABEL_NAME])
             ->withSectionId($row[ConstUtils::FIELD_LABEL_SECTION_ID])
-            ->withImagePath(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
+            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? ConstUtils::DEFAULT_IMAGE : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
             ->withSectionName($row[ConstUtils::FIELD_LABEL_SECTION_NAME]);
     }
 

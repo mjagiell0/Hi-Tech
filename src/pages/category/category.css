@@ -83,15 +83,9 @@
     color: #888;
 }
 
-.product-price-box {
-    justify-items: right;
-    margin-left: 20px;
-    text-align: right;
-    white-space: nowrap;
-}
 
 .product-price {
-    font-size: 1.2rem;
+    font-size: 2.5rem;
     font-weight: bold;
     color: #00c6ff;
 }

@@ -124,8 +124,24 @@ class ProductService
         $dbHandler->query(new CartProduct(), CrudEnum::UPDATE, $quantity, $productId, $user->getId());
     }
 
-    public static function getProduct($productId)
+    public static function getProduct($productId) : object
     {
         return self::dataRetriever(new ProductDetail(), $productId)[0];
+    }
+
+    public static function getProductImages($productId) : array
+    {
+        $images =  self::dataRetriever(new ProductImage(), $productId);
+        if (count($images) === 0) {
+            $images[] = (new ProductImage())
+                ->withImagePath(ConstUtils::DEFAULT_IMAGE);
+        }
+
+        return $images;
+    }
+
+    public static function getProductOpinions($productId) : array
+    {
+        return self::dataRetriever(new Opinion(), $productId);
     }
 }

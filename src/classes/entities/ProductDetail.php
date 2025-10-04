@@ -22,8 +22,7 @@ class ProductDetail extends Product
             throw new InvalidArgumentException("Insufficient criteria for READ operation.");
         }
 
-
-        return "SELECT p.id, p.name, p.description, p.stock_quantity,p.producent, p.price, p.archived,
+        return "SELECT p.id, p.name, p.description, p.stock_quantity ,p.producent, p.price, p.archived,
                 COALESCE(ROUND(AVG(o.stars), 1), 0) average_rating, COUNT(o.id) opinion_count, c.id AS category_id,
                 c.name category_name, s.id AS section_id, s.name section_name, COALESCE(d.percent, 0) discount
                 FROM product p
