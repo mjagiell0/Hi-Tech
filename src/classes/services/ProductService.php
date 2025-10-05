@@ -144,4 +144,9 @@ class ProductService
     {
         return self::dataRetriever(new Opinion(), $productId);
     }
+
+    public static function getProductSpecification($productId): array
+    {
+        return self::dataRetriever(new Specification(), $productId);
+    }
 }

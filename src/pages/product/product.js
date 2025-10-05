@@ -9,3 +9,27 @@ document.querySelectorAll('.thumbnail').forEach(thumbnail => {
         thumbnail.classList.add('active');
     });
 });
+
+const stars = document.querySelectorAll('.opinion-star');
+const starsInput = document.getElementById('starsInput');
+
+stars.forEach(star => {
+    star.addEventListener('mouseover', () => {
+        const val = parseInt(star.dataset.value);
+        stars.forEach(s => {
+            s.classList.toggle('hovered', parseInt(s.dataset.value) <= val);
+        });
+    });
+
+    star.addEventListener('mouseout', () => {
+        stars.forEach(s => s.classList.remove('hovered'));
+    });
+
+    star.addEventListener('click', () => {
+        const val = parseInt(star.dataset.value);
+        starsInput.value = val;
+        stars.forEach(s => {
+            s.classList.toggle('selected', parseInt(s.dataset.value) <= val);
+        });
+    });
+});

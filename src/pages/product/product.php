@@ -16,6 +16,7 @@ include_once "../../classes/entities/Section.php";
 include_once "../../classes/entities/Category.php";
 include_once "../../classes/entities/Product.php";
 include_once "../../classes/entities/Opinion.php";
+include_once "../../classes/entities/Specification.php";
 include_once "../../classes/entities/ProductImage.php";
 include_once "../../classes/entities/ProductDetail.php";
 include_once "../../classes/services/ProductService.php";
@@ -30,7 +31,7 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
 $product = ProductService::getProduct($productId);
 $productImages = ProductService::getProductImages($productId);
 $productOpinions = ProductService::getProductOpinions($productId);
-
+$specification = ProductService::getProductSpecification($productId);
 ?>
 <html lang="pl">
 <head>
@@ -43,7 +44,7 @@ $productOpinions = ProductService::getProductOpinions($productId);
 </head>
 <body>
 
-<?php ;
+<?php
 include_once "../../components/header.php" ?>
 
 <main style="padding: 20px; text-align: center; margin: 0 auto">
@@ -78,7 +79,7 @@ include_once "../../components/header.php" ?>
             <p class="product-producer"></p>
 
             <div class="product-rating">
-                <span class="opinion-stars"><?= str_repeat('★', $product->getAvgOpinion()) . str_repeat('☆', 5 - $product->getAvgOpinion()) ?></span>
+                <span class="opinion-summary-stars"><?= str_repeat('★', $product->getAvgOpinion()) . str_repeat('☆', 5 - $product->getAvgOpinion()) ?></span>
                 <span class="rating-count">(<?= $product->getOpinionCount() ?> opinii)</span>
             </div>
 
@@ -122,7 +123,63 @@ include_once "../../components/header.php" ?>
             <?php endif; ?>
         </div>
     </section>
+    <?php if (!empty($specification)): ?>
+        <section class="product-specifications">
+            <h2>Specyfikacja techniczna</h2>
+            <table class="spec-table">
+                <tbody>
+                <?php foreach ($specification as $spec): ?>
+                    <tr>
+                        <th><?= htmlspecialchars($spec->getKey()) ?></th>
+                        <td><?= htmlspecialchars($spec->getValue()) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </section>
+    <?php endif; ?>
 
+    <section class="product-opinions">
+        <h2>Opinie o produkcie</h2>
+
+        <div class="opinion-form-wrapper">
+            <h3>Dodaj swoją opinię</h3>
+            <form method="post" action="../../classes/actions/AddOpinionAction.php" class="opinion-form">
+                <input type="hidden" name="product_id" value="<?= $productId ?>">
+                <label for="stars">Ocena:</label>
+                <div class="star-rating" id="starRating">
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <span class="opinion-star" data-value="<?= $i ?>">★</span>
+                    <?php endfor; ?>
+                </div>
+                <input type="hidden" name="stars" id="starsInput" value="" required>
+
+                <label for="content">Treść opinii:</label>
+                <textarea name="content" id="content" rows="4" maxlength="<?= ConstUtils::COMMENT_MAX_LENGTH?>" minlength="10" required></textarea>
+
+                <button type="submit" class="submit-opinion-button">Dodaj opinię</button>
+            </form>
+        </div>
+
+        <?php if (!empty($productOpinions)): ?>
+            <div class="opinions-list">
+                <?php foreach ($productOpinions as $opinion): ?>
+                    <div class="opinion-card">
+                        <div class="opinion-header">
+                            <span class="opinion-date"><?= $opinion->getFormatedCreatedAt() ?></span>
+                            <span class="opinion-author"><?= $opinion->getAuthor() ?></span>
+                            <span class="opinion-summary-stars"><?= str_repeat('★', $opinion->getStars()) . str_repeat('☆', 5 - $opinion->getStars()) ?></span>
+                        </div>
+                        <p class="opinion-text"><?= $opinion->getComment() ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p class="no-opinions">Brak opinii dla tego produktu.</p>
+        <?php endif; ?>
+
+
+    </section>
 </main>
 <?php include_once "../../components/footer.php" ?>
 <?php include_once "../../components/toast.php"; ?>

@@ -124,8 +124,8 @@ class ProductDiscount extends Entity
 
     public function prepareToDisplay()
     {
-        $this->name = htmlspecialchars($this->name, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        $this->imageName = htmlspecialchars($this->imageName, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        $this->producent = htmlspecialchars($this->producent, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $this->name = htmlspecialchars($this->name);
+        $this->imageName = htmlspecialchars($this->imageName);
+        $this->producent = htmlspecialchars($this->producent);
     }
 }
