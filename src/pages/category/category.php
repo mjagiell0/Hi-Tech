@@ -72,7 +72,7 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
                         </div>
                         <p class="product-producer">Producent: <?= $product->getProducent() ?></p>
                     </div>
-                    <div class="product-price-box">
+                    <div class="product-price-box margin-left">
                         <p class="product-price<?= $product->getDiscount() > 0 ? '--line-through' : '' ?>">
                             <?= $product->getPrice() ?> zł
                         </p>

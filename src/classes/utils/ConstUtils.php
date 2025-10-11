@@ -55,6 +55,7 @@ class ConstUtils
     public const FIELD_LABEL_KEY = 'key';
     public const FIELD_LABEL_VALUE = 'value';
     public const COMMENT_MAX_LENGTH = 1024;
+    public const FIELD_LABEL_OWNER_ID = 'owner_id';
 
     public static function getCurrentUrl()
     {

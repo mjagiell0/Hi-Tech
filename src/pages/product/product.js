@@ -1,3 +1,37 @@
+async function handleAddToCartClick(button) {
+    const form = button.closest('.add-to-cart-form');
+    if (!form) {
+        console.warn('Brak formularza');
+        return;
+    }
+
+    const quantityInput = form.querySelector('.quantity-input');
+    let quantity = quantityInput ? quantityInput.value : 1;
+    const stockQuantity = form.querySelector('[name="stock_quantity"]').value;
+
+    if (parseInt(stockQuantity, 10) < parseInt(quantity, 10)) {
+        quantity = stockQuantity;
+        if (quantityInput) quantityInput.value = quantity;
+    }
+
+    const formData = new FormData(form);
+    formData.set('quantity', quantity);
+
+    try {
+        const response = await fetch('../../classes/actions/ProductToCartAction.php', {
+            method: 'POST',
+            body: formData
+        });
+        if (response.ok) {
+            showToast('Produkt dodany!', 'success');
+        } else {
+            showToast('Coś poszło nie tak. Spróbuj ponownie później', 'error');
+        }
+    } catch (err) {
+        console.error('Błąd sieci:', err);
+    }
+}
+
 document.querySelectorAll('.thumbnail').forEach(thumbnail => {
     thumbnail.addEventListener('click', () => {
         const mainImage = document.getElementById('mainProductImage');
@@ -33,3 +67,22 @@ stars.forEach(star => {
         });
     });
 });
+
+document.getElementById('quantity').addEventListener('change', (e) => {
+    const quantityInput = e.target;
+    const max = parseInt(quantityInput.max);
+    const value = parseInt(quantityInput.value);
+
+    if (value > max) {
+        quantityInput.value = max;
+    }
+});
+
+document.getElementById('add-to-cart-button').addEventListener('click', function (e) {
+    e.preventDefault();
+    handleAddToCartClick(e.target);
+});
+
+
+
+

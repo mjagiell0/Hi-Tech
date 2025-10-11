@@ -7,6 +7,7 @@ class Opinion extends Entity
     private $comment;
     private $ownerFirstname;
     private $ownerLastname;
+    private $ownerId;
     private $product;
     private $producent;
     private $productId;
@@ -55,6 +56,11 @@ class Opinion extends Entity
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    public function getOwnerId()
+    {
+        return $this->ownerId;
     }
 
     public function getFormatedCreatedAt()
@@ -109,12 +115,18 @@ class Opinion extends Entity
         return $this;
     }
 
+    public function withOwnerId($ownerId)
+    {
+        $this->ownerId = $ownerId;
+        return $this;
+    }
+
     public function withProductId($productId)
     {
         $this->productId = $productId;
         return $this;
     }
-    
+
     public function withCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
@@ -123,7 +135,15 @@ class Opinion extends Entity
 
     protected function getCreateQuery(...$criteria)
     {
-        // TODO: Implement getCreateQuery() method.
+        if (count($criteria) !== 4
+            || intval($criteria[0]) === 0
+            || intval($criteria[1]) === 0
+            || intval($criteria[2]) === 0
+            || !is_string($criteria[3])) {
+            throw new InvalidArgumentException("Insufficient criteria for CREATE operation.");
+        }
+
+        return "INSERT INTO opinion(product_id, owner_id, stars, comment) VALUES (?,?,?,?);";
     }
 
     protected function getReadQuery(...$criteria)
@@ -133,7 +153,7 @@ class Opinion extends Entity
                 || intval($criteria[0]) === 0) {
                 throw new Exception("Insufficient criteria for READ operation.");
             }
-            return "SELECT op.id, op.stars, op.comment, u.firstname, u.lastname, p.name, p.producent, p.id product_id, op.created_at
+            return "SELECT op.id, op.stars, op.comment, u.firstname, u.lastname, op.owner_id, p.name, p.producent, p.id product_id, op.created_at
                 FROM opinion op 
                     JOIN product p ON p.id = op.product_id 
                     JOIN user u ON u.id = op.owner_id 
@@ -142,7 +162,7 @@ class Opinion extends Entity
 
         $MIN_STARS_VALUE = ConstUtils::MIN_STARS_VALUE;
 
-        return "SELECT op.id, op.stars, op.comment, u.firstname, u.lastname, p.name, p.producent, p.id product_id
+        return "SELECT op.id, op.stars, op.comment, u.firstname, u.lastname, op.owner_id, p.name, p.producent, p.id product_id, op.created_at
                 FROM opinion op 
                     JOIN product p ON p.id = op.product_id 
                     JOIN user u ON u.id = op.owner_id 
@@ -170,6 +190,7 @@ class Opinion extends Entity
             ->withProduct($row[ConstUtils::FIELD_LABEL_NAME])
             ->withProducent($row[ConstUtils::FIELD_LABEL_PRODUCENT])
             ->withProductId($row[ConstUtils::FIELD_LABEL_PRODUCT_ID])
+            ->withOwnerId($row[ConstUtils::FIELD_LABEL_OWNER_ID])
             ->withCreatedAt($row[ConstUtils::FIELD_LABEL_CREATED_AT]);
     }
 

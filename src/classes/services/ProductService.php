@@ -149,4 +149,12 @@ class ProductService
     {
         return self::dataRetriever(new Specification(), $productId);
     }
+
+    public static function addOpinionToProduct($productId, $stars, $comment)
+    {
+        $dbHandler = DatabaseHandler::getDBHandler();
+        $user = $_SESSION[ConstUtils::SESSION_USER];
+
+        $dbHandler->query(new Opinion(), CrudEnum::CREATE, $productId, $user->getId(), $stars, $comment);
+    }
 }

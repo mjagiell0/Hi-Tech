@@ -45,7 +45,7 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
         <div class="slider">
             <div class="slides">
                 <?php foreach ($discountedProducts as $product): ?>
-                    <div class="slide" onclick="location.href='../section/section.php?id=<?= $product->getId() ?>'">
+                    <div class="slide" onclick="location.href='../product/product.php?id=<?= $product->getId() ?>'">
                         <img src="../../assets/images/<?= $product->getImageName() ?>" alt="<?= $product->getName() ?>">
                         <div class="slide-title">
                             <?= $product->getProducent() . ': ' . $product->getName() ?>

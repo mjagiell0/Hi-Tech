@@ -43,14 +43,12 @@
     color: #888;
 }
 
-.product-price--discount {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #d00;
+.bigger-font {
+    font-size: 2.5rem;
 }
 
 .discount-label {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     color: #555;
 }
 
@@ -154,6 +152,11 @@
     border-bottom: 1px solid #eee;
 }
 
+.spec-table tr:hover {
+    background: #d7d7d7;
+    transition: ease 0.1s;
+}
+
 .spec-table th {
     text-align: left;
     font-weight: 600;
@@ -214,6 +217,8 @@
 .no-opinions {
     font-style: italic;
     color: #777;
+    margin-bottom: 50px;
+    padding-left: 15px;
 }
 
 .opinion-form-wrapper h3 {
@@ -275,4 +280,18 @@
 
 .opinion-date {
     color: #949494;
+}
+
+.login-prompt {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.login-prompt a {
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
 }
