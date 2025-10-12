@@ -15,6 +15,8 @@ include_once "../../classes/abstracts/Entity.php";
 include_once "../../classes/entities/Section.php";
 include_once "../../classes/entities/Category.php";
 include_once "../../classes/entities/Product.php";
+include_once "../../classes/entities/ProductFortune.php";
+include_once "../../classes/entities/User.php";
 include_once "../../classes/services/ProductService.php";
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
@@ -25,6 +27,8 @@ session_start();
 $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
 $page = isset($_GET['page']) && intval($_GET['page']) > 0 ? intval($_GET['page']) : 1;
 $products = ProductService::getCategoryProducts($categoryId, $page);
+
+$userDiscount = ProductService::getUserDiscount($user);
 ?>
 <html lang="pl">
 <head>
@@ -36,7 +40,8 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
     <script src="category.js" defer></script>
 </head>
 <body>
-<?php include_once "../../components/header.php" ?>
+<?php include_once "../../components/header.php" ;
+?>
 
 <main style="padding: 20px; text-align: center; margin: 0 auto">
     <?php if (empty($products)): ?>
@@ -54,7 +59,15 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
         </div>
         <h2 class="section-title"><?= $categoryName ?></h2>
         <div class="product-container">
-            <?php foreach ($products as $product): ?>
+            <?php foreach ($products as $product):
+                if (!is_null($userDiscount)) {
+                    if ($product->getDiscount() < $userDiscount->getDiscount()
+                        && $userDiscount->getProductId() === $product->getId()) {
+                        $product->withDiscount($userDiscount->getDiscount());
+                    }
+                }
+                ?>
+
                 <div class="product-card<?= $product->getDiscount() > 0 ? '--discount' : '' ?>"
                      data-href="../product/product.php?id=<?= $product->getId() ?>">
                     <div class="product-image">
@@ -73,12 +86,19 @@ $products = ProductService::getCategoryProducts($categoryId, $page);
                         <p class="product-producer">Producent: <?= $product->getProducent() ?></p>
                     </div>
                     <div class="product-price-box margin-left">
-                        <p class="product-price<?= $product->getDiscount() > 0 ? '--line-through' : '' ?>">
+                        <p class="product-price<?= $product->getDiscount() > 0 ? '--line-through align-right' : '' ?>">
                             <?= $product->getPrice() ?> zł
                         </p>
-                        <?php if ($product->getDiscount() > 0.0): ?>
-                            <p class="product-price--discount">(-<?= $product->getDiscount() * 100 ?>
-                                %) <?= $product->getPriceWithDiscount() ?></p>
+                        <?php if ($product->getDiscount() > 0.0):?>
+                            <div class="daily-luck-label margin-auto">
+                           <?php if (!is_null($userDiscount)):
+                                if($product->getId() === $userDiscount->getProductId()):?>
+                                    Daily luck!
+                                <?php endif;?>
+                            <?php endif;?>
+                                (-<?= $product->getDiscount() * 100 ?>%)
+                            </div>
+                            <p class="product-price--discount"> <?= $product->getPriceWithDiscount() ?> zł</p>
                         <?php endif; ?>
                         <div class="cart-controls">
                             <input type="number" class="quantity-input" min="1"

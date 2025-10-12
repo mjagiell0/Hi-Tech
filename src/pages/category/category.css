@@ -45,6 +45,13 @@
     flex-shrink: 0;
 }
 
+.align-right {
+    text-align: right;
+}
+
+.margin-auto {
+    margin: auto;
+}
 
 .product-price--line-through {
     text-decoration: line-through;
@@ -52,7 +59,7 @@
 }
 
 .product-price--discount {
-    font-size: 1.3rem;
+    font-size: 2.5rem;
     font-weight: bold;
     color: #7ccb65;
 }
@@ -261,6 +268,22 @@
 .product-card--discount:hover .cart-controls {
     opacity: 1;
     visibility: visible;
+}
+
+.daily-luck-label {
+    color: white;
+    width: min-content;
+    text-wrap: nowrap;
+    background: #007bff;
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.product-discount-box {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
 }
 
 

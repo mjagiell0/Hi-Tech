@@ -15,6 +15,7 @@ include_once "../../classes/abstracts/Entity.php";
 include_once "../../classes/entities/Section.php";
 include_once "../../classes/entities/Category.php";
 include_once "../../classes/entities/Product.php";
+include_once "../../classes/entities/ProductFortune.php";
 include_once "../../classes/entities/Opinion.php";
 include_once "../../classes/entities/User.php";
 include_once "../../classes/entities/Specification.php";
@@ -33,6 +34,14 @@ $product = ProductService::getProduct($productId);
 $productImages = ProductService::getProductImages($productId);
 $productOpinions = ProductService::getProductOpinions($productId);
 $specification = ProductService::getProductSpecification($productId);
+$userDiscount = ProductService::getUserDiscount($user);
+
+if (!is_null($userDiscount)) {
+    if ($product->getDiscount() < $userDiscount->getDiscount()
+        && $product->getId() === $userDiscount->getProductId()) {
+        $product->withDiscount($userDiscount->getDiscount());
+    }
+}
 ?>
 <html lang="pl">
 <head>
@@ -88,6 +97,12 @@ include_once "../../components/header.php" ?>
             <div class="product-price-box">
                 <?php if ($product->getDiscount() > 0): ?>
                     <p class="product-price--line-through"><?= $product->getPrice() ?> zł</p>
+                    <?php if (!is_null($userDiscount)) :
+                        if ($product->getId() === $userDiscount->getProductId()):?>
+                        <div class="daily-luck-label">Daily luck!</div>
+                        <?php endif;
+                    endif;
+                    ?>
                     <p class="product-price--discount bigger-font"><?= $product->getPriceWithDiscount() ?> zł <span
                                 class="discount-label">(-<?= $product->getDiscount() * 100 ?>%)</span></p>
                 <?php else: ?>
