@@ -126,7 +126,7 @@ class ProductRewardable extends Entity {
             ->withName($row[ConstUtils::FIELD_LABEL_NAME])
             ->withPrice($row[ConstUtils::FIELD_LABEL_PRICE])
             ->withPercent($row[ConstUtils::FIELD_LABEL_PERCENT])
-            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
+            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? ConstUtils::DEFAULT_IMAGE : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
             ->withRareRate(RareRateEnum::from($row[ConstUtils::FIELD_LABEL_RATE_RATE]));
     }
 

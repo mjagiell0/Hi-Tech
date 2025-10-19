@@ -57,6 +57,15 @@
     flex: 1;
 }
 
+.cart-item-details a {
+    text-decoration: none;
+    color: black;
+}
+
+.cart-item-details a:hover {
+    text-decoration: underline;
+}
+
 .price-old {
     text-decoration: line-through;
     color: #888;

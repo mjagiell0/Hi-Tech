@@ -108,8 +108,8 @@ class MainPageOpinion extends Entity
 
     public function prepareToDisplay()
     {
-        $this->firstname = htmlspecialchars($this->firstname, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        $this->lastname = htmlspecialchars($this->lastname, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        $this->comment = htmlspecialchars($this->comment, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $this->firstname = htmlspecialchars($this->firstname);
+        $this->lastname = htmlspecialchars($this->lastname);
+        $this->comment = htmlspecialchars($this->comment);
     }
 }

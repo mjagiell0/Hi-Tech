@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
     include_once '../../classes/exceptions/PasswordMismatchException.php';
     include_once '../../classes/entities/User.php';
     include_once '../../classes/entities/Product.php';
-
     include_once '../../classes/handlers/DatabaseHandler.php';
     include_once '../../classes/Services/LoginService.php';
     include_once '../../classes/Services/ProductService.php';

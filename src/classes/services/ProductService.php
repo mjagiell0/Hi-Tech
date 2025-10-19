@@ -23,12 +23,12 @@ class ProductService
         return self::dataRetriever(new Category(), $sectionId);
     }
 
-    public static function getSections():array
+    public static function getSections(): array
     {
         return self::dataRetriever(new Section());
     }
 
-    public static function getProductsWithDiscounts():array
+    public static function getProductsWithDiscounts(): array
     {
         return self::dataRetriever(new ProductDiscount());
     }
@@ -105,7 +105,7 @@ class ProductService
             } catch (Exception) {
                 $dbHandler->rollback();
             }
-            
+
         }
     }
 
@@ -122,5 +122,44 @@ class ProductService
         $user = $_SESSION[ConstUtils::SESSION_USER];
 
         $dbHandler->query(new CartProduct(), CrudEnum::UPDATE, $quantity, $productId, $user->getId());
+    }
+
+    public static function getProduct($productId): object
+    {
+        return self::dataRetriever(new ProductDetail(), $productId)[0];
+    }
+
+    public static function getProductImages($productId): array
+    {
+        $images = self::dataRetriever(new ProductImage(), $productId);
+        if (count($images) === 0) {
+            $images[] = (new ProductImage())
+                ->withImagePath(ConstUtils::DEFAULT_IMAGE);
+        }
+
+        return $images;
+    }
+
+    public static function getProductOpinions($productId): array
+    {
+        return self::dataRetriever(new Opinion(), $productId);
+    }
+
+    public static function getProductSpecification($productId): array
+    {
+        return self::dataRetriever(new Specification(), $productId);
+    }
+
+    public static function addOpinionToProduct($productId, $stars, $comment): void
+    {
+        $dbHandler = DatabaseHandler::getDBHandler();
+        $user = $_SESSION[ConstUtils::SESSION_USER];
+
+        $dbHandler->query(new Opinion(), CrudEnum::CREATE, $productId, $user->getId(), $stars, $comment);
+    }
+
+    public static function getUserDiscount($user)
+    {
+        return $user !== '' ? self::dataRetriever(new ProductFortune(), $user->getId())[0] : null;
     }
 }

@@ -7,9 +7,11 @@ class Opinion extends Entity
     private $comment;
     private $ownerFirstname;
     private $ownerLastname;
+    private $ownerId;
     private $product;
     private $producent;
     private $productId;
+    private $createdAt;
 
     public function getId()
     {
@@ -49,6 +51,26 @@ class Opinion extends Entity
     public function getProductId()
     {
         return $this->productId;
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function getOwnerId()
+    {
+        return $this->ownerId;
+    }
+
+    public function getFormatedCreatedAt()
+    {
+        return date('d.m.Y', strtotime($this->createdAt));
+    }
+
+    public function getAuthor()
+    {
+        return $this->ownerFirstname . " " . $this->ownerLastname;
     }
 
     public function withProduct($product)
@@ -93,24 +115,58 @@ class Opinion extends Entity
         return $this;
     }
 
+    public function withOwnerId($ownerId)
+    {
+        $this->ownerId = $ownerId;
+        return $this;
+    }
+
     public function withProductId($productId)
     {
         $this->productId = $productId;
         return $this;
     }
 
+    public function withCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
     protected function getCreateQuery(...$criteria)
     {
-        // TODO: Implement getCreateQuery() method.
+        if (count($criteria) !== 4
+            || intval($criteria[0]) === 0
+            || intval($criteria[1]) === 0
+            || intval($criteria[2]) === 0
+            || !is_string($criteria[3])) {
+            throw new InvalidArgumentException("Insufficient criteria for CREATE operation.");
+        }
+
+        return "INSERT INTO opinion(product_id, owner_id, stars, comment) VALUES (?,?,?,?);";
     }
 
     protected function getReadQuery(...$criteria)
     {
-        return "SELECT op.id, op.stars, op.comment, u.firstname, u.lastname, p.name, p.producent, p.id product_id
+        if (count($criteria) !== 0) {
+            if (count($criteria) !== 1
+                || intval($criteria[0]) === 0) {
+                throw new Exception("Insufficient criteria for READ operation.");
+            }
+            return "SELECT op.id, op.stars, op.comment, u.firstname, u.lastname, op.owner_id, p.name, p.producent, p.id product_id, op.created_at
                 FROM opinion op 
                     JOIN product p ON p.id = op.product_id 
                     JOIN user u ON u.id = op.owner_id 
-                WHERE op.stars >= 4";
+                WHERE op.product_id = ?";
+        }
+
+        $MIN_STARS_VALUE = ConstUtils::MIN_STARS_VALUE;
+
+        return "SELECT op.id, op.stars, op.comment, u.firstname, u.lastname, op.owner_id, p.name, p.producent, p.id product_id, op.created_at
+                FROM opinion op 
+                    JOIN product p ON p.id = op.product_id 
+                    JOIN user u ON u.id = op.owner_id 
+                WHERE op.stars >= $MIN_STARS_VALUE";
     }
 
     protected function getUpdateQuery(...$criteria)
@@ -133,7 +189,9 @@ class Opinion extends Entity
             ->withOwnerLastname($row[ConstUtils::FIELD_LABEL_LASTNAME])
             ->withProduct($row[ConstUtils::FIELD_LABEL_NAME])
             ->withProducent($row[ConstUtils::FIELD_LABEL_PRODUCENT])
-            ->withProductId($row[ConstUtils::FIELD_LABEL_PRODUCT_ID]);
+            ->withProductId($row[ConstUtils::FIELD_LABEL_PRODUCT_ID])
+            ->withOwnerId($row[ConstUtils::FIELD_LABEL_OWNER_ID])
+            ->withCreatedAt($row[ConstUtils::FIELD_LABEL_CREATED_AT]);
     }
 
     public function getTableName()
@@ -143,10 +201,11 @@ class Opinion extends Entity
 
     public function prepareToDisplay()
     {
-        $this->product = htmlspecialchars($this->product, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        $this->comment = htmlspecialchars($this->comment, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        $this->producent = htmlspecialchars($this->producent, ENT_QUOTES, 'UTF-8');
-        $this->ownerFirstname = htmlspecialchars($this->ownerFirstname, ENT_QUOTES, 'UTF-8');
-        $this->ownerLastname = htmlspecialchars($this->ownerLastname, ENT_QUOTES, 'UTF-8');
+        $this->product = htmlspecialchars($this->product);
+        $this->comment = htmlspecialchars($this->comment);
+        $this->producent = htmlspecialchars($this->producent);
+        $this->ownerFirstname = htmlspecialchars($this->ownerFirstname);
+        $this->ownerLastname = htmlspecialchars($this->ownerLastname);
+        $this->createdAt = htmlspecialchars($this->createdAt);
     }
 }

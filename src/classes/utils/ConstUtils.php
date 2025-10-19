@@ -49,11 +49,18 @@ class ConstUtils
     public const PREV_PAGE = '__prev_page';
     public const FIELD_LABEL_STOCK_QUANTITY = 'stock_quantity';
     public const FIELD_LABEL_DO_MERGE = 'merge';
+    public const MIN_STARS_VALUE = 4;
+    public const DEFAULT_IMAGE = 'default.png';
+    public const MIN_QUANTITY_WARNING = 10;
+    public const FIELD_LABEL_KEY = 'key';
+    public const FIELD_LABEL_VALUE = 'value';
+    public const COMMENT_MAX_LENGTH = 1024;
+    public const FIELD_LABEL_OWNER_ID = 'owner_id';
 
     public static function getCurrentUrl()
     {
-        $currentUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
-        $currentUrl .= "://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        $currentUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http');
+        $currentUrl .= '://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         return $currentUrl;
     }
 }

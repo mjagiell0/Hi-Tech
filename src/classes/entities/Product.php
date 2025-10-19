@@ -241,7 +241,7 @@ class Product extends Entity
             ->withProducent($row[ConstUtils::FIELD_LABEL_PRODUCENT])
             ->withIsArchived($row[ConstUtils::FIELD_LABEL_ARCHIVED])
             ->withPrice($row[ConstUtils::FIELD_LABEL_PRICE])
-            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
+            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? ConstUtils::DEFAULT_IMAGE : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
             ->withCategoryId($row[ConstUtils::FIELD_LABEL_CATEGORY_ID])
             ->withCategoryName($row[ConstUtils::FIELD_LABEL_CATEGORY_NAME])
             ->withSectorId($row[ConstUtils::FIELD_LABEL_SECTION_ID])
@@ -264,6 +264,6 @@ class Product extends Entity
 
     public function getTableName()
     {
-        // TODO: Implement getTableName() method.
+        return "product";
     }
 }

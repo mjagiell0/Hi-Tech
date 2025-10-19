@@ -99,7 +99,7 @@ class CartProduct extends Product
             ->withPrice($row[ConstUtils::FIELD_LABEL_PRICE])
             ->withStockQuantity($row[ConstUtils::FIELD_LABEL_STOCK_QUANTITY])
             ->withQuantity($row[ConstUtils::FIELD_LABEL_QUANTITY])
-            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? 'default.png' : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
+            ->withImageName(is_null($row[ConstUtils::FIELD_LABEL_IMAGE_NAME]) ? ConstUtils::DEFAULT_IMAGE : $row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
             ->withProducent($row[ConstUtils::FIELD_LABEL_PRODUCENT]);
     }
 

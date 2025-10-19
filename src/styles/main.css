@@ -5,6 +5,7 @@
 @import url('../pages/section/section.css');
 @import url('../pages/category/category.css');
 @import url('../pages/cart/cart.css');
+@import url('../pages/product/product.css');
 
 *{
     margin: 0;
