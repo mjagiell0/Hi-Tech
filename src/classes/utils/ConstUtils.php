@@ -56,6 +56,13 @@ class ConstUtils
     public const FIELD_LABEL_VALUE = 'value';
     public const COMMENT_MAX_LENGTH = 1024;
     public const FIELD_LABEL_OWNER_ID = 'owner_id';
+    public const FIELD_LABEL_CITY = 'city';
+    public const FIELD_LABEL_STREET = 'street';
+    public const FIELD_LABEL_HOUSE_NUMBER = 'house_number';
+    public const FIELD_LABEL_POSTAL_CODE = 'postal_code';
+    public const ORDER_ADDRESS_ID = 'order_address_id';
+    public const FIELD_LABEL_ADDRESS_ID = 'address_id';
+    public const FLAG_SAVE = 'save';
 
     public static function getCurrentUrl()
     {

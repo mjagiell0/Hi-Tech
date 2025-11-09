@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.removeItem('toastType');
     }
 
+    document.getElementById('checkout-button').addEventListener('click', () => {
+        window.location.href = '../order-summary/order-summary-address-select.php';
+    });
+
     document.querySelectorAll('.remove-from-cart-button').forEach(button => {
         button.addEventListener('click', async () => {
             const productId = button.dataset.id;

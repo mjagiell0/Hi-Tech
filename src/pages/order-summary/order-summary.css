@@ -1,0 +1,101 @@
+.delivery-address-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+}
+
+.delivery-address-section h2,
+.delivery-address-section h3 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.address-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.address-form input,
+.address-form select {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.confirm-address-button {
+    padding: 10px 20px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.confirm-address-button:hover {
+    background-color: #005fa3;
+}
+
+.order-progress {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding: 10px 20px;
+    background-color: #f0f4f8;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.order-progress .step {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 3px solid #ccc;
+    color: #555;
+    position: relative;
+}
+
+.order-progress .step.active {
+    border-bottom: 3px solid #0077cc;
+    color: #0077cc;
+}
+
+.order-progress .step::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: 25%;
+    height: 50%;
+    width: 1px;
+    background-color: #ccc;
+}
+
+.order-progress .step:last-child::after {
+    display: none;
+}
+
+.no-padding-top {
+    padding-top: 0;
+}
+
+.order-return-button {
+    padding: 10px 20px;
+    background-color: #eae8e8;
+    border: none;
+    color: black;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.order-return-button:hover {
+    background-color: #dad8d8;
+}

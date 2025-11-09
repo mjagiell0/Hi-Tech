@@ -117,7 +117,9 @@ $cartPage = array_slice($cart, $offset, $itemsPerPage);
             <aside class="cart-summary">
                 <h4>Łączna wartość do zapłaty:</h4>
                 <h3> <?= number_format($total, 2, ',', '') ?> zł</h3>
-                <button class="checkout-button">Przejdź do płatności</button>
+                <button class="checkout-button" id="checkout-button">
+                    Przejdź do płatności
+                </button>
             </aside>
         </div>
     <?php else: ?>

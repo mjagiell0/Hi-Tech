@@ -73,16 +73,18 @@
 }
 
 .logo-container {
-    width: 100%;
+    width: 75%;
     display: flex;
     justify-content: center;
     align-items: center;
+    justify-self: center;
 }
 
 .logo-container a {
-    display: inline-block;
-    width: 100%;
     text-align: center;
+    display: inline-block;
+    width: fit-content;
+    height: fit-content;
 }
 
 .logo {
