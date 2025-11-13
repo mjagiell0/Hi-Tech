@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
     include_once '../enums/CrudEnum.php';
     include_once '../../classes/exceptions/PasswordMismatchException.php';
     include_once '../../classes/entities/User.php';
-    include_once '../../classes/entities/Address.php';
+    include_once '../../classes/entities/PaymentCard.php';
     include_once '../../classes/handlers/DatabaseHandler.php';
     include_once '../../classes/Services/LoginService.php';
     include_once '../../classes/Services/ProductService.php';
@@ -17,17 +17,17 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
     session_start();
 
     $status = '';
-    $addressId = $_POST[ConstUtils::FIELD_LABEL_ADDRESS_ID];
+    $cardId = $_POST[ConstUtils::FIELD_LABEL_CARD_ID];
     $user = $_SESSION[ConstUtils::SESSION_USER];
 
     $status = ConstUtils::STATUS_SUCCESS;
 
     try {
         $_SESSION[ConstUtils::ORDER_ADDRESS] = DatabaseHandler::getDbHandler()
-        ->query(new Address(), CrudEnum::READ, $user->getId(), $addressId);
+            ->query(new PaymentCard(), CrudEnum::READ, $user->getId(), $cardId);
     } catch (InvalidArgumentException $e) {
         $status = ConstUtils::STATUS_ERROR.'&message='.$e->getMessage();
     }
 
-    header("Location: ../../pages/order-summary/order-summary-payment-method-select.php?status=". $status);
+    header("Location: ../../pages/order-summary/order-summary-finish.php?status=". $status);
 }

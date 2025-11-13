@@ -99,3 +99,33 @@
 .order-return-button:hover {
     background-color: #dad8d8;
 }
+.card-inline-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.card-inline-fields .field-group {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-inline-fields label {
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
+.card-inline-fields input {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.card-inline-fields .smaller-input {
+    width: 30%;
+}

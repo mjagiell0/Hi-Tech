@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
                 $postalCode,
                 $houseNumber
             );
-            $_SESSION[ConstUtils::ORDER_ADDRESS_ID] = $address;
+            $_SESSION[ConstUtils::ORDER_ADDRESS] = $address;
         } catch (InvalidArgumentException $e) {
             $status = ConstUtils::STATUS_ERROR.'&message='.$e->getMessage();
         }

@@ -60,9 +60,20 @@ class ConstUtils
     public const FIELD_LABEL_STREET = 'street';
     public const FIELD_LABEL_HOUSE_NUMBER = 'house_number';
     public const FIELD_LABEL_POSTAL_CODE = 'postal_code';
-    public const ORDER_ADDRESS_ID = 'order_address_id';
+    public const ORDER_ADDRESS = 'order_address';
     public const FIELD_LABEL_ADDRESS_ID = 'address_id';
     public const FLAG_SAVE = 'save';
+    public const FIELD_LABEL_CARDHOLDER_NAME = 'cardholder_name';
+    public const FIELD_LABEL_CARD_NUMBER_LAST_4 = 'card_number_last_4';
+    public const FIELD_LABEL_EXPIRATION_MONTH = 'expiration_month';
+    public const FIELD_LABEL_EXPIRATION_YEAR = 'expiration_year';
+    public const FIELD_LABEL_CVV = 'cvv';
+    public const FIELD_LABEL_CARD_NUMBER = 'card_number';
+    public const FIELD_LABEL_EXPIRATION_DATE = 'expiration_date';
+    public const FIELD_LABEL_CARDHOLDER_FIRSTNAME = 'cardholder_firstname';
+    public const FIELD_LABEL_CARDHOLDER_LASTNAME = 'cardholder_lastname';
+    public const ORDER_PAYMENT_CARD = 'order_payment_card';
+    public const FIELD_LABEL_CARD_ID = 'card_id';
 
     public static function getCurrentUrl()
     {
