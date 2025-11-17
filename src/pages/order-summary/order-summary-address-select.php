@@ -39,7 +39,7 @@ $userAddresses = LoginService::getUserAddresses($user->getId());
         <div class="delivery-address-section">
             <?php if (!empty($userAddresses)): ?>
                 <h2>Adres dostawy</h2>
-                <form method="post" action="../../classes/actions/SelectDeliveryAddressAction.php" class="address-form">
+                <form method="post" id="orderAddressSelectForm" action="../../classes/actions/SelectDeliveryAddressAction.php" class="address-form" novalidate>
                     <label for="address-select">Wybierz zapisany adres:</label>
                     <select name="address_id" id="address-select" required>
                         <option value="">-- wybierz adres --</option>
@@ -50,11 +50,12 @@ $userAddresses = LoginService::getUserAddresses($user->getId());
                             </option>
                         <?php endforeach; ?>
                     </select>
+                    <div class="error-message" id="address-error"></div>
                     <button type="submit" class="confirm-address-button">Dalej</button>
                 </form>
             <?php endif; ?>
 
-            <form method="post" action="../../classes/actions/AddDeliveryAddressAction.php" class="address-form">
+            <form method="post" id="orderNewAddressForm" action="../../classes/actions/AddDeliveryAddressAction.php" class="address-form" novalidate>
                 <?php if (!empty($userAddresses)): ?>
                     <h3>Lub podaj nowy adres dostawy:</h3>
                 <?php else: ?>
@@ -62,15 +63,19 @@ $userAddresses = LoginService::getUserAddresses($user->getId());
                 <?php endif; ?>
                 <label for="street">Ulica:</label>
                 <input type="text" name="street" id="street" required>
+                <div class="error-message" id="street-error"></div>
 
                 <label for="house_number">Numer domu/mieszkania:</label>
                 <input type="text" name="house_number" id="house_number" required>
+                <div class="error-message" id="house_number-error"></div>
 
                 <label for="city">Miasto:</label>
                 <input type="text" name="city" id="city" required>
+                <div class="error-message" id="city-error"></div>
 
                 <label for="postal">Kod pocztowy:</label>
                 <input type="text" name="postal_code" id="postal" required>
+                <div class="error-message" id="postal-error"></div>
 
                 <div>
                     <input type="checkbox" name="save" id="save" value="false">
