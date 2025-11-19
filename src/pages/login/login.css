@@ -98,7 +98,7 @@
 }
 
 .error-input {
-    border: 2px solid rgb(250, 0, 0);
+    border: 2px solid rgb(250, 0, 0) !important;
     background-color: #f5f5f5;
 }
 

@@ -1,76 +1,146 @@
-document.getElementById("order-return-button").addEventListener('click',() => {
+import {validateInput, multiValidateInput} from '../../modules/formValidation.js';
+
+document.getElementById("order-return-button").addEventListener('click', () => {
     window.location.href = '../cart/cart.php';
 });
 
-document.getElementById("orderAddressSelectForm").addEventListener("submit", function(e) {
-    let valid = true;
+const cardholderFirstnameInput = document.getElementById("cardholder_firstname");
+const cardholderLastnameInput = document.getElementById("cardholder_lastname");
+const cardNumberInput = document.getElementById("card_number");
+const cvvCodeInput = document.getElementById("card_cvv");
 
-    const addressInput = document.getElementById("address-select");
-    const addressError = document.getElementById("address-error")
-
-    addressInput.classList.remove('error-input');
-    addressError.textContent = '';
-
-    if (addressInput.value === '') {
-        valid = false;
-        addressInput.classList.add('error-input');
-        addressError.textContent = 'Wybierz jeden z zapisanych adresów';
-    }
-
-    if (!valid) {
+cardholderFirstnameInput.addEventListener("beforeinput", (e) => {
+    if (e.data && /^\d+$/.test(e.data)) {
         e.preventDefault();
     }
 });
 
-document.getElementById("orderNewAddressForm").addEventListener("submit", function(e) {
-    let valid = true;
-
-    const streetInput = document.getElementById('street');
-    const streetError = document.getElementById('street-error');
-
-    const houseNumberInput = document.getElementById('house_number');
-    const houseNumberError = document.getElementById('house_number-error');
-
-    const cityInput = document.getElementById('city');
-    const cityError = document.getElementById('city-error');
-
-    const postalCodeInput = document.getElementById('postal');
-    const postalCodeError = document.getElementById('postal-error');
-
-    // Reset błędów
-    [streetInput, houseNumberInput, cityInput, postalCodeInput].forEach(input => input.classList.remove('error-input'));
-    [streetError, houseNumberError, cityError, postalCodeError].forEach(error => error.textContent = '');
-
-    // Walidacja ulicy
-    if (streetInput.value.trim() === '') {
-        streetInput.classList.add('error-input');
-        streetError.textContent = 'Podaj nazwę ulicy';
-        valid = false;
-    }
-
-    // Walidacja numeru domu
-    if (houseNumberInput.value.trim() === '') {
-        houseNumberInput.classList.add('error-input');
-        houseNumberError.textContent = 'Podaj numer domu';
-        valid = false;
-    }
-
-    // Walidacja miasta
-    if (cityInput.value.trim() === '') {
-        cityInput.classList.add('error-input');
-        cityError.textContent = 'Podaj nazwę miasta';
-        valid = false;
-    }
-
-    // Walidacja kodu pocztowego (np. 00-000)
-    const postalRegex = /^\d{2}-\d{3}$/;
-    if (!postalRegex.test(postalCodeInput.value.trim())) {
-        postalCodeInput.classList.add('error-input');
-        postalCodeError.textContent = 'Podaj kod pocztowy w formacie 00-000';
-        valid = false;
-    }
-
-    if (!valid) {
+cardholderLastnameInput.addEventListener("beforeinput", (e) => {
+    if (e.data && /^\d+$/.test(e.data)) {
         e.preventDefault();
     }
 });
+
+cardNumberInput.addEventListener("beforeinput", (e) => {
+    if (e.data && !/^\d+$/.test(e.data)) {
+        e.preventDefault();
+    }
+});
+
+cvvCodeInput.addEventListener("beforeinput", (e) => {
+    if (e.data && !/^\d+$/.test(e.data)) {
+        e.preventDefault();
+    }
+});
+
+
+let form = document.getElementById("orderAddressSelectForm");
+
+if (form) {
+    form.addEventListener("submit", function (e) {
+
+        let valid = validateInput(
+            "address",
+            input => input.value !== '',
+            "Wybierz jeden z zapisanych adresów."
+        );
+
+        if (!valid) {
+            e.preventDefault();
+        }
+    });
+
+    document.getElementById("orderNewAddressForm").addEventListener("submit", function (e) {
+        let valid = true;
+
+        valid &= validateInput(
+            "street",
+            input => input.value.trim() !== "",
+            "Podaj nazwę ulicy."
+        );
+        valid &= validateInput(
+            "house_number",
+            input => input.value.trim() !== "",
+            "Podaj numer domu."
+        );
+        valid &= validateInput(
+            "city",
+            input => input.value.trim() !== "",
+            "Podaj nazwę miasta."
+        );
+        valid &= validateInput(
+            "postal",
+            input => /^\d{2}-\d{3}$/.test(input.value.trim()),
+            "Podaj kod pocztowy w formacie 00-000."
+        );
+
+        if (!valid) {
+            e.preventDefault();
+        }
+    });
+}
+
+form = document.getElementById("cardForm");
+if (form) {
+    form.addEventListener("submit", function (e) {
+        let valid = validateInput(
+            "card",
+            input => input.value.trim() !== '',
+            "Wybierz jedna z zapisanych kart."
+        );
+
+        if (!valid) {
+            e.preventDefault();
+        }
+    });
+
+    document.getElementById("createCardForm").addEventListener("submit", function (e) {
+        let valid = true;
+
+        valid &= multiValidateInput(
+            "cardholder_firstname",
+            {
+                isValidate: input => input.value.trim() !== '',
+                errorMessage: "Wprowadź imię"
+            },
+            {
+                isValidate: input => !/\d/.test(input.value),
+                errorMessage: "Wprowadź prawidłowe imię"
+            }
+        );
+
+        valid &= multiValidateInput(
+            "cardholder_lastname",
+            {
+                isValidate: input => input.value.trim() !== '',
+                errorMessage: "Wprowadź nazwisko"
+            },
+            {
+                isValidate: input => !/\d/.test(input.value),
+                errorMessage: "Wprowadź prawidłowe nazwisko"
+            }
+        );
+
+        valid &= validateInput(
+            "card_number",
+            input => input.value.length === 16,
+            "Podaj pełny numer karty"
+        );
+
+        valid &= validateInput(
+            "expiration-date",
+            input => input.value !== '',
+            "Podaj datę ważności"
+        );
+
+        valid &= validateInput(
+            "card_cvv",
+            input => input.value.length === 3,
+            "Podaj pełny kod CVV"
+        )
+
+        if (!valid) {
+            e.preventDefault();
+        }
+    });
+}

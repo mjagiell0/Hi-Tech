@@ -41,7 +41,7 @@ $userAddresses = LoginService::getUserAddresses($user->getId());
                 <h2>Adres dostawy</h2>
                 <form method="post" id="orderAddressSelectForm" action="../../classes/actions/SelectDeliveryAddressAction.php" class="address-form" novalidate>
                     <label for="address-select">Wybierz zapisany adres:</label>
-                    <select name="address_id" id="address-select" required>
+                    <select name="address_id" id="address" required>
                         <option value="">-- wybierz adres --</option>
                         <?php foreach ($userAddresses as $address): ?>
                             <option value="<?= $address->getId() ?>">

@@ -4,5 +4,5 @@
     <title>Zamówienie</title>
     <link rel="stylesheet" href="../../styles/main.css">
     <link rel="stylesheet" href="order-summary.css">
-    <script src="order-summary.js" defer></script>
+    <script type="module" src="order-summary.js"></script>
 </head>

@@ -24,6 +24,7 @@ $paymentCards = LoginService::getUserPaymentCards($user->getId());
 <!DOCTYPE html>
 <html lang="pl">
 <?php include_once '../../components/order-header.php' ?>
+<script type="module" src="../../modules/formValidation.js"></script>
 <body>
 <div class="container">
     <div class="content-container">
@@ -38,9 +39,9 @@ $paymentCards = LoginService::getUserPaymentCards($user->getId());
         <div class="delivery-address-section">
             <?php if (!empty($paymentCards)): ?>
                 <h2>Wybierz zapisaną kartę płatniczą</h2>
-                <form method="post" action="../../classes/actions/SelectPaymentCardAction.php" class="address-form">
-                    <label for="card-select">Zapisane karty:</label>
-                    <select name="card_id" id="card-select" required>
+                <form method="post" id="cardForm" action="../../classes/actions/SelectPaymentCardAction.php" class="address-form" novalidate>
+                    <label for="card">Zapisane karty:</label>
+                    <select name="card_id" id="card" required>
                         <option value="">-- wybierz kartę --</option>
                         <?php foreach ($paymentCards as $card): ?>
                             <option value="<?= $card->getId() ?>">
@@ -48,11 +49,12 @@ $paymentCards = LoginService::getUserPaymentCards($user->getId());
                             </option>
                         <?php endforeach; ?>
                     </select>
+                    <div class="error-message" id="card-error"></div>
                     <button type="submit" class="confirm-address-button">Dalej</button>
                 </form>
             <?php endif; ?>
 
-            <form id="payment_card_form" method="post" action="../../classes/actions/AddPaymentCardAction.php"
+            <form id="createCardForm" method="post" action="../../classes/actions/AddPaymentCardAction.php"
                   class="address-form" novalidate>
                 <?php if (!empty($paymentCards)): ?>
                     <h3>Lub dodaj nową kartę płatniczą:</h3>
@@ -65,25 +67,26 @@ $paymentCards = LoginService::getUserPaymentCards($user->getId());
                         <label for="cardholder_firstname">Imię:</label>
                         <input type="text" name="<?= ConstUtils::FIELD_LABEL_CARDHOLDER_FIRSTNAME ?>"
                                id="cardholder_firstname" required>
-                        <div class="error-message" id="firstnameError"></div>
+                        <div class="error-message" id="cardholder_firstname-error"></div>
                     </div>
                     <div class="field-group">
                         <label for="cardholder_lastname">Nazwisko:</label>
                         <input type="text" name="<?= ConstUtils::FIELD_LABEL_CARDHOLDER_LASTNAME ?>"
                                id="cardholder_lastname" required>
-                        <div class="error-message" id="lastnameError"></div>
+                        <div class="error-message" id="cardholder_lastname-error"></div>
                     </div>
                 </div>
 
                 <label for="card_number">Numer karty:</label>
                 <input
                         type="text"
+                        id="card_number"
                         inputmode="numeric"
-                        pattern="[0-9\s]{13,19}"
+                        pattern="[0-9\s]{16}"
                         autocomplete="cc-number"
-                        maxlength="19"
+                        maxlength="16"
                 />
-                <div class="error-message" id="cardNumberError"></div>
+                <div class="error-message" id="card_number-error"></div>
 
 
                 <div class="card-inline-fields">
@@ -96,7 +99,7 @@ $paymentCards = LoginService::getUserPaymentCards($user->getId());
                                 min="<?= date('Y-m') ?>"
                                 required
                         >
-                        <div class="error-message" id="dateError"></div>
+                        <div class="error-message" id="expiration-date-error"></div>
                     </div>
                     <div class="field-group">
                         <label for="<?= ConstUtils::FIELD_LABEL_CVV ?>">Kod CVV:</label>
@@ -109,7 +112,7 @@ $paymentCards = LoginService::getUserPaymentCards($user->getId());
                                 pattern="\d{3}"
                                 required
                         >
-                        <div class="error-message" id="cvvError"></div>
+                        <div class="error-message" id="card_cvv-error"></div>
                     </div>
                 </div>
 
@@ -120,7 +123,7 @@ $paymentCards = LoginService::getUserPaymentCards($user->getId());
 
                 <button type="submit" class="confirm-address-button">Dalej</button>
             </form>
-            <button class="order-return-button" onclick="window.history.back()">Powrót</button>
+            <button class="order-return-button" id="order-return-button" onclick="window.history.back()">Powrót</button>
         </div>
     </div>
 </div>
