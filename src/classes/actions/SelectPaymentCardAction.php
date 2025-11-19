@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
     $status = ConstUtils::STATUS_SUCCESS;
 
     try {
-        $_SESSION[ConstUtils::ORDER_ADDRESS] = DatabaseHandler::getDbHandler()
+        $_SESSION[ConstUtils::ORDER_PAYMENT_CARD] = DatabaseHandler::getDbHandler()
             ->query(new PaymentCard(), CrudEnum::READ, $user->getId(), $cardId);
     } catch (InvalidArgumentException $e) {
         $status = ConstUtils::STATUS_ERROR.'&message='.$e->getMessage();

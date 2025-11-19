@@ -50,6 +50,16 @@ class ProductService
         return self::dataRetriever(new CartProduct(), $user->getId());
     }
 
+    public static function sumCartProductsPrice($cart)
+    {
+        $sum = 0;
+        foreach ($cart as $product) {
+            $sum += $product->getPriceValueWithDiscountAndQuantity();
+        }
+
+        return $sum;
+    }
+
     public static function getCategoryProducts($categoryId, $page): array
     {
         $product = new Product();

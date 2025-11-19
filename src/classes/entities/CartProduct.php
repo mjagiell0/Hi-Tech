@@ -22,12 +22,17 @@ class CartProduct extends Product
 
     public function getPriceWithQuantity()
     {
-        return number_format($this->getPriceValue() * $this->quantity, 2, ',','');
+        return number_format($this->getPriceValue() * $this->quantity, 2, ',', '');
+    }
+
+    public function getPriceValueWithDiscountAndQuantity()
+    {
+        return $this->getPriceWithDiscountValue() * $this->quantity;
     }
 
     public function getPriceWithDiscountAndQuantity()
     {
-        return number_format($this->getPriceWithDiscountValue() * $this->quantity, 2, ',','');
+        return number_format($this->getPriceValueWithDiscountAndQuantity(), 2, ',', '');
     }
 
     protected function getCreateQuery(...$criteria)
