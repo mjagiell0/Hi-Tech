@@ -18,7 +18,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
         input => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value),
         "Podaj poprawny adres e-mail."
     );
-    valid &= validateInput(
+    valid &=    validateInput(
         "password",
         input => input.value.trim(),
         "Podaj hasło"

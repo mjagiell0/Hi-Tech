@@ -99,6 +99,7 @@
 .order-return-button:hover {
     background-color: #dad8d8;
 }
+
 .card-inline-fields {
     display: flex;
     flex-wrap: wrap;
@@ -128,4 +129,92 @@
 
 .card-inline-fields .smaller-input {
     width: 30%;
+}
+
+.order-summary-container {
+    background: #fdfdfd;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 8px 5px 15px -18px rgba(66, 68, 90, 1);
+}
+
+.order-summary__total-cost,
+.order-summary__delivery-address,
+.order-summary__payment-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+    margin-bottom: 0;
+    min-height: 50px;
+    padding: 8px 12px;
+}
+
+.order-summary-container > div {
+    border-bottom: 1px solid black;
+}
+
+.order-summary-container > div:first-child {
+    border-bottom: none;
+}
+
+.order-summary-container > div:last-child {
+    border-bottom: none;
+}
+
+.order-summary__tax-cost,
+.order-summary__delivery-time {
+    font-size: 0.8rem;
+}
+
+.order-summary__products-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.order-summary__products-table th,
+.order-summary__products-table td {
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.order-summary__products-table th {
+    font-weight: bold;
+}
+
+.order-summary__products-table tr:first-child {
+    border-bottom: 1px black solid;
+}
+
+.order-summary__products-table th:nth-child(1),
+.order-summary__products-table td:nth-child(1),
+.order-summary__products-table th:nth-child(2),
+.order-summary__products-table td:nth-child(2) {
+    border-right: 1px solid black;
+}
+
+.order-summary__products-table tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.order-summary__products-table tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.order-summary__product-table {
+    width: 100%;
+}
+
+.confirm-address-button {
+    padding: 10px 20px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    width: 100%;
 }

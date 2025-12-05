@@ -35,12 +35,12 @@ include_once 'order-summary-payment-method-select-setup.php'
                         class="address-form"
                         novalidate
                 >
-                    <label for="<?=ConstUtils::FIELD_LABEL_CARD_ID?>">
+                    <label for="<?= ConstUtils::FIELD_LABEL_CARD_ID ?>">
                         Zapisane karty:
                     </label>
                     <select
-                            name="<?=ConstUtils::FIELD_LABEL_CARD_ID?>"
-                            id="<?=ConstUtils::FIELD_LABEL_CARD_ID?>"
+                            name="<?= ConstUtils::FIELD_LABEL_CARD_ID ?>"
+                            id="<?= ConstUtils::FIELD_LABEL_CARD_ID ?>"
                             required
                     >
                         <option value="">
@@ -52,7 +52,7 @@ include_once 'order-summary-payment-method-select-setup.php'
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <div class="error-message" id="<?=ConstUtils::FIELD_LABEL_CARD_ID?>-error"></div>
+                    <div class="error-message" id="<?= ConstUtils::FIELD_LABEL_CARD_ID ?>-error"></div>
                     <button type="submit" class="confirm-address-button">
                         Dalej
                     </button>
@@ -74,7 +74,6 @@ include_once 'order-summary-payment-method-select-setup.php'
                         Dodaj kartę płatniczą:
                     </h3>
                 <?php endif; ?>
-
                 <div class="card-inline-fields">
                     <div class="field-group">
                         <label for="<?= ConstUtils::FIELD_LABEL_CARDHOLDER_FIRSTNAME ?>">
@@ -89,7 +88,7 @@ include_once 'order-summary-payment-method-select-setup.php'
                         <div class="error-message" id="<?= ConstUtils::FIELD_LABEL_CARDHOLDER_FIRSTNAME ?>-error"></div>
                     </div>
                     <div class="field-group">
-                        <label for="cardholder_lastname">
+                        <label for="<?= ConstUtils::FIELD_LABEL_CARDHOLDER_LASTNAME ?>">
                             Nazwisko:
                         </label>
                         <input
@@ -102,18 +101,19 @@ include_once 'order-summary-payment-method-select-setup.php'
                     </div>
                 </div>
 
-                <label for="<?=ConstUtils::FIELD_LABEL_CARD_NUMBER?>">
+                <label for="<?= ConstUtils::FIELD_LABEL_CARD_NUMBER ?>">
                     Numer karty:
                 </label>
                 <input
                         type="text"
-                        id="<?=ConstUtils::FIELD_LABEL_CARD_NUMBER?>"
+                        id="<?= ConstUtils::FIELD_LABEL_CARD_NUMBER ?>"
+                        name="<?= ConstUtils::FIELD_LABEL_CARD_NUMBER ?>"
                         inputmode="numeric"
                         pattern="[0-9\s]{16}"
                         autocomplete="cc-number"
                         maxlength="16"
                 />
-                <div class="error-message" id="<?=ConstUtils::FIELD_LABEL_CARD_NUMBER?>-error"></div>
+                <div class="error-message" id="<?= ConstUtils::FIELD_LABEL_CARD_NUMBER ?>-error"></div>
                 <div class="card-inline-fields">
                     <div class="field-group">
                         <label for="<?= ConstUtils::FIELD_LABEL_EXPIRATION_DATE ?>">

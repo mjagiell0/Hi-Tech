@@ -94,8 +94,8 @@ class Address extends Entity
         if (count($criteria) !== 1
             || intval($criteria[0]) === 0) {
             if (count($criteria) !== 2
-                || intval($criteria[1]) === 0
-                || intval($criteria[2]) === 0) {
+                || intval($criteria[0]) === 0
+                || intval($criteria[1]) === 0) {
                 throw new InvalidArgumentException("Insufficient criteria for READ operation.");
             }
             return "SELECT * 
@@ -128,6 +128,16 @@ class Address extends Entity
             ->withStreet($row[ConstUtils::FIELD_LABEL_STREET])
             ->withHouseNumber($row[ConstUtils::FIELD_LABEL_HOUSE_NUMBER])
             ->withPostalCode($row[ConstUtils::FIELD_LABEL_POSTAL_CODE]);
+    }
+
+    public function toString()
+    {
+        return "ul. ".
+            $this->street.
+            " ".
+            $this->houseNumber.
+            ", ".
+            $this->city;
     }
 
     public function prepareToDisplay()

@@ -28,18 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
 
     $status = ConstUtils::STATUS_SUCCESS;
 
-    $card = (new PaymentCard())
-        ->withCardholderName($cardholderName)
-        ->withCardNumberLast4($cardLast4Number)
-        ->withExpirationMonth($cardExpirationMonth)
-        ->withExpirationYear($cardExpirationYear)
-        ->withCvv($cardCvv);
-
     if ($doSave) {
-        $card->withUserId($user->getId());
         try {
             DatabaseHandler::getDbHandler()->query(
-                $card,
+                new PaymentCard(),
                 CrudEnum::CREATE,
                 $user->getId(),
                 $cardholderName,
@@ -50,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
             );
 
             $_SESSION[ConstUtils::ORDER_PAYMENT_CARD] = DatabaseHandler::getDbHandler()->query(
-                $card,
+                New PaymentCard(),
                 CrudEnum::READ,
                 $user->getId()
             );

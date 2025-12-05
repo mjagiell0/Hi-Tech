@@ -74,6 +74,11 @@ class ConstUtils
     public const FIELD_LABEL_CARDHOLDER_LASTNAME = 'cardholder_lastname';
     public const ORDER_PAYMENT_CARD = 'order_payment_card';
     public const FIELD_LABEL_CARD_ID = 'card_id';
+    public const TAX_PERCENT = 0.23;
+    public const FIELD_LABEL_STATUS = 'status';
+    public const FIELD_LABEL_MODIFIED_AT = 'modified_at';
+    public const FIELD_LABEL_DELIVERY_AT = 'delivery_at';
+    const FIELD_LABEL_ORDER_ID = 'order_id';
 
     public static function getCurrentUrl()
     {

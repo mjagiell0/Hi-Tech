@@ -19,8 +19,13 @@ header {
     gap: 10px;
 }
 
+.header--middle-part {
+    display: flex;
+    flex-direction: row;
+}
+
 .header--logo img {
-    width: 150px;
+    width: 100px;
     height: auto;
 }
 
@@ -96,7 +101,7 @@ header {
     justify-content: center;
     flex-wrap: wrap;
     gap: 15px;
-    margin-top: 10px;
+    margin-top: 5px;
     transition: max-height 0.3s ease, opacity 0.3s ease;
 }
 
@@ -537,6 +542,11 @@ header {
 }
 
 /* Responsywność */
+@media (max-width: 1140px) {
+    .header--middle-part {
+        flex-direction: column;
+    }
+}
 
 @media (max-width: 1000px) {
     .slider {
@@ -544,12 +554,7 @@ header {
     }
 }
 
-/* max-width: 768px — układ mobilny */
-@media (max-width: 768px) {
-    .logo img {
-        width: 120px;
-    }
-
+@media (max-width: 830px) {
     .opinion-slide {
         max-width: 50%;
     }
@@ -572,31 +577,54 @@ header {
         overflow: hidden;
         max-height: 0;
         opacity: 0;
+        order: 1;
         pointer-events: none;
     }
 
     .sections.active {
         max-height: 500px;
         opacity: 1;
+        order: 1;
         pointer-events: auto;
     }
 
-    /* Opinie — 1 slajd na wiersz */
+    .top-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .header--middle-part {
+        order: 3;
+        width: 100%;
+    }
+
+    .user-panel {
+        order: 2;
+    }
+
+    .search-bar {
+        order: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .logo img {
+        width: 120px;
+    }
+
     .slider-container .slide {
         flex: 0 0 100%;
         max-width: 100%;
     }
 }
 
-/* min-width: 768px — opinie w 3 kolumnach */
 @media (min-width: 768px) {
     .opinion-slider .slide {
         flex: 0 0 33.3333%;
     }
-
 }
 
-/* max-width: 480px — drobne korekty */
 @media (max-width: 480px) {
     .user-panel {
         font-size: 12px;

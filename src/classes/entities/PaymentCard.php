@@ -154,6 +154,13 @@ class PaymentCard extends Entity
             ->withCreatedAt($row[ConstUtils::FIELD_LABEL_CREATED_AT]);
     }
 
+    public function toString()
+    {
+        return $this->cardholderName.
+            " - **** ".
+            $this->cardNumberLast4;
+    }
+
     public function prepareToDisplay()
     {
         $this->withCardholderName(htmlspecialchars($this->cardholderName));
