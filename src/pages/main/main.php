@@ -41,7 +41,10 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
 
 <main style="padding: 20px; text-align: center;">
     <div>
-        <h2 class="slider-title">Odkryj nasze promocje</h2>
+        </div>
+        <h2 class="slider-title">
+            Odkryj nasze promocje
+        </h2>
         <div class="slider">
             <div class="slides">
                 <?php foreach ($discountedProducts as $product): ?>
@@ -76,7 +79,9 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
     </div>
 
     <div style="padding-top: 200px">
-        <h2 class="slider-title">Naszą opinię tworzą klienci</h2>
+        <h2 class="slider-title">
+            Naszą opinię tworzą klienci
+        </h2>
         <div class="slider opinion-slider">
             <div class="slider-track">
                 <?php foreach ($opinions as $opinion): ?>
@@ -93,16 +98,20 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
                                 – <?= $opinion->getOwnerFirstname() . ' ' . $opinion->getOwnerLastname() ?></p>
                             <p class="product-info"><?= $opinion->getProduct() . ' | ' . $opinion->getProducent() ?></p>
                         </div>
-
                     </div>
                 <?php endforeach; ?>
             </div>
         </div>
     </div>
     <div class="case-opening">
-        <h2>Daily luck!</h2>
-        <p style="padding-bottom: 20px; color: #8b8b8b">Każdy dzisiaj wygrać może...</p>
-        <label class="tooltip-label">Zasady
+        <h2>
+            Daily luck!
+        </h2>
+        <p style="padding-bottom: 20px; color: #8b8b8b">
+            Każdy dzisiaj wygrać może...
+        </p>
+        <label class="tooltip-label">
+            Zasady
             <span class="tooltip-text">
             • Możesz losować raz dziennie<br>
             • Nagroda jest przypisywana do konta<br>
@@ -118,7 +127,8 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
                 shuffle($rewardableProducts);
                 ?>
                 <div class="carousel" id="carousel-container">
-                    <div class="win-line"></div>
+                    <div class="win-line">
+                    </div>
                     <div class="carousel-track">
                         <?php foreach ($rewardableProducts as $product):
                             $rarityClass = match ($product->getRareRate()) {
@@ -131,24 +141,36 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
                                 <div class="rarity-glow">
                                     <img src="../../assets/images/<?= $product->getImageName() ?>"
                                          alt="<?= $product->getName() ?>">
-                                    <p><?= $product->getName() ?></p>
+                                    <p>
+                                        <?= $product->getName() ?>
+                                    </p>
                                     <div class="item-price-percent-container">
-                                        <p class="item-price__before-discount"><?= $product->getPrice() ?></p>
-                                        <p class="item-price__percent"><?= '-' . $product->getPercent() ?></p>
+                                        <p class="item-price__before-discount">
+                                            <?= $product->getPrice() ?>
+                                        </p>
+                                        <p class="item-price__percent">
+                                            <?= '-' . $product->getPercent() ?>
+                                        </p>
                                     </div>
-                                    <p class="item-price__after-discount"><?= $product->getPriceAfterDiscount() ?></p>
+                                    <p class="item-price__after-discount">
+                                        <?= $product->getPriceAfterDiscount() ?>
+                                    </p>
                                 </div>
                             </div>
-
                         <?php endforeach; ?>
-
                     </div>
                 </div>
-                <button id="start-case">Start</button>
-                <div id="result" class="result-box"></div>
-                <div id="winner-card" style="display: none;"></div>
+                <button id="start-case">
+                    Start
+                </button>
+                <div id="result" class="result-box">
+                </div>
+                <div id="winner-card" style="display: none;">
+                </div>
             <?php else: ?>
-                <h2 style="font-size: 2.0rem">Twoja dzisiejsza wygrana:</h2>
+                <h2 style="font-size: 2.0rem">
+                    Twoja dzisiejsza wygrana:
+                </h2>
                 <?php
                 $userReward = LoginService::getUserReward($user->getId());
                 $reward = $userReward->getProductReward();
@@ -165,26 +187,40 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
                                  alt="<?= $reward->getName() ?>">
                             <p><?= $reward->getName() ?></p>
                             <div class="item-price-percent-container">
-                                <p class="item-price__before-discount"><?= $reward->getPrice() ?></p>
-                                <p class="item-price__percent"><?= '-' . $reward->getPercent() ?></p>
+                                <p class="item-price__before-discount">
+                                    <?= $reward->getPrice() ?>
+                                </p>
+                                <p class="item-price__percent">
+                                    <?= '-' . $reward->getPercent() ?>
+                                </p>
                             </div>
-                            <p class="item-price__after-discount"><?= $reward->getPriceAfterDiscount() ?></p>
+                            <p class="item-price__after-discount">
+                                <?= $reward->getPriceAfterDiscount() ?>
+                            </p>
                         </div>
                     </div>
                 </div>
-                <h2 style="font-size: 1.3rem; padding-top: 20px; font-weight: normal">Kolejne losowanie: <?=$userReward->nextSpinDate()?></h2>
+                <h2 style="font-size: 1.3rem; padding-top: 20px; font-weight: normal">
+                    Kolejne losowanie: <?=$userReward->nextSpinDate()?>
+                </h2>
             <?php endif;?>
         <?php else: ?>
-            <p class="access-info">Uczestnictwo w Daily luck jest udzielane tylko zalogowanym użytkownikom</p>
+            <p class="access-info">
+                Uczestnictwo w Daily luck jest udzielane tylko zalogowanym użytkownikom
+            </p>
             <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; text-align: center">
-                <a href="../login/login.php" class="login-link">Zaloguj się</a>
-                <p style="padding: 0 10px">lub</p>
-                <a href="../register/register.php" class="login-link">utwórz konto</a>
+                <a href="../login/login.php" class="login-link">
+                    Zaloguj się
+                </a>
+                <p style="padding: 0 10px">
+                    lub
+                </p>
+                <a href="../register/register.php" class="login-link">
+                    utwórz konto
+                </a>
             </div>
-
         <?php endif; ?>
     </div>
-
 </main>
 <?php include_once "../../components/footer.php" ?>
 <iframe name="hidden-frame" style="display: none;"></iframe>
