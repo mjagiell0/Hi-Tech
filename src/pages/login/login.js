@@ -1,36 +1,29 @@
-function showPassword() {
-        var passwordInput = document.getElementById("password");
-        passwordInput.type = passwordInput.type === "password" ? "text" : "password";
-    }
+import {validateInput} from "../../modules/formValidation.js";
 
-document.getElementById("loginForm").addEventListener("submit", function(e) {
+function showPassword() {
+    var passwordInput = document.getElementById("password");
+    passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+}
+
+document.getElementById("loginForm").addEventListener("submit", function (e) {
     let valid = true;
-    // Pobranie elementów
-    const email = document.getElementById("email");
-    const password = document.getElementById("password");
-    const emailError = document.getElementById("emailError");
-    const passwordError = document.getElementById("passwordError");
-    // Reset błędów
-    email.classList.remove("error-input");
-    password.classList.remove("error-input");
-    emailError.textContent = "";
-    passwordError.textContent = "";
-    // Walidacja email
-    if (!email.value.trim()) {
-        emailError.textContent = "Podaj adres e-mail";
-        email.classList.add("error-input");
-        valid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-        emailError.textContent = "Podaj poprawny adres e-mail.";
-        email.classList.add("error-input");
-        valid = false;
-    }
-    // Walidacja hasła
-    if (!password.value.trim()) {
-        passwordError.textContent = "Podaj hasło";
-        password.classList.add("error-input");
-        valid = false;
-    }
+
+    valid &= validateInput(
+        "email",
+        input => input.value.trim() !== '',
+        "Podaj adres e-mail"
+    );
+    valid &= validateInput(
+        "email",
+        input => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value),
+        "Podaj poprawny adres e-mail."
+    );
+    valid &=    validateInput(
+        "password",
+        input => input.value.trim(),
+        "Podaj hasło"
+    );
+
     if (!valid) {
         e.preventDefault();
     }

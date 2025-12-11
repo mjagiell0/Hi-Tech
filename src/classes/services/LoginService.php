@@ -146,4 +146,19 @@ class LoginService
     {
         return DatabaseHandler::getDbHandler()->query(new UserSpinReward(), CrudEnum::READ, $userId);
     }
+
+    public static function getUserAddresses($userId)
+    {
+        return DatabaseHandler::getDbHandler()->query(new Address(), CrudEnum::READ, $userId);
+    }
+
+    public static function getUserPaymentCards($userId)
+    {
+        $cards = DatabaseHandler::getDbHandler()->query(new PaymentCard(), CrudEnum::READ, $userId);
+        if (!is_array($cards)) {
+            $cards = [$cards];
+        }
+
+        return $cards;
+    }
 }

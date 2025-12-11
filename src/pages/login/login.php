@@ -13,7 +13,8 @@ if (isset($_SESSION[ConstUtils::SESSION_USER])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zaloguj się</title>
     <link rel="stylesheet" href="../../styles/main.css">
-    <script src="login.js" defer></script>
+    <script type="module" src="login.js" defer></script>
+
 </head>
 
 <body>
@@ -39,11 +40,11 @@ if (isset($_SESSION[ConstUtils::SESSION_USER])) {
                 <form class="login-form" id="loginForm" action="../../classes/actions/LoginPostAction.php" method="post" novalidate>
                     <div class="input-container">
                         <input class="email-input" type="email" id="email" name="email" placeholder="Email">
-                        <div class="error-message" id="emailError"></div>
+                        <div class="error-message" id="email-error"></div>
                     </div>
                     <div class="input-container">
                         <input class="password-input" type="password" id="password" name="password" placeholder="Hasło">
-                        <div class="error-message" id="passwordError"></div>
+                        <div class="error-message" id="password-error"></div>
                         <div style="width: 80%; padding-top: 10px;">
                             <input type="checkbox" onclick="showPassword()"> Pokaż hasło
                         </div>

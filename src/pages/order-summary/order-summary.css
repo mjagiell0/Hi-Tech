@@ -1,0 +1,220 @@
+.delivery-address-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+}
+
+.delivery-address-section h2,
+.delivery-address-section h3 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.address-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.address-form input,
+.address-form select {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.confirm-address-button {
+    padding: 10px 20px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.confirm-address-button:hover {
+    background-color: #005fa3;
+}
+
+.order-progress {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding: 10px 20px;
+    background-color: #f0f4f8;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.order-progress .step {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 3px solid #ccc;
+    color: #555;
+    position: relative;
+}
+
+.order-progress .step.active {
+    border-bottom: 3px solid #0077cc;
+    color: #0077cc;
+}
+
+.order-progress .step::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: 25%;
+    height: 50%;
+    width: 1px;
+    background-color: #ccc;
+}
+
+.order-progress .step:last-child::after {
+    display: none;
+}
+
+.no-padding-top {
+    padding-top: 0;
+}
+
+.order-return-button {
+    padding: 10px 20px;
+    background-color: #eae8e8;
+    border: none;
+    color: black;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.order-return-button:hover {
+    background-color: #dad8d8;
+}
+
+.card-inline-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.card-inline-fields .field-group {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-inline-fields label {
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
+.card-inline-fields input {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.card-inline-fields .smaller-input {
+    width: 30%;
+}
+
+.order-summary-container {
+    background: #fdfdfd;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 8px 5px 15px -18px rgba(66, 68, 90, 1);
+}
+
+.order-summary__total-cost,
+.order-summary__delivery-address,
+.order-summary__payment-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+    margin-bottom: 0;
+    min-height: 50px;
+    padding: 8px 12px;
+}
+
+.order-summary-container > div {
+    border-bottom: 1px solid black;
+}
+
+.order-summary-container > div:first-child {
+    border-bottom: none;
+}
+
+.order-summary-container > div:last-child {
+    border-bottom: none;
+}
+
+.order-summary__tax-cost,
+.order-summary__delivery-time {
+    font-size: 0.8rem;
+}
+
+.order-summary__products-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.order-summary__products-table th,
+.order-summary__products-table td {
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.order-summary__products-table th {
+    font-weight: bold;
+}
+
+.order-summary__products-table tr:first-child {
+    border-bottom: 1px black solid;
+}
+
+.order-summary__products-table th:nth-child(1),
+.order-summary__products-table td:nth-child(1),
+.order-summary__products-table th:nth-child(2),
+.order-summary__products-table td:nth-child(2) {
+    border-right: 1px solid black;
+}
+
+.order-summary__products-table tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.order-summary__products-table tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.order-summary__product-table {
+    width: 100%;
+}
+
+.confirm-address-button {
+    padding: 10px 20px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    width: 100%;
+}
