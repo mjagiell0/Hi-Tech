@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
     $dotenv->load();
     session_start();
 
-    $status = 'success';
+    $status = ConstUtils::STATUS_ORDER_COMPLETE_SUCCESS;
     $cart = ProductService::getCartProducts();
     $address = $_SESSION[ConstUtils::ORDER_ADDRESS];
     $paymentCard = $_SESSION[ConstUtils::ORDER_PAYMENT_CARD];
@@ -43,9 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
         }
 
         foreach ($cart as $product) {
-            echo $order->getId();
             $databaseHandler->query(new OrderItem(), CrudEnum::CREATE, $product->getId(), $product->getQuantity(), $order->getId());
-            $databaseHandler->query(new CartProduct(), CrudEnum::DELETE, $product->getId());
+            echo '<br>'.$product->getId();
+            echo '<br>'.$user->getId();
+            $databaseHandler->query(new CartProduct(), CrudEnum::DELETE, $product->getId(), $user->getId());
         }
     } catch (Exception $e) {
         $status = ConstUtils::STATUS_ERROR.'&message='.$e->getMessage();

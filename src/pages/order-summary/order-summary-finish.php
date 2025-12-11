@@ -49,6 +49,27 @@ $paymentCard = $_SESSION[ConstUtils::ORDER_PAYMENT_CARD];
         <div class="logo-container">
             <img class="logo no-padding-top" src="../../assets/logo.png" alt="Logo">
         </div>
+        <?php if ($status === ConstUtils::STATUS_ORDER_COMPLETE_SUCCESS):?>
+        <div class="success-message">
+            <div class="success-message__container">
+                <div class="success-message__image">
+                    <img class="success-icon" src="../../assets/check-mark.png" alt="Success Message">
+                </div>
+                <div class="success-message__text">
+                    Twoje zamówienie zostało złożone pomyślnie.<br>
+                    Zobacz szczegóły lub wróć na stronę główną.
+                </div>
+            </div>
+            <div class="success-message__buttons">
+                <a class="success-message__order-details">
+                    Szczegóły zamówienia
+                </a>
+                <a class="success-message__return-main" href="../main/main.php">
+                    Powrót na stronę główną
+                </a>
+            </div>
+        </div>
+        <?php else: ?>
         <div class="order-progress">
             <div class="step">
                 Adres dostawy
@@ -125,6 +146,7 @@ $paymentCard = $_SESSION[ConstUtils::ORDER_PAYMENT_CARD];
         >
             Powrót
         </button>
+        <?php endif;?>
     </div>
 </div>
 </body>

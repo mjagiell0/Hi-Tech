@@ -29,10 +29,6 @@ class OrderItem extends Product
 
     protected function getCreateQuery(...$criteria)
     {
-//        echo intval($criteria[0]) === 0 ? 'true' : 'false';
-//        echo intval($criteria[1]) === 0 ? 'true' : 'false';
-//        echo intval($criteria[2]) === 0 ? 'true' : 'false';
-        echo $criteria[2];
         if (count($criteria) != 3
             || intval($criteria[0]) === 0
             || intval($criteria[1]) === 0
