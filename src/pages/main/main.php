@@ -39,46 +39,65 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
 <body>
 <?php include_once "../../components/header.php" ?>
 
-<main style="padding: 20px; text-align: center;">
-    <div>
-        </div>
-        <h2 class="slider-title">
-            Odkryj nasze promocje
-        </h2>
-        <div class="slider">
-            <div class="slides">
-                <?php foreach ($discountedProducts as $product): ?>
-                    <div class="slide" onclick="location.href='../product/product.php?id=<?= $product->getId() ?>'">
-                        <img src="../../assets/images/<?= $product->getImageName() ?>" alt="<?= $product->getName() ?>">
-                        <div class="slide-title">
-                            <?= $product->getProducent() . ': ' . $product->getName() ?>
-                            <p><?= $product->getPrice() ?></p>
-                            <h3><?= $product->getPriceAfterDiscount() ?></h3>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+<main style="padding: 0; text-align: center;">
+
+    <div class="ads__container">
+        <div class="ads__banner">
+            <div class="ads__banner-text">
+                    <span class="ads__label">
+                        Black Week
+                    </span>
+                <h2>
+                    Do -70% na elektronikę
+                </h2>
+                <p>
+                    Promocje tylko do niedzieli. Sprawdź teraz.
+                </p>
+                <a href="main.php" class="ads__button">
+                    Zobacz ofertę
+                </a>
             </div>
-
-            <?php
-            if (count($discountedProducts) > 1) {
-                ?>
-                <div class="slider-buttons">
-                    <button class="slider-button" id="prev">&#10094;</button>
-                    <button class="slider-button" id="next">&#10095;</button>
-                </div>
-                <?php
-            }
-            ?>
-
-            <div class="dots">
-                <?php foreach ($discountedProducts as $index => $product): ?>
-                    <span class="dot <?= $index === 0 ? 'active' : '' ?>"></span>
-                <?php endforeach; ?>
+            <div class="ads__banner-image">
+                <img src="../../assets/ads_baner.png" alt=""/>
             </div>
         </div>
     </div>
+    <h2 class="slider-title under-ads-banner">
+        Odkryj nasze promocje
+    </h2>
+    <div class="slider">
+        <div class="slides">
+            <?php foreach ($discountedProducts as $product): ?>
+                <div class="slide" onclick="location.href='../product/product.php?id=<?= $product->getId() ?>'">
+                    <img src="../../assets/images/<?= $product->getImageName() ?>" alt="<?= $product->getName() ?>">
+                    <div class="slide-title">
+                        <?= $product->getProducent() . ': ' . $product->getName() ?>
+                        <p><?= $product->getPrice() ?></p>
+                        <h3><?= $product->getPriceAfterDiscount() ?></h3>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
 
-    <div style="padding-top: 200px">
+        <?php
+        if (count($discountedProducts) > 1) {
+            ?>
+            <div class="slider-buttons">
+                <button class="slider-button" id="prev">&#10094;</button>
+                <button class="slider-button" id="next">&#10095;</button>
+            </div>
+            <?php
+        }
+        ?>
+
+        <div class="dots">
+            <?php foreach ($discountedProducts as $index => $product): ?>
+                <span class="dot <?= $index === 0 ? 'active' : '' ?>"></span>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+    <div style="padding-top: 100px">
         <h2 class="slider-title">
             Naszą opinię tworzą klienci
         </h2>
@@ -87,7 +106,7 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
                 <?php foreach ($opinions as $opinion): ?>
                     <div class="opinion-slide"
                          onclick="location.href='../product/product.php?id=<?= $opinion->getProductId() ?>'">
-                        <div class="opinion-card">
+                        <div class="opinion-card hover-shadow">
                             <div class="stars">
                                 <?php for ($i = 0; $i < $opinion->getStars(); $i++): ?>
                                     ★
@@ -103,7 +122,7 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
             </div>
         </div>
     </div>
-    <div class="case-opening">
+    <div class="case-opening" id="case-opening">
         <h2>
             Daily luck!
         </h2>
@@ -201,9 +220,9 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
                     </div>
                 </div>
                 <h2 style="font-size: 1.3rem; padding-top: 20px; font-weight: normal">
-                    Kolejne losowanie: <?=$userReward->nextSpinDate()?>
+                    Kolejne losowanie: <?= $userReward->nextSpinDate() ?>
                 </h2>
-            <?php endif;?>
+            <?php endif; ?>
         <?php else: ?>
             <p class="access-info">
                 Uczestnictwo w Daily luck jest udzielane tylko zalogowanym użytkownikom

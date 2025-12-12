@@ -16,12 +16,14 @@ header {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 10px;
 }
 
 .header--middle-part {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
 }
 
 .header--logo img {
@@ -31,7 +33,7 @@ header {
 
 .search-bar {
     flex: 1;
-    max-width: 500px;
+    width: 450px;
     display: flex;
     align-items: center;
 }
@@ -67,13 +69,7 @@ header {
     font-size: 14px;
 }
 
-/* Drugi wiersz nagłówka - kategorie */
-.sections {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px;
-}
+
 
 .sections a {
     text-decoration: none;
@@ -95,24 +91,20 @@ header {
     padding: 8px;
 }
 
-/* Kategorie domyślnie widoczne */
 .sections {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 15px;
     margin-top: 5px;
     transition: max-height 0.3s ease, opacity 0.3s ease;
 }
 
 .slider {
     position: relative;
-    max-width: 50%;
+    max-width: 100%;
     text-align: center;
     margin: 20px auto;
     overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .slides {
@@ -127,10 +119,25 @@ header {
     position: relative;
 }
 
+.hover-shadow:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: 0.2s ease;
+}
+
+.slider:hover .slide-title {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slider:hover .slider-button {
+    opacity: 1;
+    transition: 0.2s ease;
+}
+
 .slide img {
-    width: 100%;
-    height: auto;
-    display: block;
+    width: auto;
+    min-height: 150px;
+    height: 100%;
 }
 
 .slider-buttons {
@@ -153,6 +160,7 @@ header {
     cursor: pointer;
     border-radius: 50%;
     transition: background 0.3s;
+    opacity: 0;
 }
 
 
@@ -165,10 +173,12 @@ header {
     color: #fff;
     font-size: 2.0rem;
     text-align: left;
-
     padding: 15px 20px;
     box-sizing: border-box;
     z-index: 10;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: transform 0.35s ease, opacity 0.35s ease;
 }
 
 .slide-title p {
@@ -204,6 +214,7 @@ header {
 }
 
 .slider-title {
+    margin-top: 20px;
     font-size: 3.0rem;
     color: #007bff
 }
@@ -541,6 +552,107 @@ header {
     cursor: pointer;
 }
 
+.ads__container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.ads__banner {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 24px 5vw;
+    background: radial-gradient(circle at top left, #1f2937 0, #020617 60%, #000 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+
+}
+
+.ads__banner-text {
+    max-width: 520px;
+}
+
+.ads__label {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 4px 10px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ads__banner-text h2 {
+    font-size: clamp(28px, 3vw, 40px);
+    margin: 4px 0 10px;
+}
+
+.ads__banner-text p {
+    font-size: 15px;
+    opacity: 0.85;
+    margin-bottom: 18px;
+}
+
+.ads__button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #020617;
+    background: #facc15;
+    border-radius: 999px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.ads__button:hover {
+    background: #eab308;
+    box-shadow: 0 8px 20px rgba(250, 204, 21, 0.35);
+    transform: translateY(-1px);
+}
+
+.ads__banner-image {
+    flex: 1;
+    min-height: 160px;
+    background:
+            radial-gradient(circle at 15% 20%, rgba(248, 250, 252, 0.08) 0, transparent 55%),
+            radial-gradient(circle at 80% 80%, rgba(250, 204, 21, 0.18) 0, transparent 60%);
+    border-radius: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+/* opcjonalnie: wstawione img w środku */
+.ads__banner-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* mobile – baner pod sobą, dalej na całą szerokość */
+@media (max-width: 768px) {
+    .ads__banner {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 16px;
+    }
+
+    .ads__banner-image {
+        width: 100%;
+        order: 1;
+    }
+
+    .ads__banner-text {
+        order: 2;
+    }
+}
+
 /* Responsywność */
 @media (max-width: 1140px) {
     .header--middle-part {
@@ -551,6 +663,14 @@ header {
 @media (max-width: 1000px) {
     .slider {
         max-width: 100%;
+    }
+}
+
+@media (max-width: 930px) {
+    .slide img {
+        width: 100%;
+        height: auto;
+        display: block;
     }
 }
 
@@ -573,7 +693,6 @@ header {
     .sections {
         flex-direction: column;
         align-items: center;
-        gap: 10px;
         overflow: hidden;
         max-height: 0;
         opacity: 0;

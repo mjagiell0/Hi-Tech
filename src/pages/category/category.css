@@ -38,11 +38,20 @@
     transform: translateY(-3px);
 }
 
-.product-image img {
+.product-image {
     width: 240px;
-    height: auto;
+    height: 180px;
+    overflow: hidden; /* żeby nic nie wystawało */
     border-radius: 8px;
-    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* całe zdjęcie, brak rozciągania */
 }
 
 .align-right {
