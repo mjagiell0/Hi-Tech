@@ -41,7 +41,7 @@
 .product-image {
     width: 240px;
     height: 180px;
-    overflow: hidden; /* żeby nic nie wystawało */
+    overflow: hidden;
     border-radius: 8px;
     display: flex;
     justify-content: center;
@@ -51,7 +51,7 @@
 .product-image img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* całe zdjęcie, brak rozciągania */
+    object-fit: contain;
 }
 
 .align-right {
@@ -193,13 +193,11 @@
     transition: opacity 0.3s ease;
 }
 
-/* Widoczny formularz (jeśli używasz klasy .active zamiast .hidden) */
 .cart-confirm-form.active {
     opacity: 1;
     pointer-events: auto;
 }
 
-/* Kontener treści formularza */
 .cart-confirm-form .form-content {
     background-color: #fff;
     padding: 30px;
@@ -211,13 +209,11 @@
     text-align: center;
 }
 
-/* Animacja wejścia */
 @keyframes modalFadeIn {
     0% { opacity: 0; transform: scale(0.95); }
     100% { opacity: 1; transform: scale(1); }
 }
 
-/* Sekcja produktu (opcjonalna) */
 .cart-modal-product {
     display: flex;
     align-items: center;
@@ -236,7 +232,6 @@
     color: #333;
 }
 
-/* Przyciski */
 .cart-modal-actions {
     display: flex;
     justify-content: center;
@@ -295,9 +290,13 @@
     text-align: center;
 }
 
+@media (max-width: 600px) {
+    .product-card {
+        flex-direction: column;
+    }
 
-@media (max-width: 560px) {
-    .product-image img {
-        width: 120px;
+    .cart-controls {
+        align-items: center;
+        justify-content: center;
     }
 }

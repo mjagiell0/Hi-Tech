@@ -30,6 +30,8 @@ $dotenv->load();
 session_start();
 $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
 
+var_dump($_SESSION[ConstUtils::SESSION_USER_CART]);
+
 $product = ProductService::getProduct($productId);
 $productImages = ProductService::getProductImages($productId);
 $productOpinions = ProductService::getProductOpinions($productId);
@@ -122,7 +124,7 @@ include_once "../../components/header.php" ?>
             <?php endif; ?>
 
             <?php if ($product->getStockQuantity() > 0): ?>
-                <form class="add-to-cart-form" method="post" action="../../classes/actions/ProductToCartAction.php">
+                <form class="add-to-cart-form" method="post">
                     <input type="hidden" name="<?= ConstUtils::FIELD_LABEL_PRODUCT_ID ?>"
                            value="<?= $product->getId() ?>">
                     <input type="hidden" name="<?= ConstUtils::FIELD_LABEL_QUANTITY ?>" value="1">
