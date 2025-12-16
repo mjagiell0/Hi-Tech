@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
             $price = $_POST[ConstUtils::FIELD_LABEL_PRICE];
             $productName = $_POST[ConstUtils::FIELD_LABEL_NAME];
             $imageName = $_POST[ConstUtils::FIELD_LABEL_IMAGE_NAME];
+            echo $imageName;
             $producent = $_POST[ConstUtils::FIELD_LABEL_PRODUCENT];
             $discount = $_POST[ConstUtils::FIELD_LABEL_DISCOUNT];
             $stockQuantity = $_POST[ConstUtils::FIELD_LABEL_STOCK_QUANTITY];
@@ -52,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === ConstUtils::POST_METHOD) {
                 ->withImageName($imageName)
                 ->withProductName($productName)
                 ->withStockQuantity($stockQuantity);
+            var_dump($cart[$productId]);
         }
 
         $_SESSION[ConstUtils::SESSION_USER_CART] = $cart;

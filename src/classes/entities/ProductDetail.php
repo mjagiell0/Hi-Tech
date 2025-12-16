@@ -22,12 +22,13 @@ class ProductDetail extends Product
             throw new InvalidArgumentException("Insufficient criteria for READ operation.");
         }
 
-        return "SELECT p.id, p.name, p.description, p.stock_quantity ,p.producent, p.price, p.archived,
+        return "SELECT p.id, p.name, p.description, p.stock_quantity ,p.producent, p.price, p.archived, pi.path image_name,
                 COALESCE(ROUND(AVG(o.stars), 1), 0) average_rating, COUNT(o.id) opinion_count, c.id AS category_id,
                 c.name category_name, s.id AS section_id, s.name section_name, COALESCE(d.percent, 0) discount
                 FROM product p
                 LEFT JOIN discount d ON d.product_id = p.id
                 LEFT JOIN opinion o ON o.product_id = p.id
+                LEFT JOIN product_image pi ON p.id = pi.product_id
                 JOIN category c ON p.category_id = c.id
                 JOIN section s ON p.section_id = s.id
                 WHERE p.id = ?
@@ -39,6 +40,7 @@ class ProductDetail extends Product
         return (new ProductDetail())
             ->withId($row[ConstUtils::FIELD_LABEL_ID])
             ->withProductName($row[ConstUtils::FIELD_LABEL_NAME])
+            ->withImageName($row[ConstUtils::FIELD_LABEL_IMAGE_NAME])
             ->withProducent($row[ConstUtils::FIELD_LABEL_PRODUCENT])
             ->withIsArchived($row[ConstUtils::FIELD_LABEL_ARCHIVED])
             ->withPrice($row[ConstUtils::FIELD_LABEL_PRICE])

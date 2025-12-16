@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-
 <?php
-
 include_once "../../classes/utils/ConstUtils.php";
 include_once "../../classes/enums/CrudEnum.php";
 include_once "../../classes/handlers/DatabaseHandler.php";
@@ -22,12 +19,19 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
 $sessionCart = $_SESSION[ConstUtils::SESSION_USER_CART] ?? [];
 $cart = $user !== '' ? ProductService::getCartProducts() : $sessionCart;
 
-$showCartMergeModal = false;
+$itemsPerPage = ConstUtils::RECORD_PER_PAGE;
+$currentPage = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$totalItems = count($cart);
+$totalPages = ceil($totalItems / $itemsPerPage);
+$offset = ($currentPage - 1) * $itemsPerPage;
+$cartPage = array_slice($cart, $offset, $itemsPerPage);
 
+$showCartMergeModal = false;
 if ($user !== '' && !empty($sessionCart)) {
     $showCartMergeModal = true;
 }
 ?>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8"/>
@@ -40,17 +44,7 @@ if ($user !== '' && !empty($sessionCart)) {
 <body>
 <?php
 include_once "../../components/header.php";
-$itemsPerPage = ConstUtils::RECORD_PER_PAGE;
-$currentPage = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
-$totalItems = count($cart);
-$totalPages = ceil($totalItems / $itemsPerPage);
-
-// Wytnij tylko produkty dla bieżącej strony
-$offset = ($currentPage - 1) * $itemsPerPage;
-$cartPage = array_slice($cart, $offset, $itemsPerPage);
-
 ?>
-
 <main class="cart-main">
     <h2 class="cart-title">Twój koszyk</h2>
     <?php if (!empty($cart)):
@@ -60,6 +54,7 @@ $cartPage = array_slice($cart, $offset, $itemsPerPage);
             <div>
                 <div class="cart-list">
                     <?php foreach ($cartPage as $item):
+//                        var_dump($item);
                         $price = $item->getPriceWithDiscountValue();
                         $total += $price * $item->getQuantity();
                         ?>
