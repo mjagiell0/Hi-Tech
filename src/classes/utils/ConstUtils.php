@@ -80,6 +80,8 @@ class ConstUtils
     public const FIELD_LABEL_DELIVERY_AT = 'delivery_at';
     const FIELD_LABEL_ORDER_ID = 'order_id';
     const STATUS_ORDER_COMPLETE_SUCCESS = 'order_complete_successful';
+    public const GET_PARAMETER_INPUT = 'input';
+    public const GET_METHOD = 'GET';
 
     public static function getCurrentUrl()
     {

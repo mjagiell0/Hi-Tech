@@ -36,6 +36,7 @@ header {
     width: 450px;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .search-bar input {
@@ -724,6 +725,7 @@ header {
 
     .search-bar {
         order: 1;
+        flex-direction: column;
     }
 }
 
