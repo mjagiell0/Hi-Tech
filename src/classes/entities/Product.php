@@ -1,6 +1,6 @@
 <?php
 
-class Product extends Entity
+class Product extends Entity implements JsonSerializable
 {
     private $id;
     private $productName;
@@ -35,13 +35,13 @@ class Product extends Entity
 
     public function getPrice()
     {
-        return number_format($this->price, 2, ',','');
+        return number_format($this->price, 2, ',', '');
     }
 
     public function getPriceWithDiscount()
     {
         $discountedPrice = $this->price - ($this->price * $this->discount);
-        return number_format($discountedPrice, 2, ',','');
+        return number_format($discountedPrice, 2, ',', '');
     }
 
     public function isArchived()
@@ -200,13 +200,29 @@ class Product extends Entity
 
     protected function getReadQuery(...$criteria)
     {
-        if (count($criteria) != 1
-            || intval($criteria[0]) === 0) {
-            throw new InvalidArgumentException("Insufficient criteria for READ operation.");
-        }
-
         $limit = ConstUtils::RECORD_PER_PAGE;
         $offset = ($this->page - 1) * $limit;
+
+        if (count($criteria) != 1
+            || intval($criteria[0]) === 0) {
+            if (count($criteria) != 1
+                || !is_string($criteria[0])) {
+                throw new InvalidArgumentException("Insufficient criteria for READ operation.");
+            }
+
+            return "SELECT p.id, p.name, p.description, p.stock_quantity,p.producent, p.price, p.archived, pi.path image_name, 
+                COALESCE(ROUND(AVG(o.stars), 1), 0) average_rating, COUNT(o.id) opinion_count, c.id AS category_id,
+                c.name category_name, s.id AS section_id, s.name section_name, COALESCE(d.percent, 0) discount
+                FROM product p
+                LEFT JOIN discount d ON d.product_id = p.id
+                LEFT JOIN opinion o ON o.product_id = p.id
+                JOIN category c ON p.category_id = c.id
+                JOIN section s ON p.section_id = s.id
+                LEFT JOIN product_image pi ON pi.product_id = p.id AND pi.is_default = 1
+                WHERE p.name LIKE ?
+                GROUP BY p.id
+                LIMIT $limit OFFSET $offset;";
+        }
 
 
         return "SELECT p.id, p.name, p.description, p.stock_quantity,p.producent, p.price, p.archived, pi.path image_name, 
@@ -265,5 +281,31 @@ class Product extends Entity
     public function getTableName()
     {
         return "product";
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getProductName(),
+            'producent' => $this->getProducent(),
+            'price' => $this->getPriceValue(),
+            'priceFormatted' => $this->getPrice(),
+            'priceWithDiscount' => $this->getPriceWithDiscountValue(),
+            'priceWithDiscountFormatted' => $this->getPriceWithDiscount(),
+            'imageName' => $this->getImageName(),
+            'categoryId' => $this->getCategoryId(),
+            'categoryName' => $this->getCategoryName(),
+            'sectionId' => $this->getSectionId(),
+            'sectionName' => $this->getSectionName(),
+            'opinionCount' => $this->getOpinionCount(),
+            'discount' => $this->getDiscount(),
+            'stockQuantity' => $this->getStockQuantity(),
+        ];
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
     }
 }

@@ -1,9 +1,8 @@
 <?php
-
 include_once "../../classes/utils/ConstUtils.php";
-$categoryId = $_GET[ConstUtils::FIELD_LABEL_ID] ?? '';
+$productName = $_GET[ConstUtils::FIELD_LABEL_NAME] ?? '';
 
-if ($categoryId === '') {
+if ($productName === '') {
     header('Location: ../main/main.php');
 }
 
@@ -24,7 +23,7 @@ $dotenv->load();
 session_start();
 $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
 $page = isset($_GET['page']) && intval($_GET['page']) > 0 ? intval($_GET['page']) : 1;
-$products = ProductService::getCategoryProducts($categoryId, $page);
+$products = ProductService::searchProducts($productName.'%', $page);
 
 $userDiscount = ProductService::getUserDiscount($user);
 ?>
@@ -36,7 +35,7 @@ $userDiscount = ProductService::getUserDiscount($user);
     <title>Sklep z elektroniką</title>
     <link rel="stylesheet" href="../../styles/main.css"/>
     <script src="../main/main.js" defer></script>
-    <script src="category.js" defer></script>
+    <script src="../category/category.js" defer></script>
 </head>
 <body>
 <?php include_once "../../components/header.php";
@@ -45,26 +44,11 @@ $userDiscount = ProductService::getUserDiscount($user);
 <main style="padding: 20px; text-align: center; margin: 0 auto">
     <?php if (empty($products)): ?>
         <p>
-            Brak dostępnych produktów w tej kategorii.
+            Brak wyników dla '<?=$productName?>'.
         </p>
-    <?php else:
-        $sectionName = $products[0]->getSectionName();
-        $sectionId = $products[0]->getSectionId();
-        $categoryName = $products[0]->getCategoryName();
-        ?>
-        <div class="actual-path">
-            <a
-                    class="actual-path-link"
-                    href="../section/section.php?id=<?= $sectionId ?>"><?= $sectionName ?>
-            </a>
-            /
-            <a class="actual-path-link"
-               href="../category/category.php?id=<?= $categoryId ?>"><?= $categoryName ?>
-            </a>
-            /
-        </div>
+    <?php else:?>
         <h2 class="section-title">
-            <?= $categoryName ?>
+            Wyniki dla '<?= $productName ?>'
         </h2>
         <div class="product-container">
             <?php foreach ($products as $product):
@@ -77,8 +61,8 @@ $userDiscount = ProductService::getUserDiscount($user);
                 ?>
 
                 <div
-                        class="product-card<?= $product->getDiscount() > 0 ? '--discount' : '' ?>"
-                        data-href="../product/product.php?id=<?= $product->getId() ?>"
+                    class="product-card<?= $product->getDiscount() > 0 ? '--discount' : '' ?>"
+                    data-href="../product/product.php?id=<?= $product->getId() ?>"
                 >
                     <div class="product-image">
                         <img src="../../assets/images/<?= $product->getImageName() ?>" alt="...">
@@ -117,19 +101,19 @@ $userDiscount = ProductService::getUserDiscount($user);
                         <?php if (!$product->isArchived()): ?>
                             <div class="cart-controls">
                                 <input
-                                        type="number"
-                                        class="quantity-input"
-                                        min="1"
-                                        max="<?= $product->getStockQuantity() ?>"
-                                        value="1"
+                                    type="number"
+                                    class="quantity-input"
+                                    min="1"
+                                    max="<?= $product->getStockQuantity() ?>"
+                                    value="1"
                                 >
                                 <button class="add-to-cart-button">
                                     <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            height="30px"
-                                            viewBox="0 -960 960 960"
-                                            width="30px"
-                                            fill="#FFFFFF"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        height="30px"
+                                        viewBox="0 -960 960 960"
+                                        width="30px"
+                                        fill="#FFFFFF"
                                     >
                                         <path d="M456.67-608.67v-122H334v-66.66h122.67v-122h66.66v122h122v66.66h-122v122h-66.66ZM286.53-80q-30.86 0-52.7-21.97Q212-123.95 212-154.81q0-30.86 21.98-52.69 21.97-21.83 52.83-21.83t52.69 21.97q21.83 21.98 21.83 52.84 0 30.85-21.97 52.69Q317.38-80 286.53-80Zm402.66 0q-30.86 0-52.69-21.97-21.83-21.98-21.83-52.84 0-30.86 21.97-52.69 21.98-21.83 52.84-21.83 30.85 0 52.69 21.97Q764-185.38 764-154.52q0 30.85-21.97 52.69Q720.05-80 689.19-80ZM54.67-813.33V-880h121l170 362.67H630.8l158.87-280h75L698-489.33q-11 19.33-28.87 30.66-17.88 11.34-39.13 11.34H328.67l-52 96H764v66.66H282.67q-40.11 0-61.06-33-20.94-33-2.28-67L280-496 133.33-813.33H54.67Z"/>
                                     </svg>
@@ -142,48 +126,48 @@ $userDiscount = ProductService::getUserDiscount($user);
                         <?php endif; ?>
                     </div>
                     <form
-                            class="add-to-cart-form"
-                            style="display: none;"
+                        class="add-to-cart-form"
+                        style="display: none;"
                     >
                         <input
-                                type="hidden"
-                                name="<?= ConstUtils::FIELD_LABEL_PRODUCT_ID ?>"
-                                value="<?= $product->getId() ?>"
+                            type="hidden"
+                            name="<?= ConstUtils::FIELD_LABEL_PRODUCT_ID ?>"
+                            value="<?= $product->getId() ?>"
                         >
                         <input
-                                type="hidden"
-                                name="<?= ConstUtils::FIELD_LABEL_QUANTITY ?>"
-                                value="1"
+                            type="hidden"
+                            name="<?= ConstUtils::FIELD_LABEL_QUANTITY ?>"
+                            value="1"
                         >
                         <input
-                                type="hidden"
-                                name="<?= ConstUtils::FIELD_LABEL_NAME ?>"
-                                value="<?= $product->getProductName() ?>"
+                            type="hidden"
+                            name="<?= ConstUtils::FIELD_LABEL_NAME ?>"
+                            value="<?= $product->getProductName() ?>"
                         >
                         <input
-                                type="hidden"
-                                name="<?= ConstUtils::FIELD_LABEL_STOCK_QUANTITY ?>"
-                                value="<?= $product->getStockQuantity() ?>"
+                            type="hidden"
+                            name="<?= ConstUtils::FIELD_LABEL_STOCK_QUANTITY ?>"
+                            value="<?= $product->getStockQuantity() ?>"
                         >
                         <input
-                                type="hidden"
-                                name="<?= ConstUtils::FIELD_LABEL_PRICE ?>"
-                                value="<?= $product->getPriceValue() ?>"
+                            type="hidden"
+                            name="<?= ConstUtils::FIELD_LABEL_PRICE ?>"
+                            value="<?= $product->getPriceValue() ?>"
                         >
                         <input
-                                type="hidden"
-                                name="<?= ConstUtils::FIELD_LABEL_IMAGE_NAME ?>"
-                                value="<?= $product->getImageName() ?>"
+                            type="hidden"
+                            name="<?= ConstUtils::FIELD_LABEL_IMAGE_NAME ?>"
+                            value="<?= $product->getImageName() ?>"
                         >
                         <input
-                                type="hidden"
-                                name="<?= ConstUtils::FIELD_LABEL_PRODUCENT ?>"
-                                value="<?= $product->getProducent() ?>"
+                            type="hidden"
+                            name="<?= ConstUtils::FIELD_LABEL_PRODUCENT ?>"
+                            value="<?= $product->getProducent() ?>"
                         >
                         <input
-                                type="hidden"
-                                name="<?= ConstUtils::FIELD_LABEL_DISCOUNT ?>"
-                                value="<?= $product->getDiscount() ?>"
+                            type="hidden"
+                            name="<?= ConstUtils::FIELD_LABEL_DISCOUNT ?>"
+                            value="<?= $product->getDiscount() ?>"
                         >
                     </form>
                 </div>
@@ -196,23 +180,23 @@ $userDiscount = ProductService::getUserDiscount($user);
         <div class="pagination">
             <?php if ($page > 1): ?>
                 <a
-                        href="?id=<?= $categoryId ?>&page=<?= $page - 1 ?>"
-                        class="pagination-button">
+                    href="?name=<?= $productName ?>&page=<?= $page - 1 ?>"
+                    class="pagination-button">
                     « Poprzednia
                 </a>
             <?php endif; ?>
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                 <a
-                        href="?id=<?= $categoryId ?>&page=<?= $i ?>"
-                        class="pagination-button <?= $i === $page ? 'active' : '' ?>"
+                    href="?name=<?= $productName ?>&page=<?= $i ?>"
+                    class="pagination-button <?= $i === $page ? 'active' : '' ?>"
                 >
                     <?= $i ?>
                 </a>
             <?php endfor; ?>
             <?php if ($page < $totalPages): ?>
                 <a
-                        href="?id=<?= $categoryId ?>&page=<?= $page + 1 ?>"
-                        class="pagination-button">
+                    href="?id=<?= $categoryId ?>&page=<?= $page + 1 ?>"
+                    class="pagination-button">
                     Następna »
                 </a>
             <?php endif; ?>

@@ -34,5 +34,72 @@ footer {
     text-align: center;
 }
 
+#results {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: none;
+    z-index: 9999;
+    max-height: 400px;
+    overflow-y: auto;
+}
 
+.result-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #222;
+    transition: background 0.2s ease, transform 0.15s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
 
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item img {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #f5f5f5;
+    flex-shrink: 0;
+}
+
+.result-item strong {
+    font-size: 15px;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.result-item span {
+    font-size: 14px;
+    color: #007bff;
+    font-weight: 600;
+}
+
+.result-item:hover {
+    background: #f7faff;
+    transform: translateX(3px);
+}
+
+#results::-webkit-scrollbar {
+    width: 8px;
+}
+
+#results::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    border-radius: 4px;
+}
+
+#results::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+}

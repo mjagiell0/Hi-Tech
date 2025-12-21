@@ -6,17 +6,17 @@ if (!class_exists('CartProduct')) {
 
 class ProductService
 {
-    private static function dataRetriever(Entity $entity, ...$criteria): array
-    {
-        $records = DatabaseHandler::getDbHandler()
-            ->query($entity, CrudEnum::READ, ...$criteria) ?? [];
+        private static function dataRetriever(Entity $entity, ...$criteria): array
+        {
+            $records = DatabaseHandler::getDbHandler()
+                ->query($entity, CrudEnum::READ, ...$criteria) ?? [];
 
-        foreach ($records as $record) {
-            $record->prepareToDisplay();
+            foreach ($records as $record) {
+                $record->prepareToDisplay();
+            }
+
+            return (is_array($records) ? $records : [$records]) ?? [];
         }
-
-        return (is_array($records) ? $records : [$records]) ?? [];
-    }
 
     public static function getCategories($sectionId): array
     {
@@ -171,5 +171,12 @@ class ProductService
     public static function getUserDiscount($user)
     {
         return $user !== '' ? self::dataRetriever(new ProductFortune(), $user->getId())[0] : null;
+    }
+
+    public static function searchProducts($input, $page): array
+    {
+        $product = new Product();
+        $product->setPage($page);
+        return self::dataRetriever($product, $input);
     }
 }
