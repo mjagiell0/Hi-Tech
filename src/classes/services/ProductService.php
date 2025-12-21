@@ -173,8 +173,10 @@ class ProductService
         return $user !== '' ? self::dataRetriever(new ProductFortune(), $user->getId())[0] : null;
     }
 
-    public static function searchProducts($input)
+    public static function searchProducts($input, $page): array
     {
-        return self::dataRetriever(new ProductSearch(), $input);
+        $product = new Product();
+        $product->setPage($page);
+        return self::dataRetriever($product, $input);
     }
 }

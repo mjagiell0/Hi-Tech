@@ -23,7 +23,7 @@ if ($_SERVER[ConstUtils::REQUEST_METHOD] == ConstUtils::GET_METHOD) {
 
     if (strlen($input) > 0) {
         header('Content-Type: application/json');
-        echo json_encode(ProductService::searchProducts($input.'%'));
+        echo json_encode(ProductService::searchProducts($input.'%',1));
         exit;
     }
 

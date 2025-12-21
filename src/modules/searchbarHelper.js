@@ -12,7 +12,6 @@ document.addEventListener("click", (event) => {
     }
 });
 
-
 searchInput.addEventListener("input", () => {
     clearTimeout(debounceTimer);
 
@@ -20,6 +19,17 @@ searchInput.addEventListener("input", () => {
         const query = searchInput.value.trim();
         searchProducts(query);
     }, 300); // opóźnienie 300ms
+});
+
+searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault(); // blokuje wysłanie formularza, jeśli jest w form
+        const value = searchInput.value.trim();
+
+        if (value.length > 0) {
+            window.location.href = `../search/search.php?name=${encodeURIComponent(value)}`;
+        }
+    }
 });
 
 async function searchProducts(query) {
