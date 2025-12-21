@@ -19,6 +19,12 @@ $user = $_SESSION[ConstUtils::SESSION_USER] ?? '';
 $sessionCart = $_SESSION[ConstUtils::SESSION_USER_CART] ?? [];
 $cart = $user !== '' ? ProductService::getCartProducts() : $sessionCart;
 
+$cartSummary = 0;
+foreach ($cart as $product) {
+    $cartSummary += $product->getPriceValue();
+}
+
+
 $itemsPerPage = ConstUtils::RECORD_PER_PAGE;
 $currentPage = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
 $totalItems = count($cart);
@@ -29,6 +35,10 @@ $cartPage = array_slice($cart, $offset, $itemsPerPage);
 $showCartMergeModal = false;
 if ($user !== '' && !empty($sessionCart)) {
     $showCartMergeModal = true;
+}
+if (empty($cartPage) && $currentPage > 1) {
+    header("Location: cart.php?page=" . ($currentPage - 1));
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -48,15 +58,14 @@ include_once "../../components/header.php";
 <main class="cart-main">
     <h2 class="cart-title">Twój koszyk</h2>
     <?php if (!empty($cart)):
-        $total = 0;
         ?>
         <div class="cart-layout">
             <div>
                 <div class="cart-list">
-                    <?php foreach ($cartPage as $item):
-//                        var_dump($item);
+
+                    <?php
+                    foreach ($cartPage as $item):
                         $price = $item->getPriceWithDiscountValue();
-                        $total += $price * $item->getQuantity();
                         ?>
                         <div class="cart-item">
                             <img src="../../assets/images/<?= $item->getImageName() ?>" alt="Produkt"
@@ -111,7 +120,7 @@ include_once "../../components/header.php";
 
             <aside class="cart-summary">
                 <h4>Łączna wartość do zapłaty:</h4>
-                <h3> <?= number_format($total, 2, ',', '') ?> zł</h3>
+                <h3> <?= number_format($cartSummary, 2, ',', '') ?> zł</h3>
                 <button class="checkout-button" id="checkout-button">
                     Przejdź do płatności
                 </button>
